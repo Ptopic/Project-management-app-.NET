@@ -15,14 +15,14 @@ public class AppDbContext : IdentityDbContext<User>
     {
         base.OnModelCreating(builder);
 
-        var admin = new IdentityRole("admin");
-        admin.NormalizedName = "admin";
+        var admin = new IdentityRole("Admin");
+        admin.NormalizedName = "ADMIN";
         
-        var manager = new IdentityRole("manager");
-        admin.NormalizedName = "manager";
+        var manager = new IdentityRole("Manager");
+        manager.NormalizedName = "MANAGER";
         
-        var user = new IdentityRole("user");
-        admin.NormalizedName = "user";
+        var user = new IdentityRole("User");
+        user.NormalizedName = "USER";
 
         builder.Entity<IdentityRole>().HasData(admin, manager, user);
     }

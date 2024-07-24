@@ -17,9 +17,9 @@ namespace ProjectManagement.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0fee3571-fdf4-496f-9a21-e3ead90149f7", null, "manager", null },
-                    { "7d2896e0-4df2-41c7-a927-645a1ed0c69d", null, "admin", "user" },
-                    { "f1d345df-8973-4275-b3c1-fda5ff0c4e54", null, "user", null }
+                    { "0fee3571-fdf4-496f-9a21-e3ead90149f7", null, "manager", "manager" },
+                    { "7d2896e0-4df2-41c7-a927-645a1ed0c69d", null, "admin", "admin" },
+                    { "f1d345df-8973-4275-b3c1-fda5ff0c4e54", null, "user", "user" }
                 });
         }
 

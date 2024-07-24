@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProjectManagement.Data;
@@ -11,9 +12,11 @@ using ProjectManagement.Data;
 namespace ProjectManagement.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240724180925_FixRoles")]
+    partial class FixRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,21 +53,21 @@ namespace ProjectManagement.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4c5de431-82fd-4e9e-bdfd-f29d532d533c",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
+                            Id = "e7e3387f-e1be-49a9-b789-906fc77b898f",
+                            Name = "admin",
+                            NormalizedName = "admin"
                         },
                         new
                         {
-                            Id = "af9810b5-c7f2-4cce-83ae-2e1436ce844e",
-                            Name = "Manager",
-                            NormalizedName = "MANAGER"
+                            Id = "bb1901c7-4018-4be1-986a-aca8d7677a25",
+                            Name = "manager",
+                            NormalizedName = "manager"
                         },
                         new
                         {
-                            Id = "5a944bf2-de65-466c-a971-484567f8158f",
-                            Name = "User",
-                            NormalizedName = "USER"
+                            Id = "b5481dc9-1306-43d3-95f7-98c43192b60a",
+                            Name = "user",
+                            NormalizedName = "user"
                         });
                 });
 
@@ -178,21 +181,6 @@ namespace ProjectManagement.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ProjectManagement.Entities.Team", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Team");
-                });
-
             modelBuilder.Entity("ProjectManagement.Entities.User", b =>
                 {
                     b.Property<string>("Id")
@@ -246,9 +234,6 @@ namespace ProjectManagement.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("TeamId")
-                        .HasColumnType("uuid");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");
 
@@ -264,8 +249,6 @@ namespace ProjectManagement.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
-
-                    b.HasIndex("TeamId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -319,20 +302,6 @@ namespace ProjectManagement.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ProjectManagement.Entities.User", b =>
-                {
-                    b.HasOne("ProjectManagement.Entities.Team", "Team")
-                        .WithMany("Members")
-                        .HasForeignKey("TeamId");
-
-                    b.Navigation("Team");
-                });
-
-            modelBuilder.Entity("ProjectManagement.Entities.Team", b =>
-                {
-                    b.Navigation("Members");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,4 +12,7 @@ public class Project : BaseEntity
     
     public Guid ManagerId { get; set; }
     public User Manager { get; set; } = null!;
+    
+    public Guid TeamId { get; set; }
+    public Team Team { get; set; } = null!;
 }

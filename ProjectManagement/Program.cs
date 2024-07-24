@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ProjectManagement.Data;
 using Microsoft.AspNetCore.Identity;
 using ProjectManagement.Entities;
+using ProjectManagement.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,9 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>();
 
 var app = builder.Build();
 
@@ -31,5 +34,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.Run();
