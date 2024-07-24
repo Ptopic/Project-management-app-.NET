@@ -11,6 +11,10 @@ public class AppDbContext : IdentityDbContext<User>
     {
     }
     
+    public DbSet<Project> Projects { get; set; }
+    public DbSet<TaskDefinition> TasksDefinitions { get; set; }
+    public DbSet<Team> Teams { get; set; }
+    
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

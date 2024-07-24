@@ -33,18 +33,33 @@
                         @if (User.IsInRole(Roles.Admin.ToString()))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Index">Admin</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Index">Projects</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Index">Teams</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Index">Users</a>
                             </li>
                         } else if (User.IsInRole(Roles.Manager.ToString()))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Index">Manager</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Index">Projects</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Index">Teams</a>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Index">User</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Index">My Projects</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Index">My Tasks</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Index">My Teams</a>
                             </li>
                         }
                     }
@@ -54,8 +69,8 @@
         </div>
     </nav>
 </header>
-<div class="container">
-    <main role="main" class="pb-3">
+<div class="container h-100">
+    <main role="main" class="pb-3 w-100 h-100">
         @RenderBody()
     </main>
 </div>
