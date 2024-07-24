@@ -1,0 +1,19 @@
+@page
+@model ProjectManagement.Pages.MyDetails
+@{
+    ViewData["Title"] = "My Details";
+}
+
+<h2 class="text-center">Welcome to your account</h2>
+
+<div>
+    First name: @Model?.user?.FirstName
+</div>
+
+<div>
+    Last name: @Model?.user?.LastName
+</div>  
+
+<div>
+    Email: @Model?.user?.Email
+</div>
