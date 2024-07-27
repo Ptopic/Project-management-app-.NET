@@ -3,6 +3,10 @@ using ProjectManagement.Data;
 using Microsoft.AspNetCore.Identity;
 using ProjectManagement.Entities;
 using ProjectManagement.Middleware;
+using ProjectManagement.Repositories;
+using ProjectManagement.Repositories.Impl;
+using ProjectManagement.Services;
+using ProjectManagement.Services.Impl;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +19,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
