@@ -4,25 +4,18 @@ using ProjectManagement.Entities;
 
 namespace ProjectManagement.Repositories.Impl;
 
-public class UserRepository : IUserRepository
+public class UserRepository(AppDbContext context) : IUserRepository
 {
-    private readonly AppDbContext _context;
-    private readonly DbSet<User> _DbSet;
-    
-    public UserRepository(AppDbContext context)
-    {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
-        _DbSet = context.Set<User>();
-    }
+    private readonly DbSet<User> _dbSet = context.Set<User>();
     
     public IQueryable<User> GetAll()
     {
-        return _DbSet.AsQueryable();
+        return _dbSet.AsQueryable();
     }
 
     public async Task<User> GetByIdAsync(string id)
     {
-        return await _DbSet
+        return await _dbSet
             .Include(x => x.Team)
             .FirstOrDefaultAsync(x => x.Id == id);
     }
