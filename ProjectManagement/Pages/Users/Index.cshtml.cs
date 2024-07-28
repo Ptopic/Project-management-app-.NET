@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ProjectManagement.Entities.Enums;
+using ProjectManagement.Models;
 using ProjectManagement.Models.Views.Users;
 using ProjectManagement.Services;
 
@@ -11,23 +12,25 @@ public class Index : PageModel
 {
     private readonly IUserService _userService;
 
-    public IEnumerable<UserView> Users { get; private set; } = new List<UserView>();
+    public PaginatedList<UserView> Users { get; set; }
 
     public Index(IUserService userService)
     {
         _userService = userService;
     }
     
-    public async Task<PageResult> OnGetAsync(string searchString, string currentFilter)
+    public async Task<PageResult> OnGetAsync(string searchString, string currentFilter, int? pageIndex)
     {
-        Users = await _userService.GetAllAsync();
+        var users = await _userService.GetAllAsync();
         
         ViewData["Keyword"] = searchString;
-        Users = _userService.Search(Users, searchString);
+        users = _userService.Search(users, searchString);
 
         ViewData["CurrentFilter"] = currentFilter;
-        Users = _userService.Filter(Users, currentFilter);
+        users = _userService.Filter(users, currentFilter);
 
+        Users = PaginatedList<UserView>.Create(users, pageIndex ?? 1, 5);
+        
         return Page();
     }
 }

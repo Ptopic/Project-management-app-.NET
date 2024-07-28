@@ -6,6 +6,8 @@
     ViewData["Title"] = "Users | Index";
     var keyword = ViewData["Keyword"] as string;
     var currentFilter = ViewData["CurrentFilter"] as string;
+    var previous = Model.Users.HasPreviousPage ? "" : "disabled";
+    var next = Model.Users.HasNextPage ? "" : "disabled";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -30,44 +32,78 @@
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
-            <tr>
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Role</th>
-                <th scope="col">Actions</th>
-            </tr>
+        <tr>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col">Actions</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var user in Model.Users)
+        @foreach (var user in Model.Users)
+        {
+            @if (User.IsInRole(Roles.Admin.ToString()))
             {
-                @if (User.IsInRole(Roles.Admin.ToString()))
-                {
-                    <tr>
-                        <td class="align-middle">@user.FirstName</td>
-                        <td class="align-middle">@user.LastName</td>
-                        <td class="align-middle">@user.Email</td>
-                        <td class="align-middle">@user.Role</td>
-                        <td class="align-middle">
-                            <a asp-page="/Users/Details" asp-route-id="@user.Id" class="btn btn-primary">
-                                <i class="bi bi-eye"></i>
-                                Details
+                <tr>
+                    <td class="align-middle">@user.FirstName</td>
+                    <td class="align-middle">@user.LastName</td>
+                    <td class="align-middle">@user.Email</td>
+                    <td class="align-middle">@user.Role</td>
+                    <td class="align-middle">
+                        <a asp-page="/Users/Details" asp-route-id="@user.Id" class="btn btn-primary">
+                            <i class="bi bi-eye"></i>
+                            Details
+                        </a>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-page="/Users/Edit" asp-route-id="@user.Id" class="btn btn-warning">
+                                <i class="bi bi-pen"></i>
+                                Edit
                             </a>
-                            @if (User.IsInRole("Admin"))
-                            {
-                                <a asp-page="/Users/Edit" asp-route-id="@user.Id" class="btn btn-warning">
-                                    <i class="bi bi-pen"></i>
-                                    Edit
-                                </a>
-                                <a asp-page="/Users/Delete" asp-route-id="@user.Id" class="btn btn-danger">
-                                    <i class="bi bi-trash3"></i>
-                                    Delete
-                                </a>
-                            }
-                        </td>
-                    </tr>
-                }
+                            <a asp-page="/Users/Delete" asp-route-id="@user.Id" class="btn btn-danger">
+                                <i class="bi bi-trash3"></i>
+                                Delete
+                            </a>
+                        }
+                    </td>
+                </tr>
             }
+        }
         </tbody>
     </table>
+</div>
+
+<div>
+    <ul class="pagination">
+        <li class="page-item">
+            <a asp-page="./Index"
+               asp-route-pageIndex="@(Model.Users.PageIndex - 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               class="page-link btn @previous"
+               role="button">
+                Previous
+            </a>
+        </li>
+        @for (var i = 1; i <= Model.Users.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.Users.PageIndex ? "active" : "")">
+                <a asp-page="./Index"
+                   asp-route-pageIndex="@i"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                   class="page-link">
+                    @i
+                </a>
+            </li>
+        }
+        <li class="page-item">
+            <a asp-page="./Index"
+               asp-route-pageIndex="@(Model.Users.PageIndex + 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               class="page-link btn @next"
+               role="button">
+                Next
+            </a>
+        </li>
+    </ul>
 </div>
