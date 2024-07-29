@@ -12,7 +12,7 @@ using ProjectManagement.Data;
 namespace ProjectManagement.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240724215707_InitialMigration")]
+    [Migration("20240729193724_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -53,19 +53,19 @@ namespace ProjectManagement.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "08628688-6499-431d-bcf3-662452348c90",
+                            Id = "43626f79-4335-4271-9263-4656c022a11c",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "3ae4c390-93e4-4c93-b210-07207689d7f9",
+                            Id = "77d7ed5a-5daa-4331-9b99-3a434496d376",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "e9ba048e-baa6-4553-9c81-8004ff43f419",
+                            Id = "06537370-3313-4fc7-a251-16257465497a",
                             Name = "User",
                             NormalizedName = "USER"
                         });

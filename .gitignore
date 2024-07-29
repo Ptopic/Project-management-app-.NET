@@ -353,3 +353,4 @@ MigrationBackup/
 bin/
 obj/
 .DS_Store
+.idea

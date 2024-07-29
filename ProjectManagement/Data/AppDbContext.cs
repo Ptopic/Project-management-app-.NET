@@ -35,8 +35,8 @@ public class AppDbContext : IdentityDbContext<User>
         var admin1 = new User
         {
             Id = "97e0ae24-f7e2-4ad5-a1ee-570856fcf874",
-            UserName = "admin@gmail.com",
-            NormalizedUserName = "ADMIN@GMAIL.COM",
+            UserName = "admin1",
+            NormalizedUserName = "ADMIN1",
             Email = "admin@gmail.com",
             NormalizedEmail = "ADMIN@GMAIL.COM",
             EmailConfirmed = true,
@@ -49,8 +49,8 @@ public class AppDbContext : IdentityDbContext<User>
         var manager1 = new User
         {
             Id = "95fd4abd-0626-49fd-956c-19438402a603",
-            UserName = "manager@gmail.com",
-            NormalizedUserName = "MANAGER@GMAIL.COM",
+            UserName = "manager1",
+            NormalizedUserName = "MANAGER1",
             Email = "manager@gmail.com",
             NormalizedEmail = "MANAGER@GMAIL.COM",
             EmailConfirmed = true,
@@ -63,8 +63,8 @@ public class AppDbContext : IdentityDbContext<User>
         var manager2 = new User
         {
             Id = "1f7ec708-e841-4ab2-846f-05c24fa18301",
-            UserName = "petar.topic@blankhq.co",
-            NormalizedUserName = "PETAR.TOPIC@BLANKHQ.CO",
+            UserName = "manager2",
+            NormalizedUserName = "MANAGER2",
             Email = "petar.topic@blankhq.co",
             NormalizedEmail = "PETAR.TOPIC@BLANKHQ.CO",
             EmailConfirmed = true,
@@ -77,8 +77,8 @@ public class AppDbContext : IdentityDbContext<User>
         var user1 = new User
         {
             Id = "e58ea87d-6a8f-49e0-939c-20d89f995574",
-            UserName = "petartopic2002@gmail.com",
-            NormalizedUserName = "PETARTOPIC2002@GMAIL.COM",
+            UserName = "user1",
+            NormalizedUserName = "USER1",
             Email = "petartopic2002@gmail.com",
             NormalizedEmail = "PETARTOPIC2002@GMAIL.COM",
             EmailConfirmed = true,
@@ -91,8 +91,8 @@ public class AppDbContext : IdentityDbContext<User>
         var user2 = new User
         {
             Id = "f8d480c5-ebe1-45e3-a804-a9badf390003",
-            UserName = "user2@gmail.com",
-            NormalizedUserName = "USER2@GMAIL.COM",
+            UserName = "user2",
+            NormalizedUserName = "USER2",
             Email = "user2@gmail.com",
             NormalizedEmail = "USER2@GMAIL.COM",
             EmailConfirmed = true,
@@ -105,8 +105,8 @@ public class AppDbContext : IdentityDbContext<User>
         var user3 = new User
         {
             Id = "c33ee900-c261-4195-b8d6-2ac802657d95",
-            UserName = "user3@gmail.com",
-            NormalizedUserName = "USER3@GMAIL.COM",
+            UserName = "user3",
+            NormalizedUserName = "USER3",
             Email = "user3@gmail.com",
             NormalizedEmail = "USER3@GMAIL.COM",
             EmailConfirmed = true,
@@ -119,8 +119,8 @@ public class AppDbContext : IdentityDbContext<User>
         var user4 = new User
         {
             Id = "318f8ee8-cb12-4d95-9123-1d911a167f3f",
-            UserName = "user4@gmail.com",
-            NormalizedUserName = "USER4@GMAIL.COM",
+            UserName = "user4",
+            NormalizedUserName = "USER4",
             Email = "user4@gmail.com",
             NormalizedEmail = "USER4@GMAIL.COM",
             EmailConfirmed = true,

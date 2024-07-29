@@ -241,9 +241,9 @@ namespace ProjectManagement.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "08628688-6499-431d-bcf3-662452348c90", null, "Admin", "ADMIN" },
-                    { "3ae4c390-93e4-4c93-b210-07207689d7f9", null, "Manager", "MANAGER" },
-                    { "e9ba048e-baa6-4553-9c81-8004ff43f419", null, "User", "USER" }
+                    { "06537370-3313-4fc7-a251-16257465497a", null, "User", "USER" },
+                    { "43626f79-4335-4271-9263-4656c022a11c", null, "Admin", "ADMIN" },
+                    { "77d7ed5a-5daa-4331-9b99-3a434496d376", null, "Manager", "MANAGER" }
                 });
 
             migrationBuilder.CreateIndex(

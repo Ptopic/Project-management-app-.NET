@@ -80,6 +80,10 @@ namespace ProjectManagement.Areas.Identity.Pages.Account
             [Display(Name = "LastName")]
             public string LastName { get; set; }
             
+            [Required]
+            [Display(Name = "UserName")]
+            public string UserName { get; set; }
+            
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -126,7 +130,7 @@ namespace ProjectManagement.Areas.Identity.Pages.Account
                 {
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
-                    UserName = Input.Email,
+                    UserName = Input.UserName,
                     Email = Input.Email
                 };
                 

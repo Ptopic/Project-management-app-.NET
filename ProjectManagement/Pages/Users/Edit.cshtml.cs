@@ -27,6 +27,7 @@ public class Edit : PageModel
     {
         var firstName = user.FirstName;
         var lastName = user.LastName;
+        var username = user.UserName;
         var email = user.Email;
 
         var roles = await _userManager.GetRolesAsync(user);
@@ -36,6 +37,7 @@ public class Edit : PageModel
         {
             FirstName = firstName,
             LastName = lastName,
+            UserName = username,
             Email = email,
             Role = role
         };
@@ -77,6 +79,12 @@ public class Edit : PageModel
         if (Input.LastName != lastName)
         {
             user.LastName = Input.LastName;
+        }
+        
+        var username = user.UserName;
+        if (Input.UserName != username)
+        {
+            user.UserName = Input.UserName;
         }
         
         var email = user.Email;
