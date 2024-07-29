@@ -35,14 +35,18 @@
             <select class="form-select" name="Input.Role">
                 @foreach (var role in Enum.GetNames(typeof(Roles)))
                 {
-                <option value="@role" selected="@(role == Model.Input.Role)">@role</option>
+                    <option value="@role" selected="@(role == Model.Input.Role)">@role</option>
                 }
             </select>
             <span asp-validation-for="Input.Role" class="text-danger"></span>
         </div>
-        <button id="update-user-button" type="submit" class="w-100 btn btn-lg btn-warning mt-3">Update</button>
     </div>
+    <button id="update-user-button" type="submit" class="w-auto btn btn-lg btn-warning mt-3">Update</button>
 </form>
+
+<a asp-page="/Users/Index" class="btn btn-primary mt-4">
+    Back to List
+</a>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
