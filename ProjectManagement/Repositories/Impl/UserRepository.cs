@@ -13,10 +13,23 @@ public class UserRepository(AppDbContext context) : IUserRepository
         return _dbSet.AsQueryable();
     }
 
+    IEnumerable<User> IUserRepository.GetAll()
+    {
+        return GetAll();
+    }
+
     public async Task<User> GetByIdAsync(string id)
     {
         return await _dbSet
             .Include(x => x.Team)
             .FirstOrDefaultAsync(x => x.Id == id);
+    }
+
+    public async Task<User> UpdateAsync(User user)
+    {
+        var removedEntity = _dbSet.Remove(user).Entity;
+        await context.SaveChangesAsync();
+
+        return removedEntity;
     }
 }

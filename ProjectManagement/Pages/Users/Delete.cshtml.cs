@@ -11,7 +11,7 @@ public class Delete(UserManager<User> _userManager) : PageModel
 {
     public string Username { get; set; }
     
-    public async Task<IActionResult> OnGet(string Id)
+    public async Task<IActionResult> OnGetAsync(string Id)
     {
         var user = await _userManager.FindByIdAsync(Id);
         if (user == null)

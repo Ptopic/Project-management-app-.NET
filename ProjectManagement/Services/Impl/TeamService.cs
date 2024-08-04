@@ -11,11 +11,13 @@ public class TeamService : ITeamService
 {
     private readonly IMapper _mapper;
     private readonly ITeamRepository _teamRepository;
+    private readonly IUserRepository _userRepository;
     
-    public TeamService(IMapper mapper, ITeamRepository teamRepository)
+    public TeamService(IMapper mapper, ITeamRepository teamRepository, IUserRepository userRepository)
     {
         _mapper = mapper;
         _teamRepository = teamRepository;
+        _userRepository = userRepository;
     }
     
     public async Task<IEnumerable<TeamView>> GetAllAsync()
@@ -51,5 +53,18 @@ public class TeamService : ITeamService
     public async Task<Team> UpdateAsync(Team team)
     {
         return await _teamRepository.UpdateAsync(team);
+    }
+
+    public async Task<Team> DeleteAsync(Team team)
+    {
+        var users = _userRepository.GetAll().Where(u => u.Team == team).ToList();
+
+        foreach (var user in users)
+        {
+            user.Team = null;
+            await _userRepository.UpdateAsync(user);
+        }
+        
+        return await _teamRepository.DeleteAsync(team);
     }
 }

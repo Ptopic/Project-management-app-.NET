@@ -23,7 +23,7 @@ public class UserService : IUserService
     
     public async Task<IEnumerable<UserView>> GetAllAsync()
     {
-        var data = await _userRepository.GetAll().ToListAsync();
+        var data = _userRepository.GetAll().ToList();
         var users = new List<UserView>();
 
         foreach (var user in data)

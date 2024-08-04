@@ -1,0 +1,21 @@
+﻿@page
+@model ProjectManagement.Pages.Teams.Delete
+
+@{
+    ViewData["Title"] = "Teams | Delete";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="alert alert-warning" role="alert">
+    <p>
+        <strong>By deleting this team you will permanently remove its data, and this cannot be recovered.</strong>
+    </p>
+</div>
+
+<div>
+    <form id="delete-team" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <button class="w-100 btn btn-lg btn-danger" type="submit">Delete team @Model.Name</button>
+    </form>
+</div>

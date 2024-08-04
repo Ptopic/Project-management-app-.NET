@@ -12,4 +12,6 @@ public interface ITeamService
     Task<Team> GetByIdAsync(string id);
     
     Task<Team> UpdateAsync(Team team);
+    
+    Task<Team> DeleteAsync(Team feedback);
 }
