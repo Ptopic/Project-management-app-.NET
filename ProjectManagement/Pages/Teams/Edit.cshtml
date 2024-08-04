@@ -1,0 +1,37 @@
+﻿@page
+@model ProjectManagement.Pages.Teams.Edit
+
+@{
+    ViewData["Title"] = "Teams | Edit";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<partial name="~/Areas/Identity/Pages/Account/_StatusMessage.cshtml" for="StatusMessage" />
+<form id="edit-form" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-floating">
+                <input asp-for="Input.Name" class="form-control" autocomplete="name" aria-required="true" />
+                <label asp-for="Input.Name"></label>
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+            @* <select class="form-select" name="Input.Role"> *@
+            @*     @foreach (var role in Enum.GetNames(typeof(Roles))) *@
+            @*     { *@
+            @*         <option value="@role" selected="@(role == Model.Input.Role)">@role</option> *@
+            @*     } *@
+            @* </select> *@
+            @* <span asp-validation-for="Input.Role" class="text-danger"></span> *@
+        </div>
+    </div>
+    <button id="update-team-button" type="submit" class="w-auto btn btn-lg btn-warning mt-3">Update</button>
+</form>
+
+<a asp-page="/Teams/Index" class="btn btn-primary mt-4">
+    Back to List
+</a>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

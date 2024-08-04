@@ -4,9 +4,14 @@ using ProjectManagement.Entities;
 
 namespace ProjectManagement.Repositories.Impl;
 
-public class TeamRepository(AppDbContext context) : ITeamRepository
+public class TeamRepository : BaseRepository<Team>, ITeamRepository
 {
-    private readonly DbSet<Team> _dbSet = context.Set<Team>();
+    private readonly DbSet<Team> _dbSet;
+
+    public TeamRepository(AppDbContext context) : base(context)
+    {
+        _dbSet = context.Set<Team>();
+    }
     
     public IQueryable<Team> GetAll()
     {

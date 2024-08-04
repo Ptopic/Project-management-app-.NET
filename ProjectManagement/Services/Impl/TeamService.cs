@@ -1,5 +1,7 @@
 using AutoMapper;
+using DSMS.Application.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using ProjectManagement.Entities;
 using ProjectManagement.Models.Views.Team;
 using ProjectManagement.Repositories;
 
@@ -34,5 +36,20 @@ public class TeamService : ITeamService
         }
 
         return searchedTeams;
+    }
+
+    public async Task<Team> GetByIdAsync(string id)
+    {
+        var team = (await _teamRepository.GetAllAsync(a => a.Id.ToString() == id)).FirstOrDefault();
+        if (team == null)
+        {
+            throw new NotFoundException($"Team with ID '{id}' not found.");
+        }
+        return team;
+    }
+
+    public async Task<Team> UpdateAsync(Team team)
+    {
+        return await _teamRepository.UpdateAsync(team);
     }
 }
