@@ -11,7 +11,7 @@
 
 @if (Model.Team.Members.Count > 0)
 {
-    <form asp-action="OnGetAsync" method="get">
+    <form asp-action="OnGetAsync" method="get" class="">
         <div class="row">
             <div class="input-group">
                 <input type="search" class="form-control" placeholder="Search..." name="searchString" value="@keyword">
@@ -21,21 +21,45 @@
         </div>
     </form>
     
-    <a asp-page="/Teams/Create" class="btn btn-success mt-2">
-        <i class="bi bi-plus"></i>
-        Add new member
-    </a>
-    
     <div class="container mt-2">
+        <form method="post">
+            <div class="row">
+                <input type="hidden" name="teamId" value="@Model.Team.Id" class="w-auto"/>
+                <select asp-for="Input.UserId" class="form-control w-auto">
+                    <option value="" selected disabled>Please select user</option>
+                    @foreach (var userOption in Model.UserOptions)
+                    {
+                    <option value="@userOption.Id">
+                        @userOption.FirstName @userOption.LastName (@userOption.Email)
+                    </option>
+                    }
+                </select>
+                <span asp-validation-for="Input.UserId" class="text-danger"></span>
+
+                <button class="btn btn-success mt-2 w-auto">
+                    <i class="bi bi-plus"></i>
+                    Add new member
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <p class="display-6 mt-4">Members:</p>
+    
+    <div class="container mt-2 p-0">
         @foreach (var member in Model.Team.Members)
         {
             <div class="row mb-4 align-middle">
                 <p class="mb-0 w-auto align-content-center">@member.FirstName @member.LastName - @member.Email</p>
 
-                <button class="btn btn-danger w-auto">
-                    <i class="bi bi-trash3"></i>
-                    Remove from team
-                </button>
+                <form asp-page-handler="RemoveMember" method="post" class="w-auto">
+                    <input type="hidden" name="userId" value="@member.Id" />
+                    <input type="hidden" name="teamId" value="@Model.Team.Id" />
+                    <button class="btn btn-danger w-auto">
+                        <i class="bi bi-trash3"></i>
+                        Remove from team
+                    </button>
+                </form>
             </div>
         }
     </div>
@@ -46,10 +70,24 @@
 }
 else
 {
-    <a asp-page="/Teams/Create" class="btn btn-success mt-2">
-        <i class="bi bi-plus"></i>
-        Add new member
-    </a>
+    <form method="post" class="flex-row gap-4">
+        <input type="hidden" name="teamId" value="@Model.Team.Id" />
+        <select asp-for="Input.UserId" class="form-control w-auto">
+            <option value="" selected disabled>Please select user</option>
+            @foreach (var userOption in Model.UserOptions)
+            {
+                <option value="@userOption.Id">
+                    @userOption.FirstName @userOption.LastName (@userOption.Email)
+                </option>
+            }
+        </select>
+        <span asp-validation-for="Input.UserId" class="text-danger"></span>
+
+        <button class="btn btn-success mt-2 w-auto">
+            <i class="bi bi-plus"></i>
+            Add new member
+        </button>
+    </form>
     
     <h2 class="mt-4">No members</h2>
     

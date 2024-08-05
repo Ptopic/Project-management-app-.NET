@@ -1,4 +1,5 @@
 using ProjectManagement.Entities;
+using ProjectManagement.Entities.Enums;
 using ProjectManagement.Models.Views.Users;
 
 namespace ProjectManagement.Services;
