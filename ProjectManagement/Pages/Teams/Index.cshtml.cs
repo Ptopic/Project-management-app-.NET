@@ -20,7 +20,7 @@ public class Index : PageModel
         _teamService = teamService;
     }
     
-    public async Task<PageResult> OnGetAsync(string searchString, string currentFilter, int? pageIndex)
+    public async Task<PageResult> OnGetAsync(string searchString, int? pageIndex)
     {
         var teams = await _teamService.GetAllAsync();
         

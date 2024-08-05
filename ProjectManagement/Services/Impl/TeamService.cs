@@ -1,3 +1,4 @@
+using System.Collections;
 using AutoMapper;
 using DSMS.Application.Exceptions;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +24,7 @@ public class TeamService : ITeamService
     public async Task<IEnumerable<TeamView>> GetAllAsync()
     {
         var teams = await _teamRepository.GetAll().Include(x => x.Members).ToListAsync();
-        
+
         return _mapper.Map<IEnumerable<TeamView>>(teams);
     }
 
@@ -42,11 +43,12 @@ public class TeamService : ITeamService
 
     public async Task<Team> GetByIdAsync(string id)
     {
-        var team = (await _teamRepository.GetAllAsync(a => a.Id.ToString() == id)).FirstOrDefault();
+        var team = await _teamRepository.GetAll().Include(x => x.Members).Where(x => x.Id.ToString() == id).FirstOrDefaultAsync();
         if (team == null)
         {
             throw new NotFoundException($"Team with ID '{id}' not found.");
         }
+
         return team;
     }
 
