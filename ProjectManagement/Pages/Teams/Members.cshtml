@@ -1,10 +1,11 @@
 ﻿@page
+@using ProjectManagement.Entities
 @model ProjectManagement.Pages.Teams.Members
 
 @{
     var keyword = ViewData["Keyword"] as string;
-    // var previous = Model.Teams.HasPreviousPage ? "" : "disabled";
-    // var next = Model.Teams.HasNextPage ? "" : "disabled";
+    var previous = Model.MembersList.HasPreviousPage ? "" : "disabled";
+    var next = Model.MembersList.HasNextPage ? "" : "disabled";
 }
 
 <p class="display-5">Members of <b>@Model.Team.Name</b> team</p>
@@ -47,7 +48,7 @@
     <p class="display-6 mt-4">Members:</p>
     
     <div class="container mt-2 p-0">
-        @foreach (var member in Model.Team.Members)
+        @foreach (var member in Model.MembersList)
         {
             <div class="row mb-4 align-middle">
                 <p class="mb-0 w-auto align-content-center">@member.FirstName @member.LastName - @member.Email</p>
@@ -63,10 +64,6 @@
             </div>
         }
     </div>
-    
-    <a asp-page="/Teams/Index" class="btn btn-primary">
-        Back to List
-    </a>
 }
 else
 {
@@ -90,8 +87,39 @@ else
     </form>
     
     <h2 class="mt-4">No members</h2>
-    
-    <a asp-page="/Teams/Index" class="btn btn-primary mt-4">
-        Back to List
-    </a>
 }
+
+<div>
+    <ul class="pagination">
+        <li class="page-item">
+            <a asp-page="./Members" asp-route-id="@Model.Team.Id"
+               asp-route-pageIndex="@(Model.MembersList.PageIndex - 1)"
+               class="page-link btn @previous"
+               role="button">
+                Previous
+            </a>
+        </li>
+        @for (var i = 1; i <= Model.MembersList.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.MembersList.PageIndex ? "active" : "")">
+                <a asp-page="./Members" asp-route-id="@Model.Team.Id"
+                   asp-route-pageIndex="@i"
+                   class="page-link">
+                    @i
+                </a>
+            </li>
+        }
+        <li class="page-item">
+            <a asp-page="./Members" asp-route-id="@Model.Team.Id"
+               asp-route-pageIndex="@(Model.MembersList.PageIndex + 1)"
+               class="page-link btn @next"
+               role="button">
+                Next
+            </a>
+        </li>
+    </ul>
+</div>
+
+<a asp-page="/Teams/Index" class="btn btn-primary mt-4">
+    Back to List
+</a>

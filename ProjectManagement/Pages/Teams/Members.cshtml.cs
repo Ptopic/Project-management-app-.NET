@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ProjectManagement.Entities;
 using ProjectManagement.Entities.Enums;
+using ProjectManagement.Models;
 using ProjectManagement.Models.Requests.Team;
 using ProjectManagement.Models.Views.Team;
 using ProjectManagement.Services;
@@ -30,6 +31,8 @@ public class Members : PageModel
     public AddMemberRequest Input { get; set; }
     
     public Team Team { get; set; }
+    
+    public PaginatedList<User> MembersList { get; set; }
 
     public async Task<PageResult> OnGetAsync(string id, string searchString, int? pageIndex)
     {
@@ -38,8 +41,8 @@ public class Members : PageModel
         var users = await _userManager.GetUsersInRoleAsync(Roles.User.ToString());
         // ViewData["Keyword"] = searchString;
         // teams = _teamService.Search(teams, searchString);
-        //
-        // Teams = PaginatedList<TeamView>.Create(teams, pageIndex ?? 1, 5);
+        
+        MembersList = PaginatedList<User>.Create(team.Members, pageIndex ?? 1, 3);
 
         Team = team;
         UserOptions = users.ToList();
