@@ -54,7 +54,15 @@ public class Members : PageModel
     
     public async Task<IActionResult> OnPostAsync(string teamId)
     {
-        if (!ModelState.IsValid) return Page();
+        if (string.IsNullOrEmpty(teamId))
+        {
+            return NotFound();
+        }
+
+        if (!ModelState.IsValid)
+        {
+            return RedirectToPage("/Teams/Members", new { id = teamId });
+        }
 
         var user = await _userService.GetByIdAsync(Input.UserId);
         
@@ -65,11 +73,11 @@ public class Members : PageModel
             return NotFound();
         }
 
-        user.Team = team;
+        user.Teams.Add(team);
         
         await _userManager.UpdateAsync(user);
         
-        return RedirectToPage("Members", new { id = teamId });
+        return RedirectToPage("/Teams/Members", new { id = teamId });
     }
     
     public async Task<IActionResult> OnPostRemoveMemberAsync(string userId, string teamId)
@@ -84,7 +92,7 @@ public class Members : PageModel
 
         team.Members.Remove(user);
 
-        user.Team = null;
+        user.Teams.Remove(team);
         
         await _teamService.UpdateAsync(team);
 

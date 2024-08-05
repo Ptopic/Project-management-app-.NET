@@ -12,7 +12,7 @@ using ProjectManagement.Data;
 namespace ProjectManagement.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240729193724_InitialMigration")]
+    [Migration("20240805183819_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -53,19 +53,19 @@ namespace ProjectManagement.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "43626f79-4335-4271-9263-4656c022a11c",
+                            Id = "26a8fecd-8ec7-4306-b084-aefb1c433dd4",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "77d7ed5a-5daa-4331-9b99-3a434496d376",
+                            Id = "9829c5c5-b566-4688-a554-f34203a9eabc",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "06537370-3313-4fc7-a251-16257465497a",
+                            Id = "84a12d64-7281-48dd-a626-544f6726de28",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -158,6 +158,43 @@ namespace ProjectManagement.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "97e0ae24-f7e2-4ad5-a1ee-570856fcf874",
+                            RoleId = "26a8fecd-8ec7-4306-b084-aefb1c433dd4"
+                        },
+                        new
+                        {
+                            UserId = "95fd4abd-0626-49fd-956c-19438402a603",
+                            RoleId = "9829c5c5-b566-4688-a554-f34203a9eabc"
+                        },
+                        new
+                        {
+                            UserId = "1f7ec708-e841-4ab2-846f-05c24fa18301",
+                            RoleId = "9829c5c5-b566-4688-a554-f34203a9eabc"
+                        },
+                        new
+                        {
+                            UserId = "e58ea87d-6a8f-49e0-939c-20d89f995574",
+                            RoleId = "84a12d64-7281-48dd-a626-544f6726de28"
+                        },
+                        new
+                        {
+                            UserId = "f8d480c5-ebe1-45e3-a804-a9badf390003",
+                            RoleId = "84a12d64-7281-48dd-a626-544f6726de28"
+                        },
+                        new
+                        {
+                            UserId = "c33ee900-c261-4195-b8d6-2ac802657d95",
+                            RoleId = "84a12d64-7281-48dd-a626-544f6726de28"
+                        },
+                        new
+                        {
+                            UserId = "318f8ee8-cb12-4d95-9123-1d911a167f3f",
+                            RoleId = "84a12d64-7281-48dd-a626-544f6726de28"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -267,6 +304,23 @@ namespace ProjectManagement.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Teams");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("241347d2-44a4-420c-8e0f-b27e8fdb8c1a"),
+                            Name = "Team 1"
+                        },
+                        new
+                        {
+                            Id = new Guid("26f7c123-0749-4f53-892f-055d8e1fbcf0"),
+                            Name = "Team 2"
+                        },
+                        new
+                        {
+                            Id = new Guid("297f0f61-1ac0-4652-9423-4fb558209d6e"),
+                            Name = "Team 3"
+                        });
                 });
 
             modelBuilder.Entity("ProjectManagement.Entities.User", b =>
@@ -322,9 +376,6 @@ namespace ProjectManagement.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("TeamId")
-                        .HasColumnType("uuid");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");
 
@@ -341,9 +392,150 @@ namespace ProjectManagement.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.HasIndex("TeamId");
-
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "97e0ae24-f7e2-4ad5-a1ee-570856fcf874",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "f87b2e69-a117-4ba3-8cd4-f4a17ab607ed",
+                            Email = "admin@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "Admin",
+                            LastName = "Admin",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@GMAIL.COM",
+                            NormalizedUserName = "ADMIN1",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOG5p8Wcg72aZLwsb5umrJXsCFzp8Uc+HmegQuTt+spfpki1QyxeRlvDD2IHXKavnA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "58206802-986b-496c-94bf-26b44574ef57",
+                            TwoFactorEnabled = false,
+                            UserName = "admin1"
+                        },
+                        new
+                        {
+                            Id = "95fd4abd-0626-49fd-956c-19438402a603",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "6cf0f70e-247f-44ce-8ad4-9c56dede4201",
+                            Email = "manager@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "Manager",
+                            LastName = "Manager",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "MANAGER@GMAIL.COM",
+                            NormalizedUserName = "MANAGER1",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKAQfT9s4own/oVX/NdUY/HT5BK0mkIt4j00yWHB5Iz1zF4unya3nXyZI0fk1f9Bkw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "42ea2a59-f73f-497a-ac52-47fd1d0b7eca",
+                            TwoFactorEnabled = false,
+                            UserName = "manager1"
+                        },
+                        new
+                        {
+                            Id = "1f7ec708-e841-4ab2-846f-05c24fa18301",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "7caffe59-31a8-442e-99ca-86f4a39e12c4",
+                            Email = "petar.topic@blankhq.co",
+                            EmailConfirmed = true,
+                            FirstName = "Manager2",
+                            LastName = "Manager2",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "PETAR.TOPIC@BLANKHQ.CO",
+                            NormalizedUserName = "MANAGER2",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHXIbfRhCvKl6UcyTd/0PXOSqJgJnLAm6UABxNUDYXRJEf4RoWfS0h4uHa1lLduUHw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "55a95ff4-57bf-4c5c-a8f1-e595175772fc",
+                            TwoFactorEnabled = false,
+                            UserName = "manager2"
+                        },
+                        new
+                        {
+                            Id = "e58ea87d-6a8f-49e0-939c-20d89f995574",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "f5db7eb4-6f1f-45c0-bb5b-9f592b8567f6",
+                            Email = "petartopic2002@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "User",
+                            LastName = "User",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "PETARTOPIC2002@GMAIL.COM",
+                            NormalizedUserName = "USER1",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJ2ODhc8oKkG1YBYs/HMerItphwpHCreXH+LP6dAmM7qYQgnpucK3h7byy0+POHnpw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "37306f06-9a60-4599-8ff1-714fbe099c35",
+                            TwoFactorEnabled = false,
+                            UserName = "user1"
+                        },
+                        new
+                        {
+                            Id = "f8d480c5-ebe1-45e3-a804-a9badf390003",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "9b2dd471-8c70-4ead-a697-743a16cd9e28",
+                            Email = "user2@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "User2",
+                            LastName = "User2",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "USER2@GMAIL.COM",
+                            NormalizedUserName = "USER2",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMg6kdn7plZgL2veTQJpHcTpC6Iev+sH6X3OeYooKBrcr9XdRLagR0LoeB6Ms+EWYA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "7ec6e456-8f45-4131-b900-6c1163910e55",
+                            TwoFactorEnabled = false,
+                            UserName = "user2"
+                        },
+                        new
+                        {
+                            Id = "c33ee900-c261-4195-b8d6-2ac802657d95",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "734852e8-b2e3-46ca-877e-7379f056ff72",
+                            Email = "user3@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "User3",
+                            LastName = "User3",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "USER3@GMAIL.COM",
+                            NormalizedUserName = "USER3",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMrmZR7U/hWaJxTylIPOxJf7G/Da2uWsajRF78kX+5kR2f5UgViStnXWVNTxMT6tpw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "406aa4e1-57fd-4c26-8b23-5135c7a277b5",
+                            TwoFactorEnabled = false,
+                            UserName = "user3"
+                        },
+                        new
+                        {
+                            Id = "318f8ee8-cb12-4d95-9123-1d911a167f3f",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "ce1217af-820e-4e77-8da9-a1fe432a5798",
+                            Email = "user4@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "User4",
+                            LastName = "User4",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "USER4@GMAIL.COM",
+                            NormalizedUserName = "USER4",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOYT5IgT7/4ri9dsiKiOJNhdTu/M0oQBswVeaLWdYfmw/n3ktfR+JUepHvWeNfSCSw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "68b809da-0b47-4740-9a5c-07f53b7ec68e",
+                            TwoFactorEnabled = false,
+                            UserName = "user4"
+                        });
+                });
+
+            modelBuilder.Entity("UserTeams", b =>
+                {
+                    b.Property<Guid>("TeamId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.HasKey("TeamId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserTeams");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -431,18 +623,19 @@ namespace ProjectManagement.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("ProjectManagement.Entities.User", b =>
+            modelBuilder.Entity("UserTeams", b =>
                 {
-                    b.HasOne("ProjectManagement.Entities.Team", "Team")
-                        .WithMany("Members")
-                        .HasForeignKey("TeamId");
+                    b.HasOne("ProjectManagement.Entities.Team", null)
+                        .WithMany()
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
-                    b.Navigation("Team");
-                });
-
-            modelBuilder.Entity("ProjectManagement.Entities.Team", b =>
-                {
-                    b.Navigation("Members");
+                    b.HasOne("ProjectManagement.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

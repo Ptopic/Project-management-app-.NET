@@ -19,10 +19,21 @@ public class AppDbContext : IdentityDbContext<User>
     {
         base.OnModelCreating(builder);
         
-        builder.Entity<Team>()
-            .HasMany(t => t.Members)
-            .WithOne(u => u.Team)
-            .OnDelete(DeleteBehavior.SetNull);
+        builder.Entity<User>()
+            .HasMany(u => u.Teams)
+            .WithMany(t => t.Members)
+            .UsingEntity<Dictionary<string, object>>(
+                "UserTeams",
+                j => j
+                    .HasOne<Team>()
+                    .WithMany()
+                    .HasForeignKey("TeamId")
+                    .OnDelete(DeleteBehavior.NoAction),
+                j => j
+                    .HasOne<User>()
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.NoAction));
 
         var admin = new IdentityRole("Admin");
         admin.NormalizedName = "ADMIN";
@@ -172,5 +183,25 @@ public class AppDbContext : IdentityDbContext<User>
             RoleId = user.Id, 
             UserId = user4.Id, 
         });
+        
+        var team1 = new Team
+        {
+            Id = Guid.Parse("241347d2-44a4-420c-8e0f-b27e8fdb8c1a\n"),
+            Name = "Team 1",
+        };
+        
+        var team2 = new Team
+        {
+            Id = Guid.Parse("26f7c123-0749-4f53-892f-055d8e1fbcf0"),
+            Name = "Team 2",
+        };
+        
+        var team3 = new Team
+        {
+            Id = Guid.Parse("297f0f61-1ac0-4652-9423-4fb558209d6e"),
+            Name = "Team 3",
+        };
+        
+        builder.Entity<Team>().HasData(team1, team2, team3);
     }
 }

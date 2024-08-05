@@ -21,7 +21,7 @@ public class UserRepository(AppDbContext context) : IUserRepository
     public async Task<User> GetByIdAsync(string id)
     {
         return await _dbSet
-            .Include(x => x.Team)
+            .Include(x => x.Teams)
             .FirstOrDefaultAsync(x => x.Id == id);
     }
 

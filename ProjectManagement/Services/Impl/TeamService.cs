@@ -76,16 +76,18 @@ public class TeamService : ITeamService
         return await _teamRepository.UpdateAsync(team);
     }
 
-    public async Task<Team> DeleteAsync(Team team)
+    public async Task<IResult> DeleteAsync(Team team)
     {
-        var users = _userRepository.GetAll().Where(u => u.Team == team).ToList();
-
+        var users = _userRepository.GetAll().Where(u => u.Teams.Contains(team)).ToList();
+        
+        await _teamRepository.DeleteAsync(team);
+        
         foreach (var user in users)
         {
-            user.Team = null;
+            user.Teams.Remove(team);
             await _userRepository.UpdateAsync(user);
         }
-        
-        return await _teamRepository.DeleteAsync(team);
+
+        return Results.Ok();
     }
 }

@@ -18,5 +18,5 @@ public interface ITeamService
     
     Task<Team> UpdateAsync(Team team);
     
-    Task<Team> DeleteAsync(Team feedback);
+    Task<IResult> DeleteAsync(Team feedback);
 }
