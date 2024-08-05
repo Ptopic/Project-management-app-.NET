@@ -3,6 +3,7 @@ using AutoMapper;
 using DSMS.Application.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using ProjectManagement.Entities;
+using ProjectManagement.Models.Requests.Team;
 using ProjectManagement.Models.Views.Team;
 using ProjectManagement.Repositories;
 
@@ -50,6 +51,11 @@ public class TeamService : ITeamService
         }
 
         return team;
+    }
+
+    public async Task<Team> CreateAsync(CreateTeamRequest team)
+    {
+        return await _teamRepository.AddAsync(_mapper.Map<Team>(team));
     }
 
     public async Task<Team> UpdateAsync(Team team)

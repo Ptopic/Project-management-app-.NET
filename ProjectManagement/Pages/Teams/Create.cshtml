@@ -1,14 +1,13 @@
 ﻿@page
-@model ProjectManagement.Pages.Teams.Edit
+@model ProjectManagement.Pages.Teams.Create
 
 @{
-    ViewData["Title"] = "Teams | Edit";
+    ViewData["Title"] = "Teams | Create";
 }
 
 <h1>@ViewData["Title"]</h1>
 
-<partial name="~/Areas/Identity/Pages/Account/_StatusMessage.cshtml" for="StatusMessage" />
-<form id="edit-form" method="post" enctype="multipart/form-data">
+<form id="create-form" method="post" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-6">
             <div class="form-floating">
@@ -18,7 +17,7 @@
             </div>
         </div>
     </div>
-    <button id="update-team-button" type="submit" class="w-auto btn btn-lg btn-warning mt-3">Update</button>
+    <button id="create-team-button" type="submit" class="w-auto btn btn-lg btn-warning mt-3">Create</button>
 </form>
 
 <a asp-page="/Teams/Index" class="btn btn-primary mt-4">
