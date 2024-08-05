@@ -42,6 +42,19 @@ public class TeamService : ITeamService
         return searchedTeams;
     }
 
+    public IEnumerable<User> SearchMembers(IEnumerable<User> members, string searchString)
+    {
+        IEnumerable<User> searchedMembers = members;
+        
+        if (!string.IsNullOrEmpty(searchString))
+        {
+            var searchStringTrim = searchString.ToLower().Trim();
+            searchedMembers = searchedMembers.Where(t => t.FirstName.ToLower().Contains(searchStringTrim));
+        }
+
+        return searchedMembers;
+    }
+
     public async Task<Team> GetByIdAsync(string id)
     {
         var team = await _teamRepository.GetAll().Include(x => x.Members).Where(x => x.Id.ToString() == id).FirstOrDefaultAsync();

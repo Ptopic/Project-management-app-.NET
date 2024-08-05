@@ -39,11 +39,12 @@ public class Members : PageModel
         var team = await _teamService.GetByIdAsync(id);
         
         var users = await _userManager.GetUsersInRoleAsync(Roles.User.ToString());
-        // ViewData["Keyword"] = searchString;
-        // teams = _teamService.Search(teams, searchString);
         
-        MembersList = PaginatedList<User>.Create(team.Members, pageIndex ?? 1, 3);
-
+        ViewData["Keyword"] = searchString;
+        var members = _teamService.SearchMembers(team.Members, searchString);
+        
+        MembersList = PaginatedList<User>.Create(members, pageIndex ?? 1, 3);
+        
         Team = team;
         UserOptions = users.ToList();
         Input = new AddMemberRequest();
