@@ -18,6 +18,11 @@ public class AppDbContext : IdentityDbContext<User>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+        
+        builder.Entity<Team>()
+            .HasMany(t => t.Members)
+            .WithOne(u => u.Team)
+            .OnDelete(DeleteBehavior.SetNull);
 
         var admin = new IdentityRole("Admin");
         admin.NormalizedName = "ADMIN";
