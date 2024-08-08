@@ -1,4 +1,5 @@
 ﻿@page
+@using ProjectManagement.Entities.Enums
 @model ProjectManagement.Pages.Teams.Create
 
 @{
@@ -15,6 +16,21 @@
                 <label asp-for="Input.Name"></label>
                 <span asp-validation-for="Input.Name" class="text-danger"></span>
             </div>
+
+            @if (User.IsInRole(Roles.Admin.ToString()))
+            {
+                <select asp-for="Input.OwnerId" class="form-control w-auto">
+                    <option value="" selected disabled>Please select user</option>
+                    @foreach (var userOption in Model.ManagerOptions)
+                    {
+                        <option value="@userOption.Id">
+                            @userOption.FirstName @userOption.LastName (@userOption.Email)
+                        </option>
+                    }
+                </select>
+                
+                <span asp-validation-for="Input.OwnerId" class="text-danger"></span>
+            }
         </div>
     </div>
     <button id="create-team-button" type="submit" class="w-auto btn btn-lg btn-warning mt-3">Create</button>

@@ -27,14 +27,21 @@ public class Edit : PageModel
     [BindProperty]
     public CreateTeamRequest Input { get; set; }
     
+    public IList<User> ManagerOptions { get; set; }
+    
     private async Task LoadAsync(Team team)
     {
         var name = team.Name;
 
         Input = new CreateTeamRequest
         {
-            Name = name
+            Name = name,
+            OwnerId = team.OwnerId
         };
+        
+        var managers = await _userManager.GetUsersInRoleAsync(Roles.Manager.ToString());
+
+        ManagerOptions = managers;
     }
     
     public async Task<IActionResult> OnGetAsync(string id)
@@ -69,23 +76,39 @@ public class Edit : PageModel
     
     public async Task<IActionResult> OnPostAsync(string id)
     {
+        if (User.IsInRole(Roles.Manager.ToString()))
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
+            }
+
+            Input.OwnerId = user.Id;
+        }
+        
+        if (Input.OwnerId == null)
+        {
+            return RedirectToPage("/Teams/Index");
+        }
+        
         var team = await _teamService.GetByIdAsync(id);
         
         if (team == null)
         {
             return base.BadRequest($"Unable to load team with ID '{id}'.");
         }
-
-        if (!ModelState.IsValid)
-        {
-            await LoadAsync(team);
-            return Page();
-        }
         
         var name = team?.Name;
         if (Input.Name != name)
         {
             team.Name = Input.Name;
+        }
+        
+        var ownerId = team?.OwnerId;
+        if (Input.OwnerId != ownerId)
+        {
+            team.OwnerId = Input.OwnerId;
         }
         
         await _teamService.UpdateAsync(team);

@@ -2,6 +2,7 @@ using System.Collections;
 using Microsoft.EntityFrameworkCore;
 using ProjectManagement.Data;
 using ProjectManagement.Entities;
+using ProjectManagement.Entities.Enums;
 
 namespace ProjectManagement.Repositories.Impl;
 

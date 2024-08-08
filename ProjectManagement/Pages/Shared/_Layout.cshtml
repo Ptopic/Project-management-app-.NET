@@ -37,13 +37,13 @@
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Index">Projects</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Tasks/Index">Tasks</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Teams/Index">Teams</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Users/Index">Users</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Tasks/Index">Tasks</a>
                             </li>
                         } else if (User.IsInRole(Roles.Manager.ToString()))
                         {
@@ -51,10 +51,10 @@
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Projects/Index">My Projects</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Teams/Index">My Teams</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Tasks/Index">My Tasks</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Tasks/Index">My Tasks</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Teams/Index">My Teams</a>
                             </li>
                         }
                         else
@@ -63,10 +63,10 @@
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Projects/Index">My Projects</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Teams/Index">My Teams</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Tasks/Index">My Tasks</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Tasks/Index">My Tasks</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Teams/Index">My Teams</a>
                             </li>
                         }
                     }

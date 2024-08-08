@@ -24,7 +24,7 @@ public class TeamService : ITeamService
     
     public async Task<IEnumerable<TeamView>> GetAllAsync()
     {
-        var teams = await _teamRepository.GetAll().Include(x => x.Members).ToListAsync();
+        var teams = await _teamRepository.GetAll().Include(x => x.Members).Include(x => x.Owner).ToListAsync();
 
         return _mapper.Map<IEnumerable<TeamView>>(teams);;
     }
@@ -70,15 +70,24 @@ public class TeamService : ITeamService
     {
         var teams = await _teamRepository.GetAll()
             .Include(x => x.Members)
+            .Include(x => x.Owner)
             .Where(x => x.OwnerId == managerId)
             .ToListAsync();
 
         return _mapper.Map<IEnumerable<TeamView>>(teams);;
     }
-
-    public async Task<Team> CreateAsync(CreateTeamRequest team)
+    
+    public async Task<Team> CreateAsync(CreateTeamRequest team, string userId)
     {
-        return await _teamRepository.AddAsync(_mapper.Map<Team>(team));
+        var user = await _userRepository.GetByIdAsync(userId);
+        
+        var newTeam = new Team()
+        {
+            Name = team.Name,
+            OwnerId = user.Id
+        };
+        
+        return await _teamRepository.AddAsync(newTeam);
     }
 
     public async Task<Team> UpdateAsync(Team team)

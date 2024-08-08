@@ -1,36 +1,53 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ProjectManagement.Entities;
+using ProjectManagement.Entities.Enums;
 using ProjectManagement.Models.Requests.Team;
 using ProjectManagement.Services;
+using ProjectManagement.Services.Impl;
 
 namespace ProjectManagement.Pages.Teams;
 
 [Authorize(Roles = "Admin,Manager")]
-public class Create : PageModel
+public class Create(ITeamService _teamService, UserManager<User> _userManager) : PageModel
 {
-    private readonly ITeamService _teamService;
-
-    public Create(ITeamService teamService)
-    {
-        _teamService = teamService;
-    }
-    
-    
     [BindProperty]
     public CreateTeamRequest Input { get; set; }
 
+    public IList<User> ManagerOptions { get; set; }
     
-    public void OnGet()
+    public async Task<IActionResult> OnGetAsync()
     {
-        
+        var managers = await _userManager.GetUsersInRoleAsync(Roles.Manager.ToString());
+
+        ManagerOptions = managers;
+
+        return Page();
     }
     
     public async Task<IActionResult> OnPostAsync(string id)
     {
+        if (User.IsInRole(Roles.Manager.ToString()))
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
+            }
+
+            Input.OwnerId = user.Id;
+        }
+        
+        if (Input.OwnerId == null)
+        {
+            return RedirectToPage("/Teams/Index");
+        }
+        
         try
         {
-            await _teamService.CreateAsync(Input);
+            await _teamService.CreateAsync(Input, Input.OwnerId);
         }
         catch (Exception ex)
         {
