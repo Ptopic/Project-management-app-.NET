@@ -112,9 +112,17 @@ namespace ProjectManagement.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                // Attempt to find the user by email
                 var user = await _userManager.FindByEmailAsync(Input.Email);
+
+                // Check if the user is null
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid credentials.");
+                    return Page();
+                }
+
+                // Attempt to sign in the user
                 var result = await _signInManager.PasswordSignInAsync(user.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {

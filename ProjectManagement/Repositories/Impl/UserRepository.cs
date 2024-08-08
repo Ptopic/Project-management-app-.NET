@@ -13,7 +13,7 @@ public class UserRepository(AppDbContext context) : IUserRepository
         return _dbSet.AsQueryable();
     }
 
-    IEnumerable<User> IUserRepository.GetAll()
+    IQueryable<User> IUserRepository.GetAll()
     {
         return GetAll();
     }

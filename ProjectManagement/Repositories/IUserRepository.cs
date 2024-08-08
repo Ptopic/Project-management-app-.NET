@@ -4,7 +4,7 @@ namespace ProjectManagement.Repositories;
 
 public interface IUserRepository
 {
-    IEnumerable<User> GetAll();
+    IQueryable<User> GetAll();
     
     Task<User> GetByIdAsync(string id);
     
