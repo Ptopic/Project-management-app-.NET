@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ProjectManagement.Entities.Enums;
 using ProjectManagement.Models;
@@ -19,7 +20,7 @@ public class Index : PageModel
         _userService = userService;
     }
     
-    public async Task<PageResult> OnGetAsync(string searchString, string currentFilter, int? pageIndex)
+    public async Task<IActionResult> OnGetAsync(string searchString, string currentFilter, int? pageIndex)
     {
         var users = await _userService.GetAllAsync();
         
