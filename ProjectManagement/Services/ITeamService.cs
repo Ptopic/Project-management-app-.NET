@@ -22,4 +22,6 @@ public interface ITeamService
     Task<Team> UpdateAsync(Team team);
     
     Task<IResult> DeleteAsync(Team feedback);
+    
+    Task<IEnumerable<TeamView>> GetAllWhereUserIsMember(string userId);
 }

@@ -11,19 +11,11 @@ using ProjectManagement.Services;
 
 namespace ProjectManagement.Pages.Teams;
 
-[Authorize(Roles = "Admin,Manager")]
-public class Index : PageModel
+public class Index(ITeamService _teamService, IUserService _userService, UserManager<User> _userManager) : PageModel
 {
-    private readonly ITeamService _teamService;
-
     public PaginatedList<TeamView> Teams { get; set; }
-    private readonly UserManager<User> _userManager;
-
-    public Index(ITeamService teamService, UserManager<User> userManager)
-    {
-        _teamService = teamService;
-        _userManager = userManager;
-    }
+    
+    public User CurrentUser { get; set; }
     
     public async Task<IActionResult> OnGetAsync(string searchString, int? pageIndex)
     {
@@ -41,9 +33,20 @@ public class Index : PageModel
         {
             teams = await _teamService.GetAllAsync();
         }
-        else
+        else if(roles.Contains(Roles.Manager.ToString()))
         {
             teams = await _teamService.GetByManagerIdAsync(user.Id);
+        }
+        else
+        {
+            teams = await _teamService.GetAllWhereUserIsMember(user.Id);
+            
+            CurrentUser = user;
+        }
+
+        if (teams == null)
+        {
+            return RedirectToPage("/Index");
         }
         
         ViewData["Keyword"] = searchString;
@@ -53,5 +56,26 @@ public class Index : PageModel
         Teams = PaginatedList<TeamView>.Create(teams, pageIndex ?? 1, 5);
         
         return Page();
+    }
+    
+    public async Task<IActionResult> OnPostLeaveTeamAsync(string userId, string teamId)
+    {
+        var team = await _teamService.GetByIdAsync(teamId);
+        var user = await _userService.GetByIdAsync(userId);
+        
+        if (team == null || user == null)
+        {
+            return NotFound();
+        }
+
+        team.Members.Remove(user);
+
+        user.Teams.Remove(team);
+        
+        await _teamService.UpdateAsync(team);
+
+        await _userManager.UpdateAsync(user);
+
+        return RedirectToPage("/Teams/Index");
     }
 }

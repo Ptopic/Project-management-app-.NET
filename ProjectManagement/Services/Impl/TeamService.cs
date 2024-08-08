@@ -74,7 +74,7 @@ public class TeamService : ITeamService
             .Where(x => x.OwnerId == managerId)
             .ToListAsync();
 
-        return _mapper.Map<IEnumerable<TeamView>>(teams);;
+        return _mapper.Map<IEnumerable<TeamView>>(teams);
     }
     
     public async Task<Team> CreateAsync(CreateTeamRequest team, string userId)
@@ -108,5 +108,16 @@ public class TeamService : ITeamService
         }
 
         return Results.Ok();
+    }
+
+    public async Task<IEnumerable<TeamView>> GetAllWhereUserIsMember(string userId)
+    {
+        var teams = await _teamRepository.GetAll()
+            .Include(x => x.Members)
+            .Include(x => x.Owner)
+            .Where(x => x.Members.Any(m => m.Id == userId))
+            .ToListAsync();
+        
+        return _mapper.Map<IEnumerable<TeamView>>(teams);
     }
 }
