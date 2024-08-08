@@ -115,6 +115,6 @@ public class Edit : PageModel
 
         StatusMessage = "Team details have been updated";
 
-        return Page();
+        return RedirectToPage("/Teams/Edit", new { id });
     }
 }
