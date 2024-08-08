@@ -1,3 +1,4 @@
+using System.Collections;
 using ProjectManagement.Entities;
 
 namespace ProjectManagement.Repositories;
@@ -10,5 +11,5 @@ public interface IUserRepository
     
     Task<User> UpdateAsync(User user);
     
-    Task<IList<User>> GetAllUsersWithoutTeam(Guid teamId);
+    Task<IEnumerable<User>> GetAllUsersWithoutTeam(Guid teamId);
 }

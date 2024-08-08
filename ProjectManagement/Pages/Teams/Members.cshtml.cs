@@ -11,7 +11,7 @@ using ProjectManagement.Services;
 
 namespace ProjectManagement.Pages.Teams;
 
-[Authorize(Roles = "Admin")]
+[Authorize(Roles = "Admin,Manager")]
 public class Members : PageModel
 {
     private readonly ITeamService _teamService;
@@ -34,10 +34,26 @@ public class Members : PageModel
     
     public PaginatedList<User> MembersList { get; set; }
 
-    public async Task<PageResult> OnGetAsync(string id, string searchString, int? pageIndex)
+    public async Task<IActionResult> OnGetAsync(string id, string searchString, int? pageIndex)
     {
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null)
+        {
+            return RedirectToPage("/Account/Login", new { area = "Identity" });
+        }
+        
         var team = await _teamService.GetByIdAsync(id);
 
+        var roles = await _userManager.GetRolesAsync(user);
+        
+        if (roles.Contains(Roles.Manager.ToString()))
+        {
+            if(team.OwnerId != user.Id)
+            {
+                return RedirectToPage("/Teams/Index");
+            }
+        }
+        
         var users = await _userService.GetUsersWithoutTeam(team.Id);
         
         ViewData["Keyword"] = searchString;
@@ -54,21 +70,21 @@ public class Members : PageModel
     
     public async Task<IActionResult> OnPostAsync(string teamId)
     {
-        if (string.IsNullOrEmpty(teamId))
-        {
-            return NotFound();
-        }
-
         if (!ModelState.IsValid)
         {
             return RedirectToPage("/Teams/Members", new { id = teamId });
         }
 
         var user = await _userService.GetByIdAsync(Input.UserId);
+
+        if (user == null)
+        {
+            return RedirectToPage("/Teams/Members", new { id = teamId });
+        }
         
         var team = await _teamService.GetByIdAsync(teamId);
         
-        if (user == null || team == null)
+        if (team == null)
         {
             return NotFound();
         }

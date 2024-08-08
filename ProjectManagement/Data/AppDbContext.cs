@@ -34,6 +34,11 @@ public class AppDbContext : IdentityDbContext<User>
                     .WithMany()
                     .HasForeignKey("UserId")
                     .OnDelete(DeleteBehavior.NoAction));
+        
+        builder.Entity<Team>()
+            .HasOne(t => t.Owner)
+            .WithMany()
+            .HasForeignKey("OwnerId");
 
         var admin = new IdentityRole("Admin");
         admin.NormalizedName = "ADMIN";
@@ -188,18 +193,21 @@ public class AppDbContext : IdentityDbContext<User>
         {
             Id = Guid.Parse("241347d2-44a4-420c-8e0f-b27e8fdb8c1a\n"),
             Name = "Team 1",
+            OwnerId = manager2.Id
         };
         
         var team2 = new Team
         {
             Id = Guid.Parse("26f7c123-0749-4f53-892f-055d8e1fbcf0"),
             Name = "Team 2",
+            OwnerId = manager1.Id
         };
         
         var team3 = new Team
         {
             Id = Guid.Parse("297f0f61-1ac0-4652-9423-4fb558209d6e"),
             Name = "Team 3",
+            OwnerId = manager1.Id
         };
         
         builder.Entity<Team>().HasData(team1, team2, team3);

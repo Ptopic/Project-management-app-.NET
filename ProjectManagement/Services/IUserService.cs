@@ -1,3 +1,4 @@
+using System.Collections;
 using ProjectManagement.Entities;
 using ProjectManagement.Entities.Enums;
 using ProjectManagement.Models.Views.Users;
@@ -14,5 +15,5 @@ public interface IUserService
 
     IEnumerable<UserView> Filter(IEnumerable<UserView> users, string currentFilter);
     
-    Task<IList<User>> GetUsersWithoutTeam(Guid teamId);
+    Task<IEnumerable<User>> GetUsersWithoutTeam(Guid teamId);
 }

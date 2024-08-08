@@ -1,3 +1,4 @@
+using System.Collections;
 using ProjectManagement.Entities;
 using ProjectManagement.Models.Requests.Team;
 using ProjectManagement.Models.Views.Team;
@@ -13,6 +14,8 @@ public interface ITeamService
     IEnumerable<User> SearchMembers(IEnumerable<User> teams, string searchString);
     
     Task<Team> GetByIdAsync(string id);
+    
+    Task<IEnumerable<TeamView>> GetByManagerIdAsync(string managerId);
     
     Task<Team> CreateAsync(CreateTeamRequest team);
     

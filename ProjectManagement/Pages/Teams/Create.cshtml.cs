@@ -6,7 +6,7 @@ using ProjectManagement.Services;
 
 namespace ProjectManagement.Pages.Teams;
 
-[Authorize(Roles = ("Admin"))]
+[Authorize(Roles = "Admin,Manager")]
 public class Create : PageModel
 {
     private readonly ITeamService _teamService;

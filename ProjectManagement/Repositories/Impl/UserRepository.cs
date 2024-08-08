@@ -1,3 +1,4 @@
+using System.Collections;
 using Microsoft.EntityFrameworkCore;
 using ProjectManagement.Data;
 using ProjectManagement.Entities;
@@ -33,7 +34,7 @@ public class UserRepository(AppDbContext context) : IUserRepository
         return removedEntity;
     }
 
-    public async Task<IList<User>> GetAllUsersWithoutTeam(Guid teamId)
+    public async Task<IEnumerable<User>> GetAllUsersWithoutTeam(Guid teamId)
     {
         return await _dbSet
             .Where(x => x.Teams.All(t => t.Id != teamId))
