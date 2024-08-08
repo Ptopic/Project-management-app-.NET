@@ -7,7 +7,7 @@ using ProjectManagement.Models.Requests.User;
 
 namespace ProjectManagement.Pages.Users;
 
-[Authorize(Roles = ("Admin"))]
+[Authorize(Roles = "Admin")]
 public class Edit : PageModel
 {
     private readonly UserManager<User> _userManager;

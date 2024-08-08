@@ -6,7 +6,7 @@ using ProjectManagement.Entities;
 
 namespace ProjectManagement.Pages.Users;
 
-[Authorize(Roles = ("Admin"))]
+[Authorize(Roles = "Admin")]
 public class Delete(UserManager<User> _userManager) : PageModel
 {
     public string Username { get; set; }
