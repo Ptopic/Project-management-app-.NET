@@ -32,4 +32,11 @@ public class UserRepository(AppDbContext context) : IUserRepository
 
         return removedEntity;
     }
+
+    public async Task<IList<User>> GetAllUsersWithoutTeam(Guid teamId)
+    {
+        return await _dbSet
+            .Where(x => x.Teams.All(t => t.Id != teamId))
+            .ToListAsync();
+    }
 }

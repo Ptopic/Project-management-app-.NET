@@ -13,4 +13,6 @@ public interface IUserService
     IEnumerable<UserView> Search(IEnumerable<UserView> users, string searchString);
 
     IEnumerable<UserView> Filter(IEnumerable<UserView> users, string currentFilter);
+    
+    Task<IList<User>> GetUsersWithoutTeam(Guid teamId);
 }

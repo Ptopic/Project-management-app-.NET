@@ -37,8 +37,8 @@ public class Members : PageModel
     public async Task<PageResult> OnGetAsync(string id, string searchString, int? pageIndex)
     {
         var team = await _teamService.GetByIdAsync(id);
-        
-        var users = await _userManager.GetUsersInRoleAsync(Roles.User.ToString());
+
+        var users = await _userService.GetUsersWithoutTeam(team.Id);
         
         ViewData["Keyword"] = searchString;
         var members = _teamService.SearchMembers(team.Members, searchString);

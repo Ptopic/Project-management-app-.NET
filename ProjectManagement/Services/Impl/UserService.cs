@@ -78,4 +78,9 @@ public class UserService : IUserService
 
         return filteredUsers;
     }
+
+    public async Task<IList<User>> GetUsersWithoutTeam(Guid teamId)
+    {
+        return await _userRepository.GetAllUsersWithoutTeam(teamId);
+    }
 }
