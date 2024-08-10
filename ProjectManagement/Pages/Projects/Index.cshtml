@@ -1,0 +1,102 @@
+﻿@page
+@model ProjectManagement.Pages.Projects.Index
+
+@{
+    ViewData["Title"] = "Projects";
+    var keyword = ViewData["Keyword"] as string;
+    var previous = Model.Projects.HasPreviousPage ? "" : "disabled";
+    var next = Model.Projects.HasNextPage ? "" : "disabled";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="OnGetAsync" method="get">
+    <div class="row">
+        <div class="input-group">
+            <input type="search" class="form-control" placeholder="Search..." name="searchString" value="@keyword">
+            <button type="submit" class="btn btn-primary mr-2"><i class="bi bi-search"></i></button>
+            <a asp-action="" class="btn btn-secondary clear-btn">Clear</a>
+        </div>
+    </div>
+</form>
+
+<a asp-page="/Projects/Create" class="btn btn-success mt-2">
+    <i class="bi bi-plus"></i>
+    Create new Project
+</a>
+
+@if (Model.Projects.Count > 0)
+{
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Manager</th>
+            <th scope="col">Team</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var project in Model.Projects)
+        {
+            <tr>
+                <td class="align-middle">@project.Name</td>
+                <td class="align-middle">@project.Description</td>
+                <td class="align-middle">
+                    <p class="align-middle mb-0">@project.Manager.Email</p>
+                </td>
+                @* <td class="align-middle"> *@
+                @*     <p class="align-middle mb-0">@project.Team.Name</p> *@
+                @* </td> *@
+                <td class="align-middle">
+                    <a asp-page="/Teams/Edit" asp-route-id="@project.Id" class="btn btn-warning">
+                        <i class="bi bi-pen"></i>
+                        Edit
+                    </a>
+                    <a asp-page="/Teams/Delete" asp-route-id="@project.Id" class="btn btn-danger">
+                        <i class="bi bi-trash3"></i>
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <ul class="pagination">
+        <li class="page-item">
+            <a asp-page="./Index"
+               asp-route-pageIndex="@(Model.Projects.PageIndex - 1)"
+               class="page-link btn @previous"
+               role="button">
+                Previous
+            </a>
+        </li>
+        @for (var i = 1; i <= Model.Projects.TotalPages; i++)
+        {
+        <li class="page-item @(i == Model.Projects.PageIndex ? "active" : "")">
+            <a asp-page="./Index"
+               asp-route-pageIndex="@i"
+               class="page-link">
+                @i
+            </a>
+        </li>
+        }
+        <li class="page-item">
+            <a asp-page="./Index"
+               asp-route-pageIndex="@(Model.Projects.PageIndex + 1)"
+               class="page-link btn @next"
+               role="button">
+                Next
+            </a>
+        </li>
+    </ul>
+</div>
+}
+else
+{
+<h3>No Projects</h3>
+}

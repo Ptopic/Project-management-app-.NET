@@ -7,7 +7,7 @@ public interface IBaseRepository<TEntity> where TEntity : BaseEntity
 {
     Task<TEntity> GetFirstAsync(Expression<Func<TEntity, bool>> predicate);
 
-    Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate);
+    IQueryable<TEntity> GetAll();
 
     Task<TEntity> AddAsync(TEntity entity);
 

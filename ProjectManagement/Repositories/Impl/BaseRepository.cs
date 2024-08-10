@@ -33,9 +33,9 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         return removedEntity;
     }
 
-    public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate)
+    public IQueryable<TEntity> GetAll()
     {
-        return await DbSet.Where(predicate).ToListAsync();
+        return DbSet.AsQueryable();
     }
 
     public async Task<TEntity> GetFirstAsync(Expression<Func<TEntity, bool>> predicate)
