@@ -7,71 +7,73 @@
     ViewData["Title"] = "Projects | Edit";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="container">
+    <h1>@ViewData["Title"]</h1>
 
-<partial name="~/Areas/Identity/Pages/Account/_StatusMessage.cshtml" for="StatusMessage" />
+    <partial name="~/Areas/Identity/Pages/Account/_StatusMessage.cshtml" for="StatusMessage" />
 
-<form id="create-form" method="post" enctype="multipart/form-data">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-floating">
-                <input asp-for="Input.Name" class="form-control" autocomplete="name" aria-required="true" />
-                <label asp-for="Input.Name"></label>
-                <span asp-validation-for="Input.Name" class="text-danger"></span>
-            </div>
+    <form id="create-form" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input asp-for="Input.Name" class="form-control" autocomplete="name" aria-required="true" />
+                    <label asp-for="Input.Name"></label>
+                    <span asp-validation-for="Input.Name" class="text-danger"></span>
+                </div>
 
-            <div class="form-floating">
-                <input asp-for="Input.Description" class="form-control" autocomplete="description" aria-required="true" />
-                <label asp-for="Input.Description"></label>
-                <span asp-validation-for="Input.Description" class="text-danger"></span>
-            </div>
+                <div class="form-floating">
+                    <input asp-for="Input.Description" class="form-control" autocomplete="description" aria-required="true" />
+                    <label asp-for="Input.Description"></label>
+                    <span asp-validation-for="Input.Description" class="text-danger"></span>
+                </div>
 
-            <div class="form-floating">
-                <input asp-for="Input.StartDate" class="form-control" aria-required="true" />
-                <label asp-for="Input.StartDate"></label>
-                <span asp-validation-for="Input.StartDate" class="text-danger"></span>
-            </div>
+                <div class="form-floating">
+                    <input asp-for="Input.StartDate" class="form-control" aria-required="true" />
+                    <label asp-for="Input.StartDate"></label>
+                    <span asp-validation-for="Input.StartDate" class="text-danger"></span>
+                </div>
 
-            <div class="form-floating">
-                <input asp-for="Input.EndDate" class="form-control" aria-required="true" />
-                <label asp-for="Input.EndDate"></label>
-                <span asp-validation-for="Input.EndDate" class="text-danger"></span>
-            </div>
+                <div class="form-floating">
+                    <input asp-for="Input.EndDate" class="form-control" aria-required="true" />
+                    <label asp-for="Input.EndDate"></label>
+                    <span asp-validation-for="Input.EndDate" class="text-danger"></span>
+                </div>
 
-            @if (User.IsInRole(Roles.Admin.ToString()))
-            {
+                @if (User.IsInRole(Roles.Admin.ToString()))
+                {
                 <select asp-for="Input.ManagerId" class="form-control w-auto">
                     <option value="" selected disabled>Please select manager</option>
                     @foreach (var managerOption in Model.ManagerOptions)
                     {
-                        <option value="@managerOption.Id">
-                            @managerOption.FirstName @managerOption.LastName (@managerOption.Email)
-                        </option>
+                    <option value="@managerOption.Id">
+                        @managerOption.FirstName @managerOption.LastName (@managerOption.Email)
+                    </option>
                     }
                 </select>
-                
+
                 <span asp-validation-for="Input.ManagerId" class="text-danger"></span>
-            }
-
-            <select asp-for="Input.TeamId" class="form-control w-auto">
-                <option value="" selected disabled>Please select team</option>
-                @foreach (var teamOption in Model.TeamOptions)
-                {
-                <option value="@teamOption.Id">
-                    @teamOption.Name
-                </option>
                 }
-            </select>
 
-            <span asp-validation-for="Input.TeamId" class="text-danger"></span>
+                <select asp-for="Input.TeamId" class="form-control w-auto">
+                    <option value="" selected disabled>Please select team</option>
+                    @foreach (var teamOption in Model.TeamOptions)
+                    {
+                    <option value="@teamOption.Id">
+                        @teamOption.Name
+                    </option>
+                    }
+                </select>
+
+                <span asp-validation-for="Input.TeamId" class="text-danger"></span>
+            </div>
         </div>
-    </div>
-    <button id="create-team-button" type="submit" class="w-auto btn btn-lg btn-warning mt-3">Update</button>
-</form>
+        <button id="create-team-button" type="submit" class="w-auto btn btn-lg btn-warning mt-3">Update</button>
+    </form>
 
-<a asp-page="/Projects/Index" class="btn btn-primary mt-4">
-    Back to List
-</a>
+    <a asp-page="/Projects/Index" class="btn btn-primary mt-4">
+        Back to List
+    </a>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

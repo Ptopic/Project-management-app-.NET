@@ -6,40 +6,42 @@
     ViewData["Title"] = "Teams | Create";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="container">
+    <h1>@ViewData["Title"]</h1>
 
-<form id="create-form" method="post" enctype="multipart/form-data">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-floating">
-                <input asp-for="Input.Name" class="form-control" autocomplete="name" aria-required="true" />
-                <label asp-for="Input.Name"></label>
-                <span asp-validation-for="Input.Name" class="text-danger"></span>
-            </div>
+    <form id="create-form" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input asp-for="Input.Name" class="form-control" autocomplete="name" aria-required="true" />
+                    <label asp-for="Input.Name"></label>
+                    <span asp-validation-for="Input.Name" class="text-danger"></span>
+                </div>
 
-            @if (User.IsInRole(Roles.Admin.ToString()))
-            {
+                @if (User.IsInRole(Roles.Admin.ToString()))
+                {
                 <select asp-for="Input.OwnerId" class="form-control w-auto">
                     <option value="" selected disabled>Please select user</option>
                     @foreach (var userOption in Model.ManagerOptions)
                     {
-                        <option value="@userOption.Id">
-                            @userOption.FirstName @userOption.LastName (@userOption.Email)
-                        </option>
+                    <option value="@userOption.Id">
+                        @userOption.FirstName @userOption.LastName (@userOption.Email)
+                    </option>
                     }
                 </select>
-                
+
                 <span asp-validation-for="Input.OwnerId" class="text-danger"></span>
-            }
+                }
+            </div>
         </div>
-    </div>
-    <button id="create-team-button" type="submit" class="w-auto btn btn-lg btn-warning mt-3">Create</button>
-</form>
+        <button id="create-team-button" type="submit" class="w-auto btn btn-lg btn-warning mt-3">Create</button>
+    </form>
 
-<a asp-page="/Teams/Index" class="btn btn-primary mt-4">
-    Back to List
-</a>
+    <a asp-page="/Teams/Index" class="btn btn-primary mt-4">
+        Back to List
+    </a>
 
-@section Scripts {
+    @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-}
+    }
+</div>

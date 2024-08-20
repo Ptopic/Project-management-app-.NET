@@ -7,40 +7,42 @@
     ViewData["Title"] = "Teams | Edit";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="container">
+    <h1>@ViewData["Title"]</h1>
 
-<partial name="~/Areas/Identity/Pages/Account/_StatusMessage.cshtml" for="StatusMessage" />
-<form id="edit-form" method="post" enctype="multipart/form-data">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-floating">
-                <input asp-for="Input.Name" class="form-control" autocomplete="name" aria-required="true" />
-                <label asp-for="Input.Name"></label>
-                <span asp-validation-for="Input.Name" class="text-danger"></span>
-            </div>
+    <partial name="~/Areas/Identity/Pages/Account/_StatusMessage.cshtml" for="StatusMessage" />
+    <form id="edit-form" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input asp-for="Input.Name" class="form-control" autocomplete="name" aria-required="true" />
+                    <label asp-for="Input.Name"></label>
+                    <span asp-validation-for="Input.Name" class="text-danger"></span>
+                </div>
 
-            @if (User.IsInRole(Roles.Admin.ToString()))
-            {
-            <select asp-for="Input.OwnerId" class="form-control w-auto">
-                <option value="" selected disabled>Please select user</option>
-                @foreach (var userOption in Model.ManagerOptions)
+                @if (User.IsInRole(Roles.Admin.ToString()))
                 {
-                <option value="@userOption.Id" selected="@(userOption.Id == Model.Input.OwnerId ? "selected" : null)">
-                    @userOption.FirstName @userOption.LastName (@userOption.Email)
-                </option>
+                <select asp-for="Input.OwnerId" class="form-control w-auto">
+                    <option value="" selected disabled>Please select user</option>
+                    @foreach (var userOption in Model.ManagerOptions)
+                    {
+                    <option value="@userOption.Id" selected="@(userOption.Id == Model.Input.OwnerId ? "selected" : null)">
+                        @userOption.FirstName @userOption.LastName (@userOption.Email)
+                    </option>
+                    }
+                </select>
+
+                <span asp-validation-for="Input.OwnerId" class="text-danger"></span>
                 }
-            </select>
-
-            <span asp-validation-for="Input.OwnerId" class="text-danger"></span>
-            }
+            </div>
         </div>
-    </div>
-    <button id="update-team-button" type="submit" class="w-auto btn btn-lg btn-warning mt-3">Update</button>
-</form>
+        <button id="update-team-button" type="submit" class="w-auto btn btn-lg btn-warning mt-3">Update</button>
+    </form>
 
-<a asp-page="/Teams/Index" class="btn btn-primary mt-4">
-    Back to List
-</a>
+    <a asp-page="/Teams/Index" class="btn btn-primary mt-4">
+        Back to List
+    </a>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

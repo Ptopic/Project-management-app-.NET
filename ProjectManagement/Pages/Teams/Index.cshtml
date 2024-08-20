@@ -9,40 +9,41 @@
     var next = Model.Teams.HasNextPage ? "" : "disabled";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="container">
+    <h1>@ViewData["Title"]</h1>
 
-<form asp-action="OnGetAsync" method="get">
-    <div class="row">
-        <div class="input-group">
-            <input type="search" class="form-control" placeholder="Search..." name="searchString" value="@keyword">
-            <button type="submit" class="btn btn-primary mr-2"><i class="bi bi-search"></i></button>
-            <a asp-action="" class="btn btn-secondary clear-btn">Clear</a>
+    <form asp-action="OnGetAsync" method="get">
+        <div class="row">
+            <div class="input-group">
+                <input type="search" class="form-control" placeholder="Search..." name="searchString" value="@keyword">
+                <button type="submit" class="btn btn-primary mr-2"><i class="bi bi-search"></i></button>
+                <a asp-action="" class="btn btn-secondary clear-btn">Clear</a>
+            </div>
         </div>
-    </div>
-</form>
+    </form>
 
-@if (User.IsInRole(Roles.Admin.ToString()) || User.IsInRole(Roles.Manager.ToString()))
-{
+    @if (User.IsInRole(Roles.Admin.ToString()) || User.IsInRole(Roles.Manager.ToString()))
+    {
     <a asp-page="/Teams/Create" class="btn btn-success mt-2">
         <i class="bi bi-plus"></i>
         Create new team
     </a>
-}
+    }
 
-@if (Model.Teams.Count > 0)
-{
+    @if (Model.Teams.Count > 0)
+    {
     <div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Members</th>
-            <th scope="col">Owner</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var team in Model.Teams)
-        {
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Members</th>
+                <th scope="col">Owner</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var team in Model.Teams)
+            {
             <tr>
                 <td class="align-middle">@team.Name</td>
                 @if(team.Members.Count > 0)
@@ -52,59 +53,59 @@
                 </td>
                 }
                 else {
-                    <td class="align-middle">No members</td>
+                <td class="align-middle">No members</td>
                 }
                 <td class="align-middle">
                     <p class="align-middle mb-0">@team.Owner.Email</p>
                 </td>
                 @if (User.IsInRole(Roles.Admin.ToString()) || User.IsInRole(Roles.Manager.ToString()))
                 {
-                    <td class="align-middle">
-                        <a asp-page="/Teams/Members" asp-route-id="@team.Id" class="btn btn-primary">
-                            <i class="bi bi-person"></i>
-                            Members
-                        </a>
-                        <a asp-page="/Teams/Edit" asp-route-id="@team.Id" class="btn btn-warning">
-                            <i class="bi bi-pen"></i>
-                            Edit
-                        </a>
-                        <a asp-page="/Teams/Delete" asp-route-id="@team.Id" class="btn btn-danger">
-                            <i class="bi bi-trash3"></i>
-                            Delete
-                        </a>
-                    </td>
+                <td class="align-middle">
+                    <a asp-page="/Teams/Members" asp-route-id="@team.Id" class="btn btn-primary">
+                        <i class="bi bi-person"></i>
+                        Members
+                    </a>
+                    <a asp-page="/Teams/Edit" asp-route-id="@team.Id" class="btn btn-warning">
+                        <i class="bi bi-pen"></i>
+                        Edit
+                    </a>
+                    <a asp-page="/Teams/Delete" asp-route-id="@team.Id" class="btn btn-danger">
+                        <i class="bi bi-trash3"></i>
+                        Delete
+                    </a>
+                </td>
                 }
                 else
                 {
-                    <td class="align-middle">
-                        <form asp-page-handler="LeaveTeam" method="post" class="w-auto">
-                            <input type="hidden" name="userId" value="@Model.CurrentUser.Id" />
-                            <input type="hidden" name="teamId" value="@team.Id" />
-                            <button class="btn btn-danger w-auto">
-                                <i class="bi bi-door-open"></i>
-                                Leave team
-                            </button>
-                        </form>
-                    </td>
+                <td class="align-middle">
+                    <form asp-page-handler="LeaveTeam" method="post" class="w-auto">
+                        <input type="hidden" name="userId" value="@Model.CurrentUser.Id" />
+                        <input type="hidden" name="teamId" value="@team.Id" />
+                        <button class="btn btn-danger w-auto">
+                            <i class="bi bi-door-open"></i>
+                            Leave team
+                        </button>
+                    </form>
+                </td>
                 }
             </tr>
-        }
-        </tbody>
-    </table>
-</div>
+            }
+            </tbody>
+        </table>
+    </div>
 
-<div>
-    <ul class="pagination">
-        <li class="page-item">
-            <a asp-page="./Index"
-               asp-route-pageIndex="@(Model.Teams.PageIndex - 1)"
-               class="page-link btn @previous"
-               role="button">
-                Previous
-            </a>
-        </li>
-        @for (var i = 1; i <= Model.Teams.TotalPages; i++)
-        {
+    <div>
+        <ul class="pagination">
+            <li class="page-item">
+                <a asp-page="./Index"
+                   asp-route-pageIndex="@(Model.Teams.PageIndex - 1)"
+                   class="page-link btn @previous"
+                   role="button">
+                    Previous
+                </a>
+            </li>
+            @for (var i = 1; i <= Model.Teams.TotalPages; i++)
+            {
             <li class="page-item @(i == Model.Teams.PageIndex ? "active" : "")">
                 <a asp-page="./Index"
                    asp-route-pageIndex="@i"
@@ -112,19 +113,20 @@
                     @i
                 </a>
             </li>
-        }
-        <li class="page-item">
-            <a asp-page="./Index"
-               asp-route-pageIndex="@(Model.Teams.PageIndex + 1)"
-               class="page-link btn @next"
-               role="button">
-                Next
-            </a>
-        </li>
-    </ul>
-</div>
-}
-else
-{
+            }
+            <li class="page-item">
+                <a asp-page="./Index"
+                   asp-route-pageIndex="@(Model.Teams.PageIndex + 1)"
+                   class="page-link btn @next"
+                   role="button">
+                    Next
+                </a>
+            </li>
+        </ul>
+    </div>
+    }
+    else
+    {
     <h3>No teams</h3>
-}
+    }
+</div>

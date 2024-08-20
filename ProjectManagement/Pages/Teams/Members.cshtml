@@ -8,10 +8,11 @@
     var next = Model.MembersList.HasNextPage ? "" : "disabled";
 }
 
-<p class="display-5">Members of <b>@Model.Team.Name</b> team</p>
+<div class="container">
+    <p class="display-5">Members of <b>@Model.Team.Name</b> team</p>
 
-@if (Model.Team.Members.Count > 0)
-{
+    @if (Model.Team.Members.Count > 0)
+    {
     <form asp-action="OnGetAsync" method="get">
         <div class="row">
             <div class="input-group">
@@ -22,7 +23,7 @@
             </div>
         </div>
     </form>
-    
+
     <div class="container mt-2">
         <form method="post">
             <div class="row">
@@ -45,38 +46,38 @@
             </div>
         </form>
     </div>
-    
+
     <p class="display-6 mt-4">Members:</p>
-    
+
     <div class="container mt-2 p-0">
         @foreach (var member in Model.MembersList)
         {
-            <div class="row mb-4 align-middle">
-                <p class="mb-0 w-auto align-content-center">@member.FirstName @member.LastName - @member.Email</p>
+        <div class="row mb-4 align-middle">
+            <p class="mb-0 w-auto align-content-center">@member.FirstName @member.LastName - @member.Email</p>
 
-                <form asp-page-handler="RemoveMember" method="post" class="w-auto">
-                    <input type="hidden" name="userId" value="@member.Id" />
-                    <input type="hidden" name="teamId" value="@Model.Team.Id" />
-                    <button class="btn btn-danger w-auto">
-                        <i class="bi bi-trash3"></i>
-                        Remove from team
-                    </button>
-                </form>
-            </div>
+            <form asp-page-handler="RemoveMember" method="post" class="w-auto">
+                <input type="hidden" name="userId" value="@member.Id" />
+                <input type="hidden" name="teamId" value="@Model.Team.Id" />
+                <button class="btn btn-danger w-auto">
+                    <i class="bi bi-trash3"></i>
+                    Remove from team
+                </button>
+            </form>
+        </div>
         }
     </div>
-}
-else
-{
+    }
+    else
+    {
     <form method="post" class="flex-row gap-4">
         <input type="hidden" name="teamId" value="@Model.Team.Id" />
         <select asp-for="Input.UserId" class="form-control w-auto">
             <option value="" selected disabled>Please select user</option>
             @foreach (var userOption in Model.UserOptions)
             {
-                <option value="@userOption.Id">
-                    @userOption.FirstName @userOption.LastName (@userOption.Email)
-                </option>
+            <option value="@userOption.Id">
+                @userOption.FirstName @userOption.LastName (@userOption.Email)
+            </option>
             }
         </select>
         <span asp-validation-for="Input.UserId" class="text-danger"></span>
@@ -86,22 +87,22 @@ else
             Add new member
         </button>
     </form>
-    
-    <h2 class="mt-4">No members</h2>
-}
 
-<div>
-    <ul class="pagination">
-        <li class="page-item">
-            <a asp-page="./Members" asp-route-id="@Model.Team.Id"
-               asp-route-pageIndex="@(Model.MembersList.PageIndex - 1)"
-               class="page-link btn @previous"
-               role="button">
-                Previous
-            </a>
-        </li>
-        @for (var i = 1; i <= Model.MembersList.TotalPages; i++)
-        {
+    <h2 class="mt-4">No members</h2>
+    }
+
+    <div>
+        <ul class="pagination">
+            <li class="page-item">
+                <a asp-page="./Members" asp-route-id="@Model.Team.Id"
+                   asp-route-pageIndex="@(Model.MembersList.PageIndex - 1)"
+                   class="page-link btn @previous"
+                   role="button">
+                    Previous
+                </a>
+            </li>
+            @for (var i = 1; i <= Model.MembersList.TotalPages; i++)
+            {
             <li class="page-item @(i == Model.MembersList.PageIndex ? "active" : "")">
                 <a asp-page="./Members" asp-route-id="@Model.Team.Id"
                    asp-route-pageIndex="@i"
@@ -109,18 +110,19 @@ else
                     @i
                 </a>
             </li>
-        }
-        <li class="page-item">
-            <a asp-page="./Members" asp-route-id="@Model.Team.Id"
-               asp-route-pageIndex="@(Model.MembersList.PageIndex + 1)"
-               class="page-link btn @next"
-               role="button">
-                Next
-            </a>
-        </li>
-    </ul>
-</div>
+            }
+            <li class="page-item">
+                <a asp-page="./Members" asp-route-id="@Model.Team.Id"
+                   asp-route-pageIndex="@(Model.MembersList.PageIndex + 1)"
+                   class="page-link btn @next"
+                   role="button">
+                    Next
+                </a>
+            </li>
+        </ul>
+    </div>
 
-<a asp-page="/Teams/Index" class="btn btn-primary mt-4">
-    Back to List
-</a>
+    <a asp-page="/Teams/Index" class="btn btn-primary mt-4">
+        Back to List
+    </a>
+</div>

@@ -5,21 +5,23 @@
     ViewData["Title"] = "Projects | Delete";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="container">
+    <h1>@ViewData["Title"]</h1>
 
-<div class="alert alert-warning" role="alert">
-    <p>
-        <strong>By deleting this project you will permanently remove its data, and this cannot be recovered.</strong>
-    </p>
+    <div class="alert alert-warning" role="alert">
+        <p>
+            <strong>By deleting this project you will permanently remove its data, and this cannot be recovered.</strong>
+        </p>
+    </div>
+
+    <div>
+        <form id="delete-project" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <button class="w-100 btn btn-lg btn-danger" type="submit">Delete project @Model.Name</button>
+        </form>
+    </div>
+
+    <a asp-page="/Projects/Index" class="btn btn-primary mt-4">
+        Cancel
+    </a>
 </div>
-
-<div>
-    <form id="delete-project" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <button class="w-100 btn btn-lg btn-danger" type="submit">Delete project @Model.Name</button>
-    </form>
-</div>
-
-<a asp-page="/Projects/Index" class="btn btn-primary mt-4">
-    Cancel
-</a>
