@@ -17,6 +17,21 @@ public class ProjectService(IMapper _mapper, IProjectRepository _projectReposito
         return _mapper.Map<IEnumerable<ProjectView>>(projects);
     }
 
+    public async Task<Project> GetByIdAsync(string id)
+    {
+        var project = await _projectRepository.GetAll()
+            .Include(x => x.Manager)
+            .Include(x => x.Team)
+            .Where(x => x.Id.ToString() == id)
+            .FirstOrDefaultAsync();
+        if (project == null)
+        {
+            throw new NotFoundException($"Project with ID '{id}' not found.");
+        }
+
+        return project;
+    }
+
     public async Task<IEnumerable<ProjectView>> GetByManagerIdAsync(string managerId)
     {
         var projects = await _projectRepository.GetAll()
@@ -57,14 +72,14 @@ public class ProjectService(IMapper _mapper, IProjectRepository _projectReposito
     {
         var manager = await _userRepository.GetByIdAsync(project.ManagerId);
         
-        if(manager == null)
+        if (manager == null)
         {
             throw new NotFoundException("Manager not found");
         }
         
         var team = await _teamRepository.GetByIdAsync(new Guid(project.TeamId));
         
-        if(team == null)
+        if (team == null)
         {
             throw new NotFoundException("Team not found");
         }
@@ -81,5 +96,13 @@ public class ProjectService(IMapper _mapper, IProjectRepository _projectReposito
         };
         
         return await _projectRepository.AddAsync(newProject);
+    }
+
+    public async Task<Project> UpdateAsync(Project project)
+    {
+        project.StartDate = DateTime.SpecifyKind(project.StartDate, DateTimeKind.Utc);
+        project.EndDate = DateTime.SpecifyKind(project.EndDate, DateTimeKind.Utc);
+        
+        return await _projectRepository.UpdateAsync(project);
     }
 }

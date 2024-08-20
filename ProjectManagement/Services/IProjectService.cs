@@ -8,6 +8,8 @@ public interface IProjectService
 {
     Task<IEnumerable<ProjectView>> GetAll();
     
+    Task<Project> GetByIdAsync(string id);
+    
     Task<IEnumerable<ProjectView>> GetByManagerIdAsync(string managerId);
     
     Task<IEnumerable<ProjectView>> GetAllByUserAsync(string userId);
@@ -15,4 +17,6 @@ public interface IProjectService
     IEnumerable<ProjectView> Search(IEnumerable<ProjectView> projects, string searchString);
     
     Task<Project> CreateAsync(CreateProjectRequest project);
+    
+    Task<Project> UpdateAsync(Project project);
 }
