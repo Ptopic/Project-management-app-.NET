@@ -97,8 +97,10 @@ public class TeamService : ITeamService
 
     public async Task<IResult> DeleteAsync(Team team)
     {
-        var users = _userRepository.GetAll().Where(u => u.Teams.Contains(team)).ToList();
-        
+        var users = await _userRepository.GetAll()
+            .Where(u => u.Teams.Contains(team))
+            .ToListAsync();
+
         foreach (var user in users)
         {
             user.Teams.Remove(team);
