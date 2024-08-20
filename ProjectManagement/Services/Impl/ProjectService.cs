@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
+using DSMS.Application.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using ProjectManagement.Entities;
+using ProjectManagement.Models.Requests.Project;
 using ProjectManagement.Models.Views.Projects;
 using ProjectManagement.Repositories;
 
 namespace ProjectManagement.Services.Impl;
 
-public class ProjectService(IMapper _mapper, IProjectRepository _projectRepository) : IProjectService
+public class ProjectService(IMapper _mapper, IProjectRepository _projectRepository, IUserRepository _userRepository, ITeamRepository _teamRepository) : IProjectService
 {
     public async Task<IEnumerable<ProjectView>> GetAll()
     {
@@ -48,5 +51,35 @@ public class ProjectService(IMapper _mapper, IProjectRepository _projectReposito
         }
 
         return searchedProjects;
+    }
+
+    public async Task<Project> CreateAsync(CreateProjectRequest project)
+    {
+        var manager = await _userRepository.GetByIdAsync(project.ManagerId);
+        
+        if(manager == null)
+        {
+            throw new NotFoundException("Manager not found");
+        }
+        
+        var team = await _teamRepository.GetByIdAsync(new Guid(project.TeamId));
+        
+        if(team == null)
+        {
+            throw new NotFoundException("Team not found");
+        }
+        
+        var newProject = new Project()
+        {
+            Name = project.Name,
+            Description = project.Description ?? string.Empty,
+            StartDate = DateTime.SpecifyKind(project.StartDate, DateTimeKind.Utc),
+            EndDate = DateTime.SpecifyKind(project.EndDate, DateTimeKind.Utc),
+            ManagerId = project.ManagerId,
+            Manager = manager,
+            Team = team,
+        };
+        
+        return await _projectRepository.AddAsync(newProject);
     }
 }

@@ -5,4 +5,6 @@ namespace ProjectManagement.Repositories;
 public interface ITeamRepository : IBaseRepository<Team>
 {
     IQueryable<Team> GetAll();
+    
+    Task<Team> GetByIdAsync(Guid id);
 }

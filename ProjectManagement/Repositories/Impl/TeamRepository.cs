@@ -17,4 +17,10 @@ public class TeamRepository : BaseRepository<Team>, ITeamRepository
     {
         return _dbSet.AsQueryable();
     }
+
+    public async Task<Team> GetByIdAsync(Guid id)
+    {
+        return await _dbSet
+            .FirstOrDefaultAsync(x => x.Id == id);
+    }
 }
