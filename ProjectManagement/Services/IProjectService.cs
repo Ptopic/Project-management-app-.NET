@@ -19,4 +19,6 @@ public interface IProjectService
     Task<Project> CreateAsync(CreateProjectRequest project);
     
     Task<Project> UpdateAsync(Project project);
+    
+    Task<IResult> DeleteAsync(Project project);
 }

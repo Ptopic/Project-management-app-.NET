@@ -105,4 +105,14 @@ public class ProjectService(IMapper _mapper, IProjectRepository _projectReposito
         
         return await _projectRepository.UpdateAsync(project);
     }
+
+    public async Task<IResult> DeleteAsync(Project project)
+    {
+        project.Manager = null;
+        project.Team = null;
+        
+        await _projectRepository.DeleteAsync(project);
+
+        return Results.Ok();
+    }
 }
