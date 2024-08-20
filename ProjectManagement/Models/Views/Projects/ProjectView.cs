@@ -13,4 +13,6 @@ public class ProjectView : BaseView
     public DateTime EndDate { get; set; }
     
     public User Manager { get; set; } = null!;
+    
+    public Entities.Team Team { get; set; } = null!;
 }

@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ProjectManagement.Entities;
+using ProjectManagement.Entities.Enums;
 using ProjectManagement.Models;
 using ProjectManagement.Models.Views.Projects;
 using ProjectManagement.Models.Views.Team;
@@ -7,13 +10,39 @@ using ProjectManagement.Services;
 
 namespace ProjectManagement.Pages.Projects;
 
-public class Index(IProjectService _projectService) : PageModel
+public class Index(IProjectService _projectService, UserManager<User> _userManager) : PageModel
 {
     public PaginatedList<ProjectView> Projects { get; set; }
     
     public async Task<IActionResult> OnGetAsync(string searchString, int? pageIndex)
     {
-        IEnumerable<ProjectView> projects = await _projectService.GetAll();
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null)
+        {
+            return RedirectToPage("/Account/Login", new { area = "Identity" });
+        }
+        
+        var roles = await _userManager.GetRolesAsync(user);
+
+        IEnumerable<ProjectView> projects;
+        
+        if (roles.Contains(Roles.Admin.ToString()))
+        {
+            projects = await _projectService.GetAll();
+        }
+        else if(roles.Contains(Roles.Manager.ToString()))
+        {
+            projects = await _projectService.GetByManagerIdAsync(user.Id);
+        }
+        else
+        {
+            projects = await _projectService.GetAllByUserAsync(user.Id);
+        }
+        
+        if (projects == null)
+        {
+            return RedirectToPage("/Index");
+        }
         
         ViewData["Keyword"] = searchString;
         

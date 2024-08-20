@@ -9,7 +9,30 @@ public class ProjectService(IMapper _mapper, IProjectRepository _projectReposito
 {
     public async Task<IEnumerable<ProjectView>> GetAll()
     {
-        var projects = await _projectRepository.GetAll().ToListAsync();
+        var projects = await _projectRepository.GetAll().Include(x => x.Manager).Include(x => x.Team).ToListAsync();
+
+        return _mapper.Map<IEnumerable<ProjectView>>(projects);
+    }
+
+    public async Task<IEnumerable<ProjectView>> GetByManagerIdAsync(string managerId)
+    {
+        var projects = await _projectRepository.GetAll()
+            .Include(x => x.Manager)
+            .Include(x => x.Team)
+            .Where(x => x.ManagerId == managerId)
+            .ToListAsync();
+
+        return _mapper.Map<IEnumerable<ProjectView>>(projects);
+    }
+
+    public async Task<IEnumerable<ProjectView>> GetAllByUserAsync(string userId)
+    {
+        var projects = await _projectRepository.GetAll()
+            .Include(x => x.Manager)
+            .Include(x => x.Team)
+            .ThenInclude(t => t.Members)
+            .Where(x => x.Team.Members.Any(m => m.Id == userId))
+            .ToListAsync();
 
         return _mapper.Map<IEnumerable<ProjectView>>(projects);
     }
