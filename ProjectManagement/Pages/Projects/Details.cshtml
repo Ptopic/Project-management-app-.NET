@@ -44,7 +44,14 @@
                                     </svg>
                                     <p class="mb-0" style="font-size: 14px; font-weight: 600">@task.TaskIdentifier</p>
                                 </div>
-                                <p class="mb-0" style="width: fit-content">@task.assignee.FirstName.Substring(0, 1).ToUpper(). @task.assignee.LastName.Substring(0, 1).ToUpper().</p>
+                                @if (@task.assignee != null)
+                                {
+                                    <p class="mb-0" style="width: fit-content">@task.assignee.FirstName.Substring(0, 1).ToUpper(). @task.assignee.LastName.Substring(0, 1).ToUpper().</p>
+                                }
+                                else
+                                {
+                                    <p class="mb-0">Unassigned</p>
+                                }
                             </div>
                         </div>
                     }
@@ -83,7 +90,14 @@
                                     </svg>
                                     <p class="mb-0" style="font-size: 14px; font-weight: 600">@task.TaskIdentifier</p>
                                 </div>
+                                @if (@task.assignee != null)
+                                {
                                 <p class="mb-0" style="width: fit-content">@task.assignee.FirstName.Substring(0, 1).ToUpper(). @task.assignee.LastName.Substring(0, 1).ToUpper().</p>
+                                }
+                                else
+                                {
+                                <p class="mb-0">Unassigned</p>
+                                }
                             </div>
                         </div>
                     }
@@ -122,7 +136,14 @@
                                     </svg>
                                     <p class="mb-0" style="font-size: 14px; font-weight: 600">@task.TaskIdentifier</p>
                                 </div>
+                                @if (@task.assignee != null)
+                                {
                                 <p class="mb-0" style="width: fit-content">@task.assignee.FirstName.Substring(0, 1).ToUpper(). @task.assignee.LastName.Substring(0, 1).ToUpper().</p>
+                                }
+                                else
+                                {
+                                <p class="mb-0">Unassigned</p>
+                                }
                             </div>
                         </div>
                     }
@@ -161,7 +182,14 @@
                                     </svg>
                                     <p class="mb-0" style="font-size: 14px; font-weight: 600">@task.TaskIdentifier</p>
                                 </div>
+                                @if (@task.assignee != null)
+                                {
                                 <p class="mb-0" style="width: fit-content">@task.assignee.FirstName.Substring(0, 1).ToUpper(). @task.assignee.LastName.Substring(0, 1).ToUpper().</p>
+                                }
+                                else
+                                {
+                                <p class="mb-0">Unassigned</p>
+                                }
                             </div>
                         </div>
                     }

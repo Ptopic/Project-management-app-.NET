@@ -6,7 +6,7 @@ public class TaskDefinition : BaseEntity
 {
     public Project Project { get; set; } = null!;
     
-    public User Assignee { get; set; } = null!;
+    public User? Assignee { get; set; } = null!;
     
     public string Name { get; set; } = null!;
     

@@ -89,7 +89,7 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
         var task = new TaskDefinition
         {
             Project = project,
-            Assignee = user,
+            Assignee = null,
             Name = Input.Name,
             Description = "",
             TaskIdentifier = project.Key + " " + taskNumber,
