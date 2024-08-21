@@ -1,0 +1,40 @@
+﻿@page
+@using TaskStatus = ProjectManagement.Entities.Enums.TaskStatus
+@model ProjectManagement.Pages.Tasks.Details
+
+<div class="px-4">
+    <form id="edit-form" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input asp-for="Input.Name" class="form-control" autocomplete="name" aria-required="true" />
+                    <label asp-for="Input.Name"></label>
+                    <span asp-validation-for="Input.Name" class="text-danger"></span>
+                </div>
+
+                <p class="mb-0 mt-2">Description</p>
+                <textarea asp-for="Input.Description" class="form-control" style="height: 400px; margin-bottom: 16px" autocomplete="description" aria-required="true"></textarea>
+
+                <select asp-for="Input.AssigneeId" class="form-select" style="width: fit-content">
+                    <option value="">Unassigned</option>
+                    @foreach (var user in @Model.UserOptions)
+                    {
+                        <option value="@user.Id" selected="@(user.Id == Model.Input.AssigneeId ? "selected" : null)">@user.Email</option>
+                    }
+                </select>
+
+                <select asp-for="Input.Status" class="form-select" style="width: fit-content">
+                    @foreach (var status in Enum.GetNames(typeof(TaskStatus)))
+                    {
+                        <option value="@status" selected="@(status == @Model.Input.Status.ToString())">@status</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <button id="update-team-button" type="submit" class="w-auto btn btn-lg btn-warning mt-3">Update</button>
+    </form>
+
+    <a asp-page="/Projects/Details" asp-route-id="@Model.Project.Id" class="btn btn-primary mt-4">
+        Back to Project
+    </a>
+</div>

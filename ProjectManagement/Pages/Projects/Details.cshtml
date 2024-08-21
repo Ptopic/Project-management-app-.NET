@@ -55,7 +55,7 @@
                         {
                             <div class="bg-white shadow-sm rounded-1" style="padding: 12px">
                                 <div class="d-flex flex-row align-items-center justify-content-between">
-                                    <a asp-page="/Tasks/Details" asp-route-id="@task.Id">
+                                    <a asp-page="/Tasks/Details" asp-route-id="@task.Id" asp-route-projectId="@Model.Project.Id">
                                         @task.Name
                                     </a>
 
@@ -122,7 +122,7 @@
                         {
                             <div class="bg-white shadow-sm rounded-1" style="padding: 12px">
                                 <div class="d-flex flex-row align-items-center justify-content-between">
-                                    <a asp-page="/Tasks/Details" asp-route-id="@task.Id">
+                                    <a asp-page="/Tasks/Details" asp-route-id="@task.Id" asp-route-projectId="@Model.Project.Id">
                                         @task.Name
                                     </a>
 
@@ -189,7 +189,7 @@
                         {
                             <div class="bg-white shadow-sm rounded-1" style="padding: 12px">
                                 <div class="d-flex flex-row align-items-center justify-content-between">
-                                    <a asp-page="/Tasks/Details" asp-route-id="@task.Id">
+                                    <a asp-page="/Tasks/Details" asp-route-id="@task.Id" asp-route-projectId="@Model.Project.Id">
                                         @task.Name
                                     </a>
 
@@ -256,7 +256,7 @@
                         {
                             <div class="bg-white shadow-sm rounded-1" style="padding: 12px">
                                 <div class="d-flex flex-row align-items-center justify-content-between">
-                                    <a asp-page="/Tasks/Details" asp-route-id="@task.Id">
+                                    <a asp-page="/Tasks/Details" asp-route-id="@task.Id" asp-route-projectId="@Model.Project.Id">
                                         @task.Name
                                     </a>
 
