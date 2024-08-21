@@ -6,6 +6,8 @@ public class Project : BaseEntity
     
     public string Description { get; set; } = null!;
     
+    public string Key { get; set; } = null!;
+    
     public DateTime StartDate { get; set; }
     
     public DateTime EndDate { get; set; }

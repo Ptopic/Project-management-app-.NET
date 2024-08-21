@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ProjectManagement.Entities;
 using ProjectManagement.Models.Requests.Task;
+using ProjectManagement.Models.Views.Tasks;
 using ProjectManagement.Services;
 using TaskStatus = ProjectManagement.Entities.Enums.TaskStatus;
 
@@ -18,6 +19,8 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
     
     public Project Project { get; set; }
     
+    public IEnumerable<TaskView> ProjectTasks { get; set; }
+    
     public async Task<IActionResult> OnGetAsync(string id)
     {
         var project = await _projectService.GetByIdAsync(id);
@@ -27,6 +30,10 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
         }
 
         Project = project;
+        
+        var projectTasks = await _taskService.GetByProjectIdAsync(id);
+
+        ProjectTasks = projectTasks;
 
         return Page();
     }
@@ -49,6 +56,19 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
         {
             return RedirectToPage("/Account/Login", new { area = "Identity" });
         }
+
+        int taskNumber;
+
+        var latestTask = await _taskService.GetLatestTaskByProjectIdAsync(id);
+        
+        if (latestTask != null)
+        {
+            taskNumber = latestTask.TaskNumber + 1;
+        }
+        else
+        {
+            taskNumber = 1;
+        }
         
         var task = new TaskDefinition
         {
@@ -56,7 +76,8 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
             Assignee = user,
             Name = Input.Name,
             Description = "",
-            TaskIdentifier = "task-123",
+            TaskIdentifier = project.Key + " " + taskNumber,
+            TaskNumber = taskNumber,
             CreatedDate = DateTime.UtcNow,
             UpdatedDate = DateTime.UtcNow,
             Status = Input.Status

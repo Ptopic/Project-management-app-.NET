@@ -87,6 +87,7 @@ public class ProjectService(IMapper _mapper, IProjectRepository _projectReposito
         var newProject = new Project()
         {
             Name = project.Name,
+            Key = project.Key,
             Description = project.Description ?? string.Empty,
             StartDate = DateTime.SpecifyKind(project.StartDate, DateTimeKind.Utc),
             EndDate = DateTime.SpecifyKind(project.EndDate, DateTimeKind.Utc),

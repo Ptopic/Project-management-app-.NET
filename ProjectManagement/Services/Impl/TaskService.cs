@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using ProjectManagement.Entities;
+using ProjectManagement.Models.Views.Tasks;
 using ProjectManagement.Repositories;
 
 namespace ProjectManagement.Services.Impl;
@@ -18,5 +20,28 @@ public class TaskService : ITaskService
     public async Task<TaskDefinition> CreateAsync(TaskDefinition task)
     {
         return await _taskRepository.AddAsync(task);
+    }
+
+    public async Task<IEnumerable<TaskView>> GetByProjectIdAsync(string projectId)
+    {
+        var tasks = await _taskRepository.GetAll()
+            .Include(x => x.Assignee)
+            .Where(x => x.Project.Id.ToString() == projectId)
+            .OrderBy(x => x.CreatedDate)
+            .ToListAsync();
+
+        return _mapper.Map<IEnumerable<TaskView>>(tasks);
+    }
+
+    public async Task<TaskView> GetLatestTaskByProjectIdAsync(string projectId)
+    {
+        var task = await _taskRepository.GetAll()
+            .Include(x => x.Assignee)
+            .Where(x => x.Project.Id.ToString() == projectId)
+            .OrderByDescending(x => x.CreatedDate)
+            .FirstOrDefaultAsync();
+
+        Console.WriteLine(task);
+        return _mapper.Map<TaskView>(task);
     }
 }

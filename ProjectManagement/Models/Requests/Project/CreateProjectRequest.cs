@@ -8,6 +8,10 @@ public class CreateProjectRequest: BaseRequest
     [Display(Name = "Name")]
     public string Name { get; set; }
     
+    [Required]
+    [Display(Name = "Key")]
+    public string Key { get; set; }
+    
     [Display(Name = "Description")]
     public string? Description { get; set; }
     
