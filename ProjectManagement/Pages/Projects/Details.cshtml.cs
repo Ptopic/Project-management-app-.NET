@@ -163,6 +163,7 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
         }
         
         task.Assignee = user;
+        task.UpdatedDate = DateTime.UtcNow;
         
         await _taskService.UpdateAsync(task);
 
