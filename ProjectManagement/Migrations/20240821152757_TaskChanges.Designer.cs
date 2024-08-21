@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProjectManagement.Data;
@@ -11,9 +12,11 @@ using ProjectManagement.Data;
 namespace ProjectManagement.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240821152757_TaskChanges")]
+    partial class TaskChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,19 +53,19 @@ namespace ProjectManagement.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "63ac20a4-b671-4026-8d63-7f01033854e9",
+                            Id = "4e4b3396-2983-4186-90ba-dc83312f0e5e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "1bbe22e0-7667-48a8-9eb4-e3aac3f49835",
+                            Id = "bc4fc90a-843f-47be-87fd-baac13c863dd",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "0529dea3-59f2-49cd-9dec-ef3f8d10615d",
+                            Id = "41b278a6-aa71-4d6e-b319-ab49b9e40614",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -160,37 +163,37 @@ namespace ProjectManagement.Migrations
                         new
                         {
                             UserId = "97e0ae24-f7e2-4ad5-a1ee-570856fcf874",
-                            RoleId = "63ac20a4-b671-4026-8d63-7f01033854e9"
+                            RoleId = "4e4b3396-2983-4186-90ba-dc83312f0e5e"
                         },
                         new
                         {
                             UserId = "95fd4abd-0626-49fd-956c-19438402a603",
-                            RoleId = "1bbe22e0-7667-48a8-9eb4-e3aac3f49835"
+                            RoleId = "bc4fc90a-843f-47be-87fd-baac13c863dd"
                         },
                         new
                         {
                             UserId = "1f7ec708-e841-4ab2-846f-05c24fa18301",
-                            RoleId = "1bbe22e0-7667-48a8-9eb4-e3aac3f49835"
+                            RoleId = "bc4fc90a-843f-47be-87fd-baac13c863dd"
                         },
                         new
                         {
                             UserId = "e58ea87d-6a8f-49e0-939c-20d89f995574",
-                            RoleId = "0529dea3-59f2-49cd-9dec-ef3f8d10615d"
+                            RoleId = "41b278a6-aa71-4d6e-b319-ab49b9e40614"
                         },
                         new
                         {
                             UserId = "f8d480c5-ebe1-45e3-a804-a9badf390003",
-                            RoleId = "0529dea3-59f2-49cd-9dec-ef3f8d10615d"
+                            RoleId = "41b278a6-aa71-4d6e-b319-ab49b9e40614"
                         },
                         new
                         {
                             UserId = "c33ee900-c261-4195-b8d6-2ac802657d95",
-                            RoleId = "0529dea3-59f2-49cd-9dec-ef3f8d10615d"
+                            RoleId = "41b278a6-aa71-4d6e-b319-ab49b9e40614"
                         },
                         new
                         {
                             UserId = "318f8ee8-cb12-4d95-9123-1d911a167f3f",
-                            RoleId = "0529dea3-59f2-49cd-9dec-ef3f8d10615d"
+                            RoleId = "41b278a6-aa71-4d6e-b319-ab49b9e40614"
                         });
                 });
 
@@ -279,9 +282,6 @@ namespace ProjectManagement.Migrations
                     b.Property<string>("TaskIdentifier")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("TaskNumber")
-                        .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
@@ -412,7 +412,7 @@ namespace ProjectManagement.Migrations
                         {
                             Id = "97e0ae24-f7e2-4ad5-a1ee-570856fcf874",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "632b7dd7-1deb-4b13-ab15-bd09155df034",
+                            ConcurrencyStamp = "b7558100-924e-4e30-8c9e-387adb96d87b",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Admin",
@@ -420,9 +420,9 @@ namespace ProjectManagement.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKyrUPIP9HxXXDtEMH5RbLsyDfbajwTIKGcVNmXz2japtg/tzUuSrtbJ6dyYUruyYg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOJ1VdciGV9knp7U5qoKD01dXaVsGaCap92gVt8deJrgzBxluWs1taQUPKaQALjhHQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4ee4e6ac-7710-4859-96a7-2be08776be67",
+                            SecurityStamp = "dbb95c25-dccd-4be6-b40d-b868a560c8f6",
                             TwoFactorEnabled = false,
                             UserName = "admin1"
                         },
@@ -430,7 +430,7 @@ namespace ProjectManagement.Migrations
                         {
                             Id = "95fd4abd-0626-49fd-956c-19438402a603",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "27f2c76c-8b23-4028-9c5a-c3a3f1a7b5b3",
+                            ConcurrencyStamp = "88f56292-e0ce-49ea-a41d-c3eff3aebe74",
                             Email = "manager@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Manager",
@@ -438,9 +438,9 @@ namespace ProjectManagement.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "MANAGER@GMAIL.COM",
                             NormalizedUserName = "MANAGER1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDgAtlNmcF844Kws7JBd7fUR2xIQ00wO6YPaX4bCC+Rvmr2dXUjdh2XhctLQGKDJeQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECL0cJCZwipr3IVF3oivNmc9qEKPt2QvOq7CFDiAPpS49GfngdQjLDXkGX5adrFtsQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b52eb282-7bb2-4d09-945c-d5183ddd279f",
+                            SecurityStamp = "66ce427c-3319-40e4-af16-7f4fb39e0dbd",
                             TwoFactorEnabled = false,
                             UserName = "manager1"
                         },
@@ -448,7 +448,7 @@ namespace ProjectManagement.Migrations
                         {
                             Id = "1f7ec708-e841-4ab2-846f-05c24fa18301",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "996bd2ba-3603-455c-98e7-d348d90c3f84",
+                            ConcurrencyStamp = "8fdaca31-49f6-4ad3-bea4-c77195fac890",
                             Email = "petar.topic@blankhq.co",
                             EmailConfirmed = true,
                             FirstName = "Manager2",
@@ -456,9 +456,9 @@ namespace ProjectManagement.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "PETAR.TOPIC@BLANKHQ.CO",
                             NormalizedUserName = "MANAGER2",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMDnkgjnhke806/9eWhmoyFFYthCRWUTbyPfAn0lHWzHeUog3qMkVprOzYpTmk6Rcw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHShCCMjSxCR7ucBMDlo0BEcO12Yvcp/Xg1+tyEvTnfJ/vhVtS7TF2ZLoCITcTGd6g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "137e003b-484e-4716-b6a6-d9cbb473d0ce",
+                            SecurityStamp = "c0196821-0b28-455c-9ca2-c8ca3ecf6961",
                             TwoFactorEnabled = false,
                             UserName = "manager2"
                         },
@@ -466,7 +466,7 @@ namespace ProjectManagement.Migrations
                         {
                             Id = "e58ea87d-6a8f-49e0-939c-20d89f995574",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a98b5e70-b94b-415f-b46d-9ecb566d8d94",
+                            ConcurrencyStamp = "2d9c5570-9e47-4835-ad4a-be9965859dff",
                             Email = "petartopic2002@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "User",
@@ -474,9 +474,9 @@ namespace ProjectManagement.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "PETARTOPIC2002@GMAIL.COM",
                             NormalizedUserName = "USER1",
-                            PasswordHash = "AQAAAAIAAYagAAAAECnbwVp8Wk8xFGXrRg/QcDK0eWxMaoqv/E3XetHyhBsglRj3Cll2pElcwrW30Y+Ztg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAZebx0XqeJDFx7OrYx6n9I63H/7eGwDgfBH8wAauf55og270g1qdzrZqg6OOfD2IQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b2691c84-8611-4b81-9f84-e15873b6ce06",
+                            SecurityStamp = "4ea9f948-1533-4102-9469-4e178450e954",
                             TwoFactorEnabled = false,
                             UserName = "user1"
                         },
@@ -484,7 +484,7 @@ namespace ProjectManagement.Migrations
                         {
                             Id = "f8d480c5-ebe1-45e3-a804-a9badf390003",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1cfd4a9d-9486-449a-8ba0-b33b1cc8c9d6",
+                            ConcurrencyStamp = "119687da-c1cb-48b6-98af-b76c69de0293",
                             Email = "user2@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "User2",
@@ -492,9 +492,9 @@ namespace ProjectManagement.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER2@GMAIL.COM",
                             NormalizedUserName = "USER2",
-                            PasswordHash = "AQAAAAIAAYagAAAAEH/wDpFvjk/mLJ5tw+OkEP4gNbeVXI4a0pSZAN0HjKZK08vwsfxq7mQ3JGwcCTLWdw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKBcguMB3Fxjymsl2pBKokjnU0sThPsoKOrw+xA2QseYU3hZayNLOseBeyzZZrrzPw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "425d78a4-d6bf-4037-8a63-c9c805a4e454",
+                            SecurityStamp = "951690aa-11dc-43d0-a153-b6589074e123",
                             TwoFactorEnabled = false,
                             UserName = "user2"
                         },
@@ -502,7 +502,7 @@ namespace ProjectManagement.Migrations
                         {
                             Id = "c33ee900-c261-4195-b8d6-2ac802657d95",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4d3af5e1-d6e4-4aef-9db2-854e27e923ca",
+                            ConcurrencyStamp = "8447fb37-e758-4c4a-b4b4-d8c8294722fc",
                             Email = "user3@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "User3",
@@ -510,9 +510,9 @@ namespace ProjectManagement.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER3@GMAIL.COM",
                             NormalizedUserName = "USER3",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIMzFbwDb01Ic8A/8ulLNAp7X2ukYCGOudiZVUnthr1y5L3rnBGj6apbMS9MgSIvvA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJo253HUB38HZHLy7vPcQpxfb/La8SBhyNrZ/8aKAtH1cQzhGowFKS6ayQxhVsFN/A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e333246e-8b6c-4f1c-a6da-64cc6a887384",
+                            SecurityStamp = "88a10e81-2b78-4377-90af-3cc4943affa5",
                             TwoFactorEnabled = false,
                             UserName = "user3"
                         },
@@ -520,7 +520,7 @@ namespace ProjectManagement.Migrations
                         {
                             Id = "318f8ee8-cb12-4d95-9123-1d911a167f3f",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1883136b-cfd2-40a3-9f54-22045ab8fae2",
+                            ConcurrencyStamp = "564fdbcb-d9d2-49d5-bc72-55af7f625c0a",
                             Email = "user4@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "User4",
@@ -528,9 +528,9 @@ namespace ProjectManagement.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER4@GMAIL.COM",
                             NormalizedUserName = "USER4",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDhXfLoC4muZfb4dzQagSeJmH83s5tbZ8azv97NIQjwgiVPgFfahPv+5OMr1rUExrg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEK77DM90+fxrRQQKXhut6gL6zZta4wf9dIXaLRP1ktTBS8lkYNvnDIXxiubw8VFc1A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b20d88df-706f-4ae1-980e-9dc3eada7648",
+                            SecurityStamp = "18e4999f-a27b-44a8-9010-34938773ea1b",
                             TwoFactorEnabled = false,
                             UserName = "user4"
                         });

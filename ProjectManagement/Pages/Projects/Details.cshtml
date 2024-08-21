@@ -1,4 +1,328 @@
 ﻿@page
 @model ProjectManagement.Pages.Projects.Details
 
-<h1>@Model.Project.Name</h1>
+@{
+    var keyword = ViewData["Keyword"] as string;
+}
+
+
+<div class="px-4">
+    <h2>@Model.Project.Name</h2>
+
+    <div class="flex flex-row align-middle justify-content-between gap-3 pb-4">
+        <form asp-action="OnGetAsync" method="get">
+            <div class="row flex flex-row align-middle">
+                <div class="input-group" style="width: fit-content">
+                    <input type="search" class="form-control w-25" placeholder="Search..." name="searchString" value="@keyword">
+                    <button type="submit" class="btn btn-primary mr-2"><i class="bi bi-search"></i></button>
+                    <a asp-action="" class="btn btn-secondary clear-btn">Clear</a>
+                </div>
+                <div style="width: fit-content" class="flex flex-column align-middle justify-content-center">
+                    <p class="mb-0 flex flex-row align-middle justify-content-center" style="width: fit-content; height: fit-content">Members: <b>@Model.Project.Team.Members.Count</b></p>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <div class="container-fluid">
+        <div class="row gap-3">
+            @* TODO Tasks *@
+            <div class="col rounded-1" style="background: #f7f8f9">
+                <p class="pt-2" style="font-size: 14px; font-weight: 700">TO DO</p>
+                <div class="d-flex flex-column gap-2" style="padding-bottom: 16px">
+                    <div class="bg-white shadow-sm rounded-1" style="padding: 12px">
+                        <p>
+                            Add email notifications when user is assigned to a task
+                        </p>
+                        <div class="d-flex flex-row justify-content-between">
+                            <div class="d-flex flex-row gap-1 align-items-center justify-content-center" style="width: fit-content">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ffffff" class="bi bi-check rounded-1" viewBox="0 0 16 16" style="background: #007bff">
+                                    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/>
+                                </svg>
+                                <p class="mb-0" style="font-size: 14px; font-weight: 600">TSK-123</p>
+                            </div>
+                            <p class="mb-0" style="width: fit-content">User</p>
+                        </div>
+                    </div>
+                    <div class="bg-white shadow-sm rounded-1 create-new-task-box todo" style="padding: 12px">
+                        <div class="d-flex flex-row justify-content-between">
+                            <p class="mb-2" style="font-weight: 600">Create new task</p>
+                            <button class="create-task-close-btn todo">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <form id="create-task-form-todo" method="post" enctype="multipart/form-data">
+                            <input asp-for="Input.Name" type="text" class="create-new-task-input w-100 border-0" placeholder="What needs to be done?" onkeypress="submitOnEnterTodo(event)"/>
+                            <input asp-for="Input.Status" type="text" value="TODO" class="d-none"/>
+                        </form>
+                    </div>
+                </div>
+                <p class="create-new-task todo" style="font-weight: 600"><i class="bi bi-plus-lg"></i> Create task</p>
+            </div>
+
+            @* IN PROGRESS Tasks *@
+            <div class="col rounded-1" style="background: #f7f8f9">
+                <p class="pt-2 fw-bolder" style="font-size: 14px">IN PROGRESS</p>
+                <div class="d-flex flex-column gap-2" style="padding-bottom: 16px">
+                    <div class="bg-white shadow-sm rounded-1" style="padding: 12px">
+                        <p>
+                            Add email notifications when user is assigned to a task
+                        </p>
+                        <div class="d-flex flex-row justify-content-between">
+                            <div class="d-flex flex-row gap-1 align-items-center justify-content-center" style="width: fit-content">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ffffff" class="bi bi-check rounded-1" viewBox="0 0 16 16" style="background: #007bff">
+                                    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/>
+                                </svg>
+                                <p class="mb-0" style="font-size: 14px; font-weight: 600">TSK-123</p>
+                            </div>
+                            <p class="mb-0" style="width: fit-content">User</p>
+                        </div>
+                    </div>
+                    <div class="bg-white shadow-sm rounded-1 create-new-task-box inprogress" style="padding: 12px">
+                        <div class="d-flex flex-row justify-content-between">
+                            <p class="mb-2" style="font-weight: 600">Create new task</p>
+                            <button class="create-task-close-btn inprogress">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <form id="create-task-form-inprogress" method="post" enctype="multipart/form-data">
+                            <input asp-for="Input.Name" type="text" class="create-new-task-input w-100 border-0" placeholder="What needs to be done?" onkeypress="submitOnEnterInProgress(event)"/>
+                            <input asp-for="Input.Status" type="text" value="IN_PROGRESS" class="d-none"/>
+                        </form>
+                    </div>
+                </div>
+                <p class="create-new-task inprogress" style="font-weight: 600"><i class="bi bi-plus-lg"></i> Create task</p>
+            </div>
+
+            @* IN REVIEW Tasks *@
+            <div class="col rounded-1" style="background: #f7f8f9">
+                <p class="pt-2 fw-bolder" style="font-size: 14px">IN REVIEW</p>
+                <div class="d-flex flex-column gap-2" style="padding-bottom: 16px">
+                    <div class="bg-white shadow-sm rounded-1" style="padding: 12px">
+                        <p>
+                            Add email notifications when user is assigned to a task
+                        </p>
+                        <div class="d-flex flex-row justify-content-between">
+                            <div class="d-flex flex-row gap-1 align-items-center justify-content-center" style="width: fit-content">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ffffff" class="bi bi-check rounded-1" viewBox="0 0 16 16" style="background: #007bff">
+                                    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/>
+                                </svg>
+                                <p class="mb-0" style="font-size: 14px; font-weight: 600">TSK-123</p>
+                            </div>
+                            <p class="mb-0" style="width: fit-content">User</p>
+                        </div>
+                    </div>
+                    <div class="bg-white shadow-sm rounded-1 create-new-task-box inreview" style="padding: 12px">
+                        <div class="d-flex flex-row justify-content-between">
+                            <p class="mb-2" style="font-weight: 600">Create new task</p>
+                            <button class="create-task-close-btn inreview">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <form id="create-task-form-inreview" method="post" enctype="multipart/form-data">
+                            <input asp-for="Input.Name" type="text" class="create-new-task-input w-100 border-0" placeholder="What needs to be done?" onkeypress="submitOnEnterInReview(event)"/>
+                            <input asp-for="Input.Status" type="text" value="IN_REVIEW" class="d-none"/>
+                        </form>
+                    </div>
+                </div>
+                <p class="create-new-task inreview" style="font-weight: 600"><i class="bi bi-plus-lg"></i> Create task</p>
+            </div>
+
+            @* DONE Tasks *@
+            <div class="col rounded-1" style="background: #f7f8f9">
+                <p class="pt-2 fw-bolder" style="font-size: 14px">DONE</p>
+                <div class="d-flex flex-column gap-2" style="padding-bottom: 16px">
+                    <div class="bg-white shadow-sm rounded-1" style="padding: 12px">
+                        <p>
+                            Add email notifications when user is assigned to a task
+                        </p>
+                        <div class="d-flex flex-row justify-content-between">
+                            <div class="d-flex flex-row gap-1 align-items-center justify-content-center" style="width: fit-content">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ffffff" class="bi bi-check rounded-1" viewBox="0 0 16 16" style="background: #007bff">
+                                    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/>
+                                </svg>
+                                <p class="mb-0" style="font-size: 14px; font-weight: 600">TSK-123</p>
+                            </div>
+                            <p class="mb-0" style="width: fit-content">User</p>
+                        </div>
+                    </div>
+                    <div class="bg-white shadow-sm rounded-1 create-new-task-box done" style="padding: 12px">
+                        <div class="d-flex flex-row justify-content-between">
+                            <p class="mb-2" style="font-weight: 600">Create new task</p>
+                            <button class="create-task-close-btn done">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <form id="create-task-form-done" method="post" enctype="multipart/form-data">
+                            <input asp-for="Input.Name" type="text" class="create-new-task-input w-100 border-0" placeholder="What needs to be done?" onkeypress="submitOnEnterDone(event)"/>
+                            <input asp-for="Input.Status" type="text" value="DONE" class="d-none"/>
+                        </form>
+                    </div>
+                </div>
+                <p class="create-new-task done" style="font-weight: 600"><i class="bi bi-plus-lg"></i> Create task</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .create-new-task-box {
+        display: none;
+        transition: all .2s ease-in-out;
+        border: 2px solid #007bff;
+    }
+    .create-new-task {
+        padding: 8px;
+        border-radius: 6px;
+        transition: all .2s ease-in-out;
+    }
+    .create-new-task:hover {
+        background: #e9ebee;
+        cursor: pointer;
+    }
+    .create-new-task-input {
+        border: none;
+    }
+    .create-new-task-input:focus {
+        outline: none;
+    }
+    .create-task-close-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+    }
+</style>
+
+<script>
+    function submitOnEnterTodo(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById('create-task-form-todo').submit();
+        }
+    }
+
+    function submitOnEnterInProgress(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById('create-task-form-inprogress').submit();
+        }
+    }
+
+    function submitOnEnterInReview(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById('create-task-form-inreview').submit();
+        }
+    }
+
+    function submitOnEnterDone(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById('create-task-form-done').submit();
+        }
+    }
+    
+    // Create task button TODO
+    const createTaskButtonTodo = document.querySelector('.create-new-task.todo');
+    const createTaskBoxTodo = document.querySelector('.create-new-task-box.todo');
+    const closeTaskButtonTodo = document.querySelector('.create-task-close-btn.todo');
+
+    createTaskButtonTodo.addEventListener('click', function () {
+        createTaskBoxTodo.style.display = 'block';
+        createTaskButtonTodo.style.display = 'none';
+    });
+
+    closeTaskButtonTodo.addEventListener('click', function () {
+        createTaskBoxTodo.style.display = 'none';
+        createTaskButtonTodo.style.display = 'block';
+    });
+
+    /*
+     const createTaskFormTodo = document.getElementById('create-task-form-todo');
+
+    createTaskFormTodo.addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(createTaskFormTodo);
+        const data = {
+            Name: formData.get('Name'),
+            Status: 'TODO',
+        };
+
+        try {
+            const response = await fetch('/Projects/Details?handler=CreateTask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                alert('Task created successfully');
+            } else {
+                alert('Failed to create task');
+                console.log(response)
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while creating the task');
+        }
+    });
+    */
+
+    // Create task button IN PROGRESS
+    const createTaskButtonInProgress = document.querySelector('.create-new-task.inprogress');
+    const createTaskBoxInProgress = document.querySelector('.create-new-task-box.inprogress');
+    const closeTaskButtonInProgress = document.querySelector('.create-task-close-btn.inprogress');
+
+    createTaskButtonInProgress.addEventListener('click', function () {
+        createTaskBoxInProgress.style.display = 'block';
+        createTaskButtonInProgress.style.display = 'none';
+    });
+
+    closeTaskButtonInProgress.addEventListener('click', function () {
+        createTaskBoxInProgress.style.display = 'none';
+        createTaskButtonInProgress.style.display = 'block';
+    });
+
+    // Create task button IN REVIEW
+    const createTaskButtonInReview = document.querySelector('.create-new-task.inreview');
+    const createTaskBoxInReview = document.querySelector('.create-new-task-box.inreview');
+    const closeTaskButtonInReview = document.querySelector('.create-task-close-btn.inreview');
+
+    createTaskButtonInReview.addEventListener('click', function () {
+        createTaskBoxInReview.style.display = 'block';
+        createTaskButtonInReview.style.display = 'none';
+    });
+
+    closeTaskButtonInReview.addEventListener('click', function () {
+        createTaskBoxInReview.style.display = 'none';
+        createTaskButtonInReview.style.display = 'block';
+    });
+
+    // Create task button DONE
+    const createTaskButtonDone = document.querySelector('.create-new-task.done');
+    const createTaskBoxDone = document.querySelector('.create-new-task-box.done');
+    const closeTaskButtonDone = document.querySelector('.create-task-close-btn.done');
+
+    createTaskButtonDone.addEventListener('click', function () {
+        createTaskBoxDone.style.display = 'block';
+        createTaskButtonDone.style.display = 'none';
+    });
+
+    closeTaskButtonDone.addEventListener('click', function () {
+        createTaskBoxDone.style.display = 'none';
+        createTaskButtonDone.style.display = 'block';
+    });
+
+</script>
