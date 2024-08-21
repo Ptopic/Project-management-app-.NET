@@ -21,6 +21,14 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
     
     public IEnumerable<TaskView> ProjectTasks { get; set; }
     
+    public IEnumerable<TaskView> TODOTasks { get; set; }
+    
+    public IEnumerable<TaskView> INPROGRESSTasks { get; set; }
+    
+    public IEnumerable<TaskView> INREVIEWTasks { get; set; }
+    
+    public IEnumerable<TaskView> DONETasks { get; set; }
+    
     public async Task<IActionResult> OnGetAsync(string id)
     {
         var project = await _projectService.GetByIdAsync(id);
@@ -34,6 +42,14 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
         var projectTasks = await _taskService.GetByProjectIdAsync(id);
 
         ProjectTasks = projectTasks;
+        
+        TODOTasks = projectTasks.Where(x => x.Status == TaskStatus.TODO);
+        
+        INPROGRESSTasks = projectTasks.Where(x => x.Status == TaskStatus.IN_PROGRESS);
+        
+        INREVIEWTasks = projectTasks.Where(x => x.Status == TaskStatus.IN_REVIEW);
+        
+        DONETasks = projectTasks.Where(x => x.Status == TaskStatus.DONE);
 
         return Page();
     }
