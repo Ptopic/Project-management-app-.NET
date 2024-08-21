@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DSMS.Application.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using ProjectManagement.Entities;
 using ProjectManagement.Models.Views.Tasks;
@@ -20,6 +21,17 @@ public class TaskService : ITaskService
     public async Task<TaskDefinition> CreateAsync(TaskDefinition task)
     {
         return await _taskRepository.AddAsync(task);
+    }
+
+    public async Task<TaskDefinition> GetByIdAsync(string id)
+    {
+        var task = await _taskRepository.GetAll().Include(x => x.Assignee).Where(x => x.Id.ToString() == id).FirstOrDefaultAsync();
+        if (task == null)
+        {
+            throw new NotFoundException($"Team with ID '{id}' not found.");
+        }
+
+        return task;
     }
 
     public async Task<IEnumerable<TaskView>> GetByProjectIdAsync(string projectId)
@@ -69,5 +81,14 @@ public class TaskService : ITaskService
         }
 
         return filteredTasks;
+    }
+
+    public async Task<IResult> DeleteAsync(TaskDefinition task)
+    {
+        task.Assignee = null;
+        
+        await _taskRepository.DeleteAsync(task);
+
+        return Results.Ok();
     }
 }

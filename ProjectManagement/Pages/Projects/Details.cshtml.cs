@@ -124,4 +124,20 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
 
         return RedirectToPage("/Projects/Details", new { id });
     }
+    
+    public async Task<IActionResult> OnPostRemoveTaskAsync(string projectId, string taskId)
+    {
+        var task = await _taskService.GetByIdAsync(taskId);
+        
+        if (task == null)
+        {
+            return NotFound();
+        }
+
+        task.Assignee = null;
+        
+        await _taskService.DeleteAsync(task);
+
+        return RedirectToPage("Details", new { id = projectId });
+    }
 }

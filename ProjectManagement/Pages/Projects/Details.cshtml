@@ -54,9 +54,17 @@
                         @foreach (var task in @Model.TODOTasks)
                         {
                             <div class="bg-white shadow-sm rounded-1" style="padding: 12px">
-                                <p>
-                                    @task.Name
-                                </p>
+                                <div class="d-flex flex-row align-items-center justify-content-between">
+                                    <p>
+                                        @task.Name
+                                    </p>
+
+                                    <form asp-page-handler="RemoveTask" method="post" class="w-auto">
+                                        <input type="hidden" name="projectId" value="@Model.Project.Id" />
+                                        <input type="hidden" name="taskId" value="@task.Id"/>
+                                        <button class="btn btn-danger" style="transform: scale(0.8); padding: 5px 10px"><i class="bi bi-trash3"></i></button>
+                                    </form>
+                                </div>
                                 <div class="d-flex flex-row justify-content-between">
                                     <div class="d-flex flex-row gap-1 align-items-center justify-content-center" style="width: fit-content;">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ffffff" class="bi bi-check rounded-1" viewBox="0 0 16 16" style="background: #007bff">
@@ -110,9 +118,17 @@
                         @foreach (var task in @Model.INPROGRESSTasks)
                         {
                             <div class="bg-white shadow-sm rounded-1" style="padding: 12px">
-                                <p>
-                                    @task.Name
-                                </p>
+                                <div class="d-flex flex-row align-items-center justify-content-between">
+                                    <p>
+                                        @task.Name
+                                    </p>
+
+                                    <form asp-page-handler="RemoveTask" method="post" class="w-auto">
+                                        <input type="hidden" name="projectId" value="@Model.Project.Id" />
+                                        <input type="hidden" name="taskId" value="@task.Id"/>
+                                        <button class="btn btn-danger" style="transform: scale(0.8); padding: 5px 10px"><i class="bi bi-trash3"></i></button>
+                                    </form>
+                                </div>
                                 <div class="d-flex flex-row justify-content-between">
                                     <div class="d-flex flex-row gap-1 align-items-center justify-content-center" style="width: fit-content;">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ffffff" class="bi bi-check rounded-1" viewBox="0 0 16 16" style="background: #007bff">
@@ -166,9 +182,17 @@
                         @foreach (var task in @Model.INREVIEWTasks)
                         {
                             <div class="bg-white shadow-sm rounded-1" style="padding: 12px">
-                                <p>
-                                    @task.Name
-                                </p>
+                                <div class="d-flex flex-row align-items-center justify-content-between">
+                                    <p>
+                                        @task.Name
+                                    </p>
+
+                                    <form asp-page-handler="RemoveTask" method="post" class="w-auto">
+                                        <input type="hidden" name="projectId" value="@Model.Project.Id" />
+                                        <input type="hidden" name="taskId" value="@task.Id"/>
+                                        <button class="btn btn-danger" style="transform: scale(0.8); padding: 5px 10px"><i class="bi bi-trash3"></i></button>
+                                    </form>
+                                </div>
                                 <div class="d-flex flex-row justify-content-between">
                                     <div class="d-flex flex-row gap-1 align-items-center justify-content-center" style="width: fit-content;">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ffffff" class="bi bi-check rounded-1" viewBox="0 0 16 16" style="background: #007bff">
@@ -222,9 +246,17 @@
                         @foreach (var task in @Model.DONETasks)
                         {
                             <div class="bg-white shadow-sm rounded-1" style="padding: 12px">
-                                <p>
-                                    @task.Name
-                                </p>
+                                <div class="d-flex flex-row align-items-center justify-content-between">
+                                    <p>
+                                        @task.Name
+                                    </p>
+
+                                    <form asp-page-handler="RemoveTask" method="post" class="w-auto">
+                                        <input type="hidden" name="projectId" value="@Model.Project.Id" />
+                                        <input type="hidden" name="taskId" value="@task.Id"/>
+                                        <button class="btn btn-danger" style="transform: scale(0.8); padding: 5px 10px"><i class="bi bi-trash3"></i></button>
+                                    </form>
+                                </div>
                                 <div class="d-flex flex-row justify-content-between">
                                     <div class="d-flex flex-row gap-1 align-items-center justify-content-center" style="width: fit-content;">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ffffff" class="bi bi-check rounded-1" viewBox="0 0 16 16" style="background: #007bff">

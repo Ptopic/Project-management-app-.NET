@@ -7,6 +7,8 @@ public interface ITaskService
 {
     Task<TaskDefinition> CreateAsync(TaskDefinition task);
     
+    Task<TaskDefinition> GetByIdAsync(string id);
+    
     Task<IEnumerable<TaskView>> GetByProjectIdAsync(string projectId);
     
     Task<TaskView> GetLatestTaskByProjectIdAsync(string projectId);
@@ -14,4 +16,6 @@ public interface ITaskService
     IEnumerable<TaskView> Search(IEnumerable<TaskView> tasks, string searchString);
     
     IEnumerable<TaskView> Filter(IEnumerable<TaskView> tasks, string currentFilter);
+    
+    Task<IResult> DeleteAsync(TaskDefinition task);
 }
