@@ -12,4 +12,6 @@ public interface ITaskService
     Task<TaskView> GetLatestTaskByProjectIdAsync(string projectId);
     
     IEnumerable<TaskView> Search(IEnumerable<TaskView> tasks, string searchString);
+    
+    IEnumerable<TaskView> Filter(IEnumerable<TaskView> tasks, string currentFilter);
 }

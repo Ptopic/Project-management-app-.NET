@@ -57,4 +57,17 @@ public class TaskService : ITaskService
 
         return searchedTasks;
     }
+
+    public IEnumerable<TaskView> Filter(IEnumerable<TaskView> tasks, string currentFilter)
+    {
+        IEnumerable<TaskView> filteredTasks = tasks;
+
+        if (!string.IsNullOrEmpty(currentFilter))
+        {
+            var currentFilterTrim = currentFilter.Trim();
+            filteredTasks = tasks.Where(t => t.Assignee.Id.ToString() == currentFilterTrim);
+        }
+
+        return filteredTasks;
+    }
 }

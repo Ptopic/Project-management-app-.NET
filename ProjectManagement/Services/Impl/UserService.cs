@@ -73,7 +73,7 @@ public class UserService : IUserService
         if (!string.IsNullOrEmpty(currentFilter))
         {
             var currentFilterTrim = currentFilter.Trim();
-            filteredUsers = users.Where(v => v.Role.ToString() == currentFilter);
+            filteredUsers = users.Where(v => v.Role.ToString() == currentFilterTrim);
         }
 
         return filteredUsers;

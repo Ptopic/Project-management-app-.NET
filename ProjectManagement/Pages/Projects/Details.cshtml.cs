@@ -12,14 +12,16 @@ using TaskStatus = ProjectManagement.Entities.Enums.TaskStatus;
 namespace ProjectManagement.Pages.Projects;
 
 [Authorize]
-public class Details(IProjectService _projectService, UserManager<User> _userManager, ITaskService _taskService) : PageModel
+public class Details(IProjectService _projectService, UserManager<User> _userManager, ITaskService _taskService, IUserService _userService, ITeamService _teamService) : PageModel
 {
     [BindProperty]
     public CreateTaskRequest Input { get; set; }
     
-    public Project Project { get; set; }
+    public List<User> UserOptions { get; set; }
+
+    public int MemberCount;
     
-    public IEnumerable<TaskView> ProjectTasks { get; set; }
+    public Project Project { get; set; }
     
     public IEnumerable<TaskView> TODOTasks { get; set; }
     
@@ -29,7 +31,7 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
     
     public IEnumerable<TaskView> DONETasks { get; set; }
     
-    public async Task<IActionResult> OnGetAsync(string id, string searchString)
+    public async Task<IActionResult> OnGetAsync(string id, string searchString, string currentFilter)
     {
         var project = await _projectService.GetByIdAsync(id);
         if (project == null)
@@ -41,18 +43,35 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
         
         var projectTasks = await _taskService.GetByProjectIdAsync(id);
 
-        ViewData["Keyword"] = searchString;
+        var userOptions = new List<User>();
         
+        var manager = await _userService.GetByIdAsync(project.Manager.Id);
+        
+        userOptions.Add(manager);
+        
+        var team = await _teamService.GetByIdAsync(project.Team.Id.ToString());
+
+        var usersInTeam = team.Members;
+        
+        userOptions.AddRange(usersInTeam);
+        
+        UserOptions = userOptions;
+        
+        MemberCount = userOptions.Count;
+
+        ViewData["Keyword"] = searchString;
         projectTasks = _taskService.Search(projectTasks, searchString);
         
-        TODOTasks = projectTasks.Where(x => x.Status == TaskStatus.TODO);
+        ViewData["CurrentFilter"] = currentFilter;
         
-        INPROGRESSTasks = projectTasks.Where(x => x.Status == TaskStatus.IN_PROGRESS);
-        
-        INREVIEWTasks = projectTasks.Where(x => x.Status == TaskStatus.IN_REVIEW);
-        
-        DONETasks = projectTasks.Where(x => x.Status == TaskStatus.DONE);
+        // TODO - Not working when there is no tasks for specific user
+        var filteredProjectTasks = _taskService.Filter(projectTasks, currentFilter);
 
+        TODOTasks = filteredProjectTasks.Where(x => x.Status == TaskStatus.TODO);
+        INPROGRESSTasks = filteredProjectTasks.Where(x => x.Status == TaskStatus.IN_PROGRESS);
+        INREVIEWTasks = filteredProjectTasks.Where(x => x.Status == TaskStatus.IN_REVIEW);
+        DONETasks = filteredProjectTasks.Where(x => x.Status == TaskStatus.DONE);
+        
         return Page();
     }
     

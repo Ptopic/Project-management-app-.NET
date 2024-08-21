@@ -5,7 +5,7 @@ namespace ProjectManagement.Models.Views.Tasks;
 
 public class TaskView : BaseView
 {
-    public User? assignee { get; set; } = null!;
+    public User? Assignee { get; set; } = null!;
     public string Name { get; set; } = null!;
     
     public string? Description { get; set; } = null!;
