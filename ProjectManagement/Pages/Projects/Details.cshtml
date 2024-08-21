@@ -55,9 +55,9 @@
                         {
                             <div class="bg-white shadow-sm rounded-1" style="padding: 12px">
                                 <div class="d-flex flex-row align-items-center justify-content-between">
-                                    <p>
+                                    <a asp-page="/Tasks/Details" asp-route-id="@task.Id">
                                         @task.Name
-                                    </p>
+                                    </a>
 
                                     <form asp-page-handler="RemoveTask" method="post" class="w-auto">
                                         <input type="hidden" name="projectId" value="@Model.Project.Id" />
@@ -65,21 +65,24 @@
                                         <button class="btn btn-danger" style="transform: scale(0.8); padding: 5px 10px"><i class="bi bi-trash3"></i></button>
                                     </form>
                                 </div>
-                                <div class="d-flex flex-row justify-content-between">
+                                <div class="d-flex flex-row justify-content-between align-items-end">
                                     <div class="d-flex flex-row gap-1 align-items-center justify-content-center" style="width: fit-content;">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ffffff" class="bi bi-check rounded-1" viewBox="0 0 16 16" style="background: #007bff">
                                             <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/>
                                         </svg>
                                         <p class="mb-0" style="font-size: 14px; font-weight: 600">@task.TaskIdentifier</p>
                                     </div>
-                                    @if (@task.Assignee != null && !string.IsNullOrEmpty(task.Assignee.FirstName) && !string.IsNullOrEmpty(task.Assignee.LastName))
-                                    {
-                                        <p class="mb-0" style="width: fit-content">@task.Assignee.FirstName.Substring(0, 1).ToUpper(). @task.Assignee.LastName.Substring(0, 1).ToUpper().</p>
-                                    }
-                                    else
-                                    {
-                                        <p class="mb-0">Unassigned</p>
-                                    }
+                                    <form asp-page-handler="AssignUserToTask" method="post" id="assigneeForm-@task.Id">
+                                        <input type="hidden" name="taskId" value="@task.Id"/>
+                                        <input type="hidden" name="projectId" value="@Model.Project.Id"/>
+                                        <select class="form-select" name="userId" style="width: fit-content" onchange="document.getElementById('assigneeForm-@task.Id').submit()">
+                                            <option value="null">Unassigned</option>
+                                            @foreach (var user in @Model.UserOptions)
+                                            {
+                                            <option value="@user.Id" selected="@(user == task.Assignee)">@user.Email</option>
+                                            }
+                                        </select>
+                                    </form>
                                 </div>
                             </div>
                         }
@@ -119,9 +122,9 @@
                         {
                             <div class="bg-white shadow-sm rounded-1" style="padding: 12px">
                                 <div class="d-flex flex-row align-items-center justify-content-between">
-                                    <p>
+                                    <a asp-page="/Tasks/Details" asp-route-id="@task.Id">
                                         @task.Name
-                                    </p>
+                                    </a>
 
                                     <form asp-page-handler="RemoveTask" method="post" class="w-auto">
                                         <input type="hidden" name="projectId" value="@Model.Project.Id" />
@@ -136,14 +139,17 @@
                                         </svg>
                                         <p class="mb-0" style="font-size: 14px; font-weight: 600">@task.TaskIdentifier</p>
                                     </div>
-                                    @if (@task.Assignee != null && !string.IsNullOrEmpty(task.Assignee.FirstName) && !string.IsNullOrEmpty(task.Assignee.LastName))
-                                    {
-                                        <p class="mb-0" style="width: fit-content">@task.Assignee.FirstName.Substring(0, 1).ToUpper(). @task.Assignee.LastName.Substring(0, 1).ToUpper().</p>
-                                    }
-                                    else
-                                    {
-                                        <p class="mb-0">Unassigned</p>
-                                    }
+                                    <form asp-page-handler="AssignUserToTask" method="post" id="assigneeForm-@task.Id">
+                                        <input type="hidden" name="taskId" value="@task.Id"/>
+                                        <input type="hidden" name="projectId" value="@Model.Project.Id"/>
+                                        <select class="form-select" name="userId" style="width: fit-content" onchange="document.getElementById('assigneeForm-@task.Id').submit()">
+                                            <option value="null">Unassigned</option>
+                                            @foreach (var user in @Model.UserOptions)
+                                            {
+                                            <option value="@user.Id" selected="@(user == task.Assignee)">@user.Email</option>
+                                            }
+                                        </select>
+                                    </form>
                                 </div>
                             </div>
                         }
@@ -183,9 +189,9 @@
                         {
                             <div class="bg-white shadow-sm rounded-1" style="padding: 12px">
                                 <div class="d-flex flex-row align-items-center justify-content-between">
-                                    <p>
+                                    <a asp-page="/Tasks/Details" asp-route-id="@task.Id">
                                         @task.Name
-                                    </p>
+                                    </a>
 
                                     <form asp-page-handler="RemoveTask" method="post" class="w-auto">
                                         <input type="hidden" name="projectId" value="@Model.Project.Id" />
@@ -200,14 +206,17 @@
                                         </svg>
                                         <p class="mb-0" style="font-size: 14px; font-weight: 600">@task.TaskIdentifier</p>
                                     </div>
-                                    @if (@task.Assignee != null && !string.IsNullOrEmpty(task.Assignee.FirstName) && !string.IsNullOrEmpty(task.Assignee.LastName))
-                                    {
-                                        <p class="mb-0" style="width: fit-content">@task.Assignee.FirstName.Substring(0, 1).ToUpper(). @task.Assignee.LastName.Substring(0, 1).ToUpper().</p>
-                                    }
-                                    else
-                                    {
-                                        <p class="mb-0">Unassigned</p>
-                                    }
+                                    <form asp-page-handler="AssignUserToTask" method="post" id="assigneeForm-@task.Id">
+                                        <input type="hidden" name="taskId" value="@task.Id"/>
+                                        <input type="hidden" name="projectId" value="@Model.Project.Id"/>
+                                        <select class="form-select" name="userId" style="width: fit-content" onchange="document.getElementById('assigneeForm-@task.Id').submit()">
+                                            <option value="null">Unassigned</option>
+                                            @foreach (var user in @Model.UserOptions)
+                                            {
+                                            <option value="@user.Id" selected="@(user == task.Assignee)">@user.Email</option>
+                                            }
+                                        </select>
+                                    </form>
                                 </div>
                             </div>
                         }
@@ -247,9 +256,9 @@
                         {
                             <div class="bg-white shadow-sm rounded-1" style="padding: 12px">
                                 <div class="d-flex flex-row align-items-center justify-content-between">
-                                    <p>
+                                    <a asp-page="/Tasks/Details" asp-route-id="@task.Id">
                                         @task.Name
-                                    </p>
+                                    </a>
 
                                     <form asp-page-handler="RemoveTask" method="post" class="w-auto">
                                         <input type="hidden" name="projectId" value="@Model.Project.Id" />
@@ -264,14 +273,17 @@
                                         </svg>
                                         <p class="mb-0" style="font-size: 14px; font-weight: 600">@task.TaskIdentifier</p>
                                     </div>
-                                    @if (@task.Assignee != null && !string.IsNullOrEmpty(task.Assignee.FirstName) && !string.IsNullOrEmpty(task.Assignee.LastName))
-                                    {
-                                        <p class="mb-0" style="width: fit-content">@task.Assignee.FirstName.Substring(0, 1).ToUpper(). @task.Assignee.LastName.Substring(0, 1).ToUpper().</p>
-                                    }
-                                    else
-                                    {
-                                        <p class="mb-0">Unassigned</p>
-                                    }
+                                    <form asp-page-handler="AssignUserToTask" method="post" id="assigneeForm-@task.Id">
+                                        <input type="hidden" name="taskId" value="@task.Id"/>
+                                        <input type="hidden" name="projectId" value="@Model.Project.Id"/>
+                                        <select class="form-select" name="userId" style="width: fit-content" onchange="document.getElementById('assigneeForm-@task.Id').submit()">
+                                            <option value="null">Unassigned</option>
+                                            @foreach (var user in @Model.UserOptions)
+                                            {
+                                            <option value="@user.Id" selected="@(user == task.Assignee)">@user.Email</option>
+                                            }
+                                        </select>
+                                    </form>
                                 </div>
                             </div>
                         }

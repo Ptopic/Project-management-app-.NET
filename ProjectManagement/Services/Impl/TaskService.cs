@@ -23,6 +23,11 @@ public class TaskService : ITaskService
         return await _taskRepository.AddAsync(task);
     }
 
+    public async Task<TaskDefinition> UpdateAsync(TaskDefinition team)
+    {
+        return await _taskRepository.UpdateAsync(team);
+    }
+
     public async Task<TaskDefinition> GetByIdAsync(string id)
     {
         var task = await _taskRepository.GetAll().Include(x => x.Assignee).Where(x => x.Id.ToString() == id).FirstOrDefaultAsync();

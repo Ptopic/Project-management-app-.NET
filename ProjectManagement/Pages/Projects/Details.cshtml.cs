@@ -140,4 +140,32 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
 
         return RedirectToPage("Details", new { id = projectId });
     }
+    
+    public async Task<IActionResult> OnPostAssignUserToTaskAsync(string taskId, string userId, string projectId)
+    {
+        Console.WriteLine(taskId);
+        var task = await _taskService.GetByIdAsync(taskId);
+        
+        if (task == null)
+        {
+            return RedirectToPage("Details", new { id = projectId });
+        }
+
+        var user = await _userManager.FindByIdAsync(userId);
+        
+        if (user == null)
+        {
+            task.Assignee = null;
+            
+            await _taskService.UpdateAsync(task);
+            
+            return RedirectToPage("Details", new { id = projectId });
+        }
+        
+        task.Assignee = user;
+        
+        await _taskService.UpdateAsync(task);
+
+        return RedirectToPage("Details", new { id = projectId });
+    }
 }

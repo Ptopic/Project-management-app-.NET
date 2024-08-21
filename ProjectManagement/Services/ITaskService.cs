@@ -7,6 +7,8 @@ public interface ITaskService
 {
     Task<TaskDefinition> CreateAsync(TaskDefinition task);
     
+    Task<TaskDefinition> UpdateAsync(TaskDefinition team);
+    
     Task<TaskDefinition> GetByIdAsync(string id);
     
     Task<IEnumerable<TaskView>> GetByProjectIdAsync(string projectId);
