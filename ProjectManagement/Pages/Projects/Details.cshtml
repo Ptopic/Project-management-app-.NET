@@ -12,11 +12,12 @@
 
     <div class="flex flex-row align-middle justify-content-between gap-3 pb-4">
         <form asp-action="OnGetAsync" method="get">
+            <input type="hidden" name="id" value="@Model.Project.Id" />
             <div class="row flex flex-row align-middle">
                 <div class="input-group" style="width: fit-content">
                     <input type="search" class="form-control w-25" placeholder="Search..." name="searchString" value="@keyword">
                     <button type="submit" class="btn btn-primary mr-2"><i class="bi bi-search"></i></button>
-                    <a asp-action="" class="btn btn-secondary clear-btn">Clear</a>
+                    <a asp-action="OnGetAsync" asp-route-id="@Model.Project.Id" class="btn btn-secondary clear-btn">Clear</a>
                 </div>
                 <div style="width: fit-content" class="flex flex-column align-middle justify-content-center">
                     <p class="mb-0 flex flex-row align-middle justify-content-center" style="width: fit-content; height: fit-content">Members: <b>@Model.Project.Team.Members.Count</b></p>

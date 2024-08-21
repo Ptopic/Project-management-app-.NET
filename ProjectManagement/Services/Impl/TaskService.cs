@@ -44,4 +44,17 @@ public class TaskService : ITaskService
         Console.WriteLine(task);
         return _mapper.Map<TaskView>(task);
     }
+
+    public IEnumerable<TaskView> Search(IEnumerable<TaskView> tasks, string searchString)
+    {
+        IEnumerable<TaskView> searchedTasks = tasks;
+        
+        if (!string.IsNullOrEmpty(searchString))
+        {
+            var searchStringTrim = searchString.ToLower().Trim();
+            searchedTasks = searchedTasks.Where(t => t.Name.ToLower().Contains(searchStringTrim));
+        }
+
+        return searchedTasks;
+    }
 }

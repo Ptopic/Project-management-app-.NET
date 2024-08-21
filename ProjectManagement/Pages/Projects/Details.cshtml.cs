@@ -29,7 +29,7 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
     
     public IEnumerable<TaskView> DONETasks { get; set; }
     
-    public async Task<IActionResult> OnGetAsync(string id)
+    public async Task<IActionResult> OnGetAsync(string id, string searchString)
     {
         var project = await _projectService.GetByIdAsync(id);
         if (project == null)
@@ -41,7 +41,9 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
         
         var projectTasks = await _taskService.GetByProjectIdAsync(id);
 
-        ProjectTasks = projectTasks;
+        ViewData["Keyword"] = searchString;
+        
+        projectTasks = _taskService.Search(projectTasks, searchString);
         
         TODOTasks = projectTasks.Where(x => x.Status == TaskStatus.TODO);
         

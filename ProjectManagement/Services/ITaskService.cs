@@ -10,4 +10,6 @@ public interface ITaskService
     Task<IEnumerable<TaskView>> GetByProjectIdAsync(string projectId);
     
     Task<TaskView> GetLatestTaskByProjectIdAsync(string projectId);
+    
+    IEnumerable<TaskView> Search(IEnumerable<TaskView> tasks, string searchString);
 }
