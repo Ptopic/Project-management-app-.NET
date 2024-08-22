@@ -122,4 +122,11 @@ public class TeamService : ITeamService
         
         return _mapper.Map<IEnumerable<TeamView>>(teams);
     }
+
+    public bool IsUserMemberOfTeam(string teamId, User user)
+    {
+        var team = _teamRepository.GetAll().Include(x => x.Members).FirstOrDefault(x => x.Id.ToString() == teamId);
+        
+        return team?.Members.Any(m => m.Id == user.Id) ?? false;
+    }
 }

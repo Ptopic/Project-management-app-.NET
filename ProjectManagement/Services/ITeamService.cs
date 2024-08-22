@@ -24,4 +24,6 @@ public interface ITeamService
     Task<IResult> DeleteAsync(Team team);
     
     Task<IEnumerable<TeamView>> GetAllWhereUserIsMember(string userId);
+    
+    bool IsUserMemberOfTeam(string teamId, User user);
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ProjectManagement.Entities;
+using ProjectManagement.Entities.Enums;
 using ProjectManagement.Models.Requests.Task;
 using ProjectManagement.Models.Views.Tasks;
 using ProjectManagement.Services;
@@ -33,11 +34,28 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
     
     public async Task<IActionResult> OnGetAsync(string id, string searchString, string currentFilter)
     {
-        
         var project = await _projectService.GetByIdAsync(id);
         if (project == null)
         {
             return base.BadRequest($"Unable to load project with ID '{id}'.");
+        }
+        
+        if (User.IsInRole(Roles.User.ToString()))
+        {
+            var projectTeamId = project.Team.Id;
+            
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
+            }
+            
+            var isUserMemberOfTeam = _teamService.IsUserMemberOfTeam(projectTeamId.ToString(), user);
+
+            if (!isUserMemberOfTeam)
+            {
+                return RedirectToPage("/Projects/Index");
+            }
         }
 
         Project = project;
