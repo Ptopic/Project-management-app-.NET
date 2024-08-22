@@ -3,7 +3,7 @@
 @model ProjectManagement.Pages.Teams.Index
 
 @{
-    ViewData["Title"] = "Teams | Index";
+    ViewData["Title"] = "Teams";
     var keyword = ViewData["Keyword"] as string;
     var previous = Model.Teams.HasPreviousPage ? "" : "disabled";
     var next = Model.Teams.HasNextPage ? "" : "disabled";

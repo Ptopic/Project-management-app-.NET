@@ -3,7 +3,7 @@
 @model ProjectManagement.Pages.Users.Index
 
 @{
-    ViewData["Title"] = "Users | Index";
+    ViewData["Title"] = "Users";
     var keyword = ViewData["Keyword"] as string;
     var currentFilter = ViewData["CurrentFilter"] as string;
     var previous = Model.Users.HasPreviousPage ? "" : "disabled";
