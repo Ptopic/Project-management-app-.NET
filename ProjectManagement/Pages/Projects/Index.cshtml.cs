@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ProjectManagement.Entities;
@@ -10,6 +11,7 @@ using ProjectManagement.Services;
 
 namespace ProjectManagement.Pages.Projects;
 
+[Authorize]
 public class Index(IProjectService _projectService, UserManager<User> _userManager) : PageModel
 {
     public PaginatedList<ProjectView> Projects { get; set; }
