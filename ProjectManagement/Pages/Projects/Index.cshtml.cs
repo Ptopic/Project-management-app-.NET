@@ -15,6 +15,8 @@ namespace ProjectManagement.Pages.Projects;
 public class Index(IProjectService _projectService, UserManager<User> _userManager) : PageModel
 {
     public PaginatedList<ProjectView> Projects { get; set; }
+
+    public User CurrentUser { get; set; }
     
     public async Task<IActionResult> OnGetAsync(string searchString, int? pageIndex)
     {
@@ -23,6 +25,8 @@ public class Index(IProjectService _projectService, UserManager<User> _userManag
         {
             return RedirectToPage("/Account/Login", new { area = "Identity" });
         }
+        
+        CurrentUser = user;
         
         var roles = await _userManager.GetRolesAsync(user);
 
@@ -35,6 +39,8 @@ public class Index(IProjectService _projectService, UserManager<User> _userManag
         else if(roles.Contains(Roles.Manager.ToString()))
         {
             projects = await _projectService.GetByManagerIdAsync(user.Id);
+            var projectsWhereManagerIsMember = await _projectService.GetAllByUserAsync(user.Id);
+            projects = projects.Concat(projectsWhereManagerIsMember);
         }
         else
         {

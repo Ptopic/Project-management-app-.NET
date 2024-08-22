@@ -51,7 +51,7 @@
                 <td class="align-middle">
                     <p class="align-middle mb-0">@project.Team.Name</p>
                 </td>
-                @if (User.IsInRole(Roles.Admin.ToString()) || User.IsInRole(Roles.Manager.ToString()))
+                @if (User.IsInRole(Roles.Admin.ToString()) || (User.IsInRole(Roles.Manager.ToString()) && project.Manager == Model.CurrentUser))
                 {
                 <td class="align-middle">
                     <a asp-page="/Projects/Edit" asp-route-id="@project.Id" class="btn btn-warning">
