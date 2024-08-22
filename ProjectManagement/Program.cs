@@ -1,6 +1,8 @@
+using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 using ProjectManagement.Data;
 using Microsoft.AspNetCore.Identity;
+using ProjectManagement.Common.Email;
 using ProjectManagement.Entities;
 using ProjectManagement.Middleware;
 using ProjectManagement.Repositories;
@@ -20,6 +22,8 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
 
+builder.Services.AddScoped<SmtpSettings>();
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
@@ -31,6 +35,10 @@ builder.Services.AddScoped<IProjectService, ProjectService>();
 
 builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 builder.Services.AddScoped<ITaskService, TaskService>();
+
+builder.Services.AddSingleton(builder.Configuration.GetSection("SmtpSettings").Get<SmtpSettings>());
+
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

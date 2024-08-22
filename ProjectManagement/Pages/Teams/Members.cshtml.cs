@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ProjectManagement.Common.Email;
 using ProjectManagement.Entities;
 using ProjectManagement.Entities.Enums;
 using ProjectManagement.Models;
@@ -18,12 +19,14 @@ public class Members : PageModel
     private readonly ITeamService _teamService;
     private readonly IUserService _userService;
     private readonly UserManager<User> _userManager;
+    private readonly IEmailService _emailService;
 
-    public Members(ITeamService teamService, IUserService userService, UserManager<User> userManager)
+    public Members(ITeamService teamService, IUserService userService, UserManager<User> userManager, IEmailService emailService)
     {
         _teamService = teamService;
         _userService = userService;
         _userManager = userManager;
+        _emailService = emailService;
     }
     
     public List<User> UserOptions { get; set; }
@@ -98,6 +101,13 @@ public class Members : PageModel
         user.Teams.Add(team);
         
         await _userManager.UpdateAsync(user);
+
+        if (!string.IsNullOrEmpty(user.Email))
+        {
+            var emailMessage =
+                EmailMessage.Create(user.Email, $"You were added to Team {team.Name}", "ProjectManagement - Added to team");
+            await _emailService.SendEmailAsync(emailMessage);
+        }
         
         return RedirectToPage("/Teams/Members", new { id = teamId });
     }
@@ -119,6 +129,13 @@ public class Members : PageModel
         await _teamService.UpdateAsync(team);
 
         await _userManager.UpdateAsync(user);
+        
+        if (!string.IsNullOrEmpty(user.Email))
+        {
+            var emailMessage =
+                EmailMessage.Create(user.Email, $"You were removed from Team {team.Name}", "ProjectManagement - Removed from team");
+            await _emailService.SendEmailAsync(emailMessage);
+        }
 
         return RedirectToPage("Members", new { id = teamId });
     }
