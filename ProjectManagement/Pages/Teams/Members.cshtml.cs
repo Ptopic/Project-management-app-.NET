@@ -44,6 +44,11 @@ public class Members : PageModel
         }
         
         var team = await _teamService.GetByIdAsync(id);
+        
+        if (team == null)
+        {
+            throw new NotFoundException("Team not found");
+        }
 
         var roles = await _userManager.GetRolesAsync(user);
         

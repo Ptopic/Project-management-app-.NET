@@ -31,11 +31,7 @@ public class TaskService : ITaskService
     public async Task<TaskDefinition> GetByIdAsync(string id)
     {
         var task = await _taskRepository.GetAll().Include(x => x.Assignee).Where(x => x.Id.ToString() == id).FirstOrDefaultAsync();
-        if (task == null)
-        {
-            throw new NotFoundException($"Team with ID '{id}' not found.");
-        }
-
+        
         return task;
     }
 
