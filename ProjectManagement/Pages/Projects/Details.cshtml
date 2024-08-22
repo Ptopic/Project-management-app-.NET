@@ -382,40 +382,6 @@
         createTaskButtonTodo.style.display = 'block';
     });
 
-    /*
-     const createTaskFormTodo = document.getElementById('create-task-form-todo');
-
-    createTaskFormTodo.addEventListener('submit', async function (event) {
-        event.preventDefault();
-
-        const formData = new FormData(createTaskFormTodo);
-        const data = {
-            Name: formData.get('Name'),
-            Status: 'TODO',
-        };
-
-        try {
-            const response = await fetch('/Projects/Details?handler=CreateTask', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-
-            if (response.ok) {
-                alert('Task created successfully');
-            } else {
-                alert('Failed to create task');
-                console.log(response)
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred while creating the task');
-        }
-    });
-    */
-
     // Create task button IN PROGRESS
     const createTaskButtonInProgress = document.querySelector('.create-new-task.inprogress');
     const createTaskBoxInProgress = document.querySelector('.create-new-task-box.inprogress');

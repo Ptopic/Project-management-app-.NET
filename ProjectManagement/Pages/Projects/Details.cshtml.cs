@@ -33,6 +33,7 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
     
     public async Task<IActionResult> OnGetAsync(string id, string searchString, string currentFilter)
     {
+        
         var project = await _projectService.GetByIdAsync(id);
         if (project == null)
         {
