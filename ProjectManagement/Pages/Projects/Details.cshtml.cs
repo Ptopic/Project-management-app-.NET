@@ -58,6 +58,22 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
             }
         }
 
+        if (User.IsInRole(Roles.Manager.ToString()))
+        {
+            var projectManager = project.Manager;
+            
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
+            }
+
+            if (projectManager != user)
+            {
+                return RedirectToPage("/Projects/Index");
+            }
+        }
+
         Project = project;
         
         var projectTasks = await _taskService.GetByProjectIdAsync(id);
