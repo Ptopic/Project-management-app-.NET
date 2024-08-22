@@ -70,7 +70,12 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
 
             if (projectManager != user)
             {
-                return RedirectToPage("/Projects/Index");
+                var isManagerMemberOfTeam = _teamService.IsUserMemberOfTeam(project.Team.Id.ToString(), user);
+                
+                if (!isManagerMemberOfTeam)
+                {
+                    return RedirectToPage("/Projects/Index");
+                }
             }
         }
 
