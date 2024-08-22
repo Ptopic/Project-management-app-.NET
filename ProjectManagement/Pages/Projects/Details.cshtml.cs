@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ProjectManagement.Common.Email;
 using ProjectManagement.Entities;
 using ProjectManagement.Entities.Enums;
 using ProjectManagement.Models.Requests.Task;
@@ -14,7 +15,7 @@ using TaskStatus = ProjectManagement.Entities.Enums.TaskStatus;
 namespace ProjectManagement.Pages.Projects;
 
 [Authorize]
-public class Details(IProjectService _projectService, UserManager<User> _userManager, ITaskService _taskService, IUserService _userService, ITeamService _teamService) : PageModel
+public class Details(IProjectService _projectService, UserManager<User> _userManager, ITaskService _taskService, IUserService _userService, ITeamService _teamService, IEmailService _emailService) : PageModel
 {
     [BindProperty]
     public CreateTaskRequest Input { get; set; }
@@ -184,7 +185,6 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
     
     public async Task<IActionResult> OnPostAssignUserToTaskAsync(string taskId, string userId, string projectId)
     {
-        Console.WriteLine(taskId);
         var task = await _taskService.GetByIdAsync(taskId);
         
         if (task == null)
@@ -192,6 +192,10 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
             return RedirectToPage("Details", new { id = projectId });
         }
 
+        var project = await _projectService.GetByIdAsync(projectId);
+        
+        var taskCurrentAssignee = await _userService.GetByIdAsync(task.Assignee.Id);
+        
         var user = await _userManager.FindByIdAsync(userId);
         
         if (user == null)
@@ -203,8 +207,22 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
             return RedirectToPage("Details", new { id = projectId });
         }
         
+        if (!string.IsNullOrEmpty(taskCurrentAssignee.Email))
+        {
+            var emailMessage =
+                EmailMessage.Create(taskCurrentAssignee.Email, $"You were unassigned from task <b>{task.Name}</b> in project <b>{project.Name}</b>", "ProjectManagement - Unassigned from task");
+            await _emailService.SendEmailAsync(emailMessage);
+        }
+        
         task.Assignee = user;
         task.UpdatedDate = DateTime.UtcNow;
+        
+        if (!string.IsNullOrEmpty(user.Email))
+        {
+            var emailMessage =
+                EmailMessage.Create(user.Email, $"You were assigned to task <b>{task.Name}</b> in project <b>{project.Name}</b>", "ProjectManagement - Assigned to task");
+            await _emailService.SendEmailAsync(emailMessage);
+        }
         
         await _taskService.UpdateAsync(task);
 
