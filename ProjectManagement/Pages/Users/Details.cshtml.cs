@@ -1,3 +1,4 @@
+using DSMS.Application.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +39,7 @@ public class Details : PageModel
         var user = await _userService.GetByIdAsync(id);
         if (user == null)
         {
-            return base.BadRequest($"Unable to load user with ID '{id}'.");
+            throw new NotFoundException("User not found");
         }
 
         await LoadAsync(user);

@@ -24,11 +24,7 @@ public class ProjectService(IMapper _mapper, IProjectRepository _projectReposito
             .Include(x => x.Team)
             .Where(x => x.Id.ToString() == id)
             .FirstOrDefaultAsync();
-        if (project == null)
-        {
-            throw new NotFoundException($"Project with ID '{id}' not found.");
-        }
-
+        
         return project;
     }
 

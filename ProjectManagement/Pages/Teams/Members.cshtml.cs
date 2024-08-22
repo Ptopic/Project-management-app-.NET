@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DSMS.Application.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -86,7 +87,7 @@ public class Members : PageModel
         
         if (team == null)
         {
-            return NotFound();
+            throw new NotFoundException("Team not found");
         }
 
         user.Teams.Add(team);

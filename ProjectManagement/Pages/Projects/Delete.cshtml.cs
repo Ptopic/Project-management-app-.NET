@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DSMS.Application.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,7 +14,7 @@ public class Delete(UserManager<User> _userManager, IProjectService _projectServ
 {
     public string Name { get; set; }
     
-    public async Task<IActionResult> OnGetAsync(string Id)
+    public async Task<IActionResult> OnGetAsync(string id)
     {
         var user = await _userManager.GetUserAsync(User);
         if (user == null)
@@ -21,10 +22,10 @@ public class Delete(UserManager<User> _userManager, IProjectService _projectServ
             return RedirectToPage("/Account/Login", new { area = "Identity" });
         }
         
-        var project = await _projectService.GetByIdAsync(Id);
+        var project = await _projectService.GetByIdAsync(id);
         if (project == null)
         {
-            return base.BadRequest($"Unable to load project with ID '{Id}'.");
+            throw new NotFoundException("Project not found");
         }
 
         Name = project.Name; 
@@ -32,12 +33,12 @@ public class Delete(UserManager<User> _userManager, IProjectService _projectServ
         return Page();
     }
     
-    public async Task<IActionResult> OnPostAsync(string Id)
+    public async Task<IActionResult> OnPostAsync(string id)
     {
-        var project = await _projectService.GetByIdAsync(Id);
+        var project = await _projectService.GetByIdAsync(id);
         if (project == null)
         {
-            return base.BadRequest($"Unable to load project with ID '{Id}'.");
+            throw new NotFoundException("Project not found");
         }
 
         await _projectService.DeleteAsync(project);

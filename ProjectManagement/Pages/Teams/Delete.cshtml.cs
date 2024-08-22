@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DSMS.Application.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -24,7 +25,7 @@ public class Delete(ITeamService _teamService, UserManager<User> _userManager) :
         var team = await _teamService.GetByIdAsync(Id);
         if (team == null)
         {
-            return base.BadRequest($"Unable to load team with ID '{Id}'.");
+            throw new NotFoundException("Team not found");
         }
         
         var roles = await _userManager.GetRolesAsync(user);
@@ -47,7 +48,7 @@ public class Delete(ITeamService _teamService, UserManager<User> _userManager) :
         var team = await _teamService.GetByIdAsync(Id);
         if (team == null)
         {
-            return base.BadRequest($"Unable to load team with ID '{Id}'.");
+            throw new NotFoundException("Team not found");
         }
 
         await _teamService.DeleteAsync(team);

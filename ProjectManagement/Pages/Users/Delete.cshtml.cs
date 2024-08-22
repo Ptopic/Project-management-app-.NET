@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DSMS.Application.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -16,7 +17,7 @@ public class Delete(UserManager<User> _userManager) : PageModel
         var user = await _userManager.FindByIdAsync(Id);
         if (user == null)
         {
-            return base.BadRequest($"Unable to load user with ID '{Id}'.");
+            throw new NotFoundException("User not found");
         }
 
         var userName = await _userManager.GetUserNameAsync(user);
@@ -30,7 +31,7 @@ public class Delete(UserManager<User> _userManager) : PageModel
         var user = await _userManager.FindByIdAsync(Id);
         if (user == null)
         {
-            return base.BadRequest($"Unable to load user with ID '{Id}'.");
+            throw new NotFoundException("User not found");
         }
 
         var result = await _userManager.DeleteAsync(user);

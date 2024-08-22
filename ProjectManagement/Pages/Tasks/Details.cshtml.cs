@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DSMS.Application.Exceptions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ProjectManagement.Entities;
@@ -35,14 +36,14 @@ public class Details(ITaskService _taskService, IProjectService _projectService,
         
         if (task == null)
         {
-            return base.BadRequest($"Unable to load task with ID '{id}'.");
+            throw new NotFoundException("Task not found");
         }
         
         var project = await _projectService.GetByIdAsync(projectId);
         
         if (project == null)
         {
-            return base.BadRequest($"Unable to load project with ID '{projectId}'.");
+            throw new NotFoundException("Project not found");
         }
         
         Project = project;
@@ -110,11 +111,8 @@ public class Details(ITaskService _taskService, IProjectService _projectService,
         var task = await _taskService.GetByIdAsync(id);
         if (task == null)
         {
-            return base.BadRequest($"Unable to load task with ID '{id}'.");
+            throw new NotFoundException("Task not found");
         }
-        
-        Console.WriteLine(Input.AssigneeId);
-        Console.WriteLine(Input.Status);
         
         var name = task.Name;
         if (Input.Name != name)
@@ -137,13 +135,6 @@ public class Details(ITaskService _taskService, IProjectService _projectService,
         {
             task.Assignee = null;
         }
-        
-        // var assignee = task.Assignee.Id;
-        // if (assignee != null && Input.AssigneeId != assignee)
-        // {
-        //     var user = await _userService.GetByIdAsync(Input.AssigneeId);
-        //     task.Assignee = user;
-        // }
         
         var status = task.Status;
         if (Input.Status != null && Input.Status != status)

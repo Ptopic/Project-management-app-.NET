@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DSMS.Application.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -37,7 +38,7 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
         var project = await _projectService.GetByIdAsync(id);
         if (project == null)
         {
-            return base.BadRequest($"Unable to load project with ID '{id}'.");
+            throw new NotFoundException("Project not found");
         }
         
         if (User.IsInRole(Roles.User.ToString()))
@@ -125,7 +126,7 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
         var project = await _projectService.GetByIdAsync(id);
         if (project == null)
         {
-            return BadRequest($"Unable to load project with ID '{id}'.");
+            throw new NotFoundException("Project not found");
         }
         
         var user = await _userManager.GetUserAsync(User);
@@ -171,7 +172,7 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
         
         if (task == null)
         {
-            return NotFound();
+            return RedirectToPage("Details", new { id = projectId });
         }
 
         task.Assignee = null;

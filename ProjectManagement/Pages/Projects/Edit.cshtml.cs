@@ -73,7 +73,7 @@ public class Edit(
         
         if (project == null)
         {
-            return base.BadRequest($"Unable to load project with ID '{id}'.");
+            throw new NotFoundException("Project not found");
         }
         
         await LoadAsync(project);
@@ -98,7 +98,7 @@ public class Edit(
         
         if(project == null)
         {
-            return base.BadRequest($"Unable to load project with ID '{id}'.");
+            throw new NotFoundException("Project not found");
         }
         
         var name = project?.Name;

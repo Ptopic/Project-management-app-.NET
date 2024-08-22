@@ -1,0 +1,15 @@
+﻿@page
+@model ProjectManagement.Pages.NotFound
+
+@{
+    var errorMessage = Request.Query["error"].ToString();
+    var displayMessage = string.IsNullOrEmpty(errorMessage) ? "The page you are looking for cannot be found." : errorMessage;
+}
+
+<div class="container">
+    <h1>Not found</h1>
+
+    <p>@displayMessage</p>
+
+    <a asp-page="/Index">Back to Home page</a>
+</div>

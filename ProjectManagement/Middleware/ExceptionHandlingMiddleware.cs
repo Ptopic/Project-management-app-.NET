@@ -1,4 +1,5 @@
 using DSMS.Application.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ProjectManagement.Models;
 
@@ -42,11 +43,20 @@ public class ExceptionHandlingMiddleware
             _ => code
         };
 
-        var result = JsonConvert.SerializeObject(ApiResult<string>.Failure(errors));
+        if (code == StatusCodes.Status404NotFound)
+        {
+            var errorMessage = Uri.EscapeDataString(ex.Message);
+            context.Response.Redirect($"/NotFound?error={errorMessage}");
+            return Task.CompletedTask;
+        }
+        else
+        {
+            var result = JsonConvert.SerializeObject(ApiResult<string>.Failure(errors));
 
-        context.Response.ContentType = "application/json";
-        context.Response.StatusCode = code;
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = code;
 
-        return context.Response.WriteAsync(result);
+            return context.Response.WriteAsync(result);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DSMS.Application.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -56,7 +57,7 @@ public class Edit : PageModel
         
         if (team == null)
         {
-            return base.BadRequest($"Unable to load team with ID '{id}'.");
+            throw new NotFoundException("Team not found");
         }
         
         var roles = await _userManager.GetRolesAsync(user);
@@ -96,7 +97,7 @@ public class Edit : PageModel
         
         if (team == null)
         {
-            return base.BadRequest($"Unable to load team with ID '{id}'.");
+            throw new NotFoundException("Team not found");
         }
         
         var name = team?.Name;
