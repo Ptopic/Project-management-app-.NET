@@ -40,10 +40,10 @@
                 {
                 <th>
                     @property
-                    <a asp-page="/Teams/Index" asp-route-sortOrder=@($"{@property}") class="text-decoration-none">
+                    <a asp-page="/Teams/Index" asp-route-searchString="@ViewData["Keyword"]" asp-route-sortOrder=@($"{@property}") class="text-decoration-none">
                         <span class="bi bi-arrow-up text-secondary"></span>
                     </a>
-                    <a asp-page="/Teams/Index" asp-route-sortOrder=@($"{@property}Desc") class="text-decoration-none">
+                    <a asp-page="/Teams/Index" asp-route-searchString="@ViewData["Keyword"]" asp-route-sortOrder=@($"{@property}Desc") class="text-decoration-none">
                         <span class="bi bi-arrow-down text-secondary"></span>
                     </a>
                 </th>
@@ -109,6 +109,8 @@
             <li class="page-item">
                 <a asp-page="./Index"
                    asp-route-pageIndex="@(Model.Teams.PageIndex - 1)"
+                   asp-route-keyword="@ViewData["Keyword"]"
+                   asp-route-currentSort="@ViewData["CurrentSort"]"
                    class="page-link btn @previous"
                    role="button">
                     Previous
@@ -119,6 +121,8 @@
             <li class="page-item @(i == Model.Teams.PageIndex ? "active" : "")">
                 <a asp-page="./Index"
                    asp-route-pageIndex="@i"
+                   asp-route-keyword="@ViewData["Keyword"]"
+                   asp-route-currentSort="@ViewData["CurrentSort"]"
                    class="page-link">
                     @i
                 </a>
@@ -127,6 +131,8 @@
             <li class="page-item">
                 <a asp-page="./Index"
                    asp-route-pageIndex="@(Model.Teams.PageIndex + 1)"
+                   asp-route-keyword="@ViewData["Keyword"]"
+                   asp-route-currentSort="@ViewData["CurrentSort"]"
                    class="page-link btn @next"
                    role="button">
                     Next
