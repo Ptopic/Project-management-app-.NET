@@ -26,13 +26,13 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
     
     public Project Project { get; set; }
     
-    public IEnumerable<TaskView> TODOTasks { get; set; }
+    public IEnumerable<TaskView>? TODOTasks { get; set; }
     
-    public IEnumerable<TaskView> INPROGRESSTasks { get; set; }
+    public IEnumerable<TaskView>? INPROGRESSTasks { get; set; }
     
-    public IEnumerable<TaskView> INREVIEWTasks { get; set; }
+    public IEnumerable<TaskView>? INREVIEWTasks { get; set; }
     
-    public IEnumerable<TaskView> DONETasks { get; set; }
+    public IEnumerable<TaskView>? DONETasks { get; set; }
     
     public async Task<IActionResult> OnGetAsync(string id, string searchString, string currentFilter)
     {

@@ -74,11 +74,19 @@ public class TaskService : ITaskService
     public IEnumerable<TaskView> Filter(IEnumerable<TaskView> tasks, string currentFilter)
     {
         IEnumerable<TaskView> filteredTasks = tasks;
-
+        
         if (!string.IsNullOrEmpty(currentFilter))
         {
             var currentFilterTrim = currentFilter.Trim();
-            filteredTasks = tasks.Where(t => t.Assignee.Id.ToString() == currentFilterTrim);
+            
+            if (currentFilter == "unassigned")
+            {
+                filteredTasks = tasks.Where(t => t.Assignee == null);
+            }
+            else
+            {
+                filteredTasks = tasks.Where(t => t.Assignee != null && t.Assignee.Id.ToString() == currentFilterTrim);
+            }
         }
 
         return filteredTasks;

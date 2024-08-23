@@ -19,7 +19,8 @@
                     <input type="search" class="form-control w-25" placeholder="Search..." name="searchString" value="@keyword">
 
                     <select class="form-select w-25" name="currentFilter">
-                        <option value="">All users</option>
+                        <option value="">All</option>
+                        <option value="unassigned">Unassigned</option>
                         @foreach (var user in @Model.UserOptions)
                         {
                             <option value="@user.Id" selected="@(user.Id == currentFilter)">@user.FirstName @user.LastName (@user.Email)</option>
