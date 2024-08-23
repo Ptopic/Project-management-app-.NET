@@ -18,8 +18,12 @@ public class Index(IProjectService _projectService, UserManager<User> _userManag
 
     public User CurrentUser { get; set; }
     
-    public async Task<IActionResult> OnGetAsync(string searchString, int? pageIndex)
+    public List<string> PropertyNames;
+    
+    public async Task<IActionResult> OnGetAsync(string searchString, string sortOrder, int? pageIndex)
     {
+        PropertyNames = _projectService.GetFieldNames();
+        
         var user = await _userManager.GetUserAsync(User);
         if (user == null)
         {
@@ -55,6 +59,9 @@ public class Index(IProjectService _projectService, UserManager<User> _userManag
         ViewData["Keyword"] = searchString;
         
         projects = _projectService.Search(projects, searchString);
+        
+        ViewData["CurrentSort"] = sortOrder;
+        projects = _projectService.Sort(projects, sortOrder);
 
         Projects = PaginatedList<ProjectView>.Create(projects, pageIndex ?? 1, 5);
         

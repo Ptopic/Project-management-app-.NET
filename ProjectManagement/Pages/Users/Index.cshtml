@@ -6,7 +6,6 @@
     ViewData["Title"] = "Users";
     var keyword = ViewData["Keyword"] as string;
     var currentFilter = ViewData["CurrentFilter"] as string;
-    var currentSort = ViewData["CurrentSort"] as string;
     var previous = Model.Users.HasPreviousPage ? "" : "disabled";
     var next = Model.Users.HasNextPage ? "" : "disabled";
 }

@@ -10,6 +10,12 @@ namespace ProjectManagement.Services.Impl;
 
 public class ProjectService(IMapper _mapper, IProjectRepository _projectRepository, IUserRepository _userRepository, ITeamRepository _teamRepository) : IProjectService
 {
+    public List<string> GetFieldNames()
+    {
+        Project project = new Project();
+        return project.GetType().GetProperties().Where(x => x.Name == "Name" || x.Name == "Manager" || x.Name == "Team").Select(x => x.Name).ToList();
+    }
+
     public async Task<IEnumerable<ProjectView>> GetAll()
     {
         var projects = await _projectRepository.GetAll().Include(x => x.Manager).Include(x => x.Team).ToListAsync();
@@ -62,6 +68,27 @@ public class ProjectService(IMapper _mapper, IProjectRepository _projectReposito
         }
 
         return searchedProjects;
+    }
+
+    public IEnumerable<ProjectView> Sort(IEnumerable<ProjectView> projects, string sortOrder)
+    {
+        switch (sortOrder)
+        {
+            case "Name":
+                return projects.OrderBy(s => s.Name);
+            case "NameDesc":
+                return projects.OrderByDescending(s => s.Name);
+            case "Manager":
+                return projects.OrderBy(s => s.Manager.Email);
+            case "ManagerDesc":
+                return projects.OrderByDescending(s => s.Manager.Email);
+            case "Team":
+                return projects.OrderBy(s => s.Team.Name);
+            case "TeamDesc":
+                return projects.OrderByDescending(s => s.Team.Name);
+            default:
+                return projects.OrderBy(s => s.Name);
+        }
     }
 
     public async Task<Project> CreateAsync(CreateProjectRequest project)

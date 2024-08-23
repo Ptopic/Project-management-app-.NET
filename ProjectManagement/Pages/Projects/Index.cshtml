@@ -36,9 +36,19 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Manager</th>
-                <th scope="col">Team</th>
+                @foreach (var property in Model.PropertyNames)
+                {
+                <th>
+                    @property
+                    <a asp-page="/Projects/Index" asp-route-sortOrder=@($"{@property}") class="text-decoration-none">
+                        <span class="bi bi-arrow-up text-secondary"></span>
+                    </a>
+                    <a asp-page="/Projects/Index" asp-route-sortOrder=@($"{@property}Desc") class="text-decoration-none">
+                        <span class="bi bi-arrow-down text-secondary"></span>
+                    </a>
+                </th>
+                }
+                <th scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>

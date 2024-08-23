@@ -61,9 +61,9 @@ public class TeamService : ITeamService
             case "MembersDesc":
                 return teams.OrderByDescending(s => s.Members.Count);
             case "Owner":
-                return teams.OrderBy(s => s.Owner);
+                return teams.OrderBy(s => s.Owner.Email);
             case "OwnerDesc":
-                return teams.OrderByDescending(s => s.Owner);
+                return teams.OrderByDescending(s => s.Owner.Email);
             default:
                 return teams.OrderBy(s => s.Name);
         }

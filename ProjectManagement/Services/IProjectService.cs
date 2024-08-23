@@ -6,6 +6,8 @@ namespace ProjectManagement.Services;
 
 public interface IProjectService
 {
+    List<string> GetFieldNames();
+    
     Task<IEnumerable<ProjectView>> GetAll();
     
     Task<Project> GetByIdAsync(string id);
@@ -15,6 +17,8 @@ public interface IProjectService
     Task<IEnumerable<ProjectView>> GetAllByUserAsync(string userId);
     
     IEnumerable<ProjectView> Search(IEnumerable<ProjectView> projects, string searchString);
+    
+    IEnumerable<ProjectView> Sort(IEnumerable<ProjectView> projects, string sortOrder);
     
     Task<Project> CreateAsync(CreateProjectRequest project);
     
