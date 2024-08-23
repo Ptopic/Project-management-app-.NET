@@ -37,6 +37,7 @@ public class Edit(
         {
             Name = project.Name,
             Description = project.Description,
+            Key = project.Key,
             StartDate = project.StartDate,
             EndDate = project.EndDate,
             ManagerId = project.ManagerId.ToString(),
