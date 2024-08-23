@@ -14,14 +14,18 @@ public class Index : PageModel
     private readonly IUserService _userService;
 
     public PaginatedList<UserView> Users { get; set; }
+    
+    public List<string> PropertyNames;
 
     public Index(IUserService userService)
     {
         _userService = userService;
     }
     
-    public async Task<IActionResult> OnGetAsync(string searchString, string currentFilter, int? pageIndex)
+    public async Task<IActionResult> OnGetAsync(string searchString, string currentFilter, string sortOrder, int? pageIndex)
     {
+        PropertyNames = _userService.GetFieldNames();
+        
         var users = await _userService.GetAllAsync();
         
         ViewData["Keyword"] = searchString;
@@ -29,6 +33,9 @@ public class Index : PageModel
 
         ViewData["CurrentFilter"] = currentFilter;
         users = _userService.Filter(users, currentFilter);
+        
+        ViewData["CurrentSort"] = sortOrder;
+        users = _userService.Sort(users, sortOrder);
 
         Users = PaginatedList<UserView>.Create(users, pageIndex ?? 1, 5);
         

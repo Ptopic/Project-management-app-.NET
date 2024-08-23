@@ -131,7 +131,8 @@ namespace ProjectManagement.Areas.Identity.Pages.Account
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
                     UserName = Input.UserName,
-                    Email = Input.Email
+                    Email = Input.Email,
+                    Role = Roles.User
                 };
                 
                 var result = await _userManager.CreateAsync(user, Input.Password);

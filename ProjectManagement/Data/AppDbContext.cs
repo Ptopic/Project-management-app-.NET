@@ -64,6 +64,7 @@ public class AppDbContext : IdentityDbContext<User>
             SecurityStamp = Guid.NewGuid().ToString("D"),
             FirstName = "Admin",
             LastName = "Admin",
+            Role = Entities.Enums.Roles.Admin
         };
         admin1.PasswordHash = passwordHasher.HashPassword(admin1, "Petar123$");
 
@@ -78,6 +79,7 @@ public class AppDbContext : IdentityDbContext<User>
             SecurityStamp = Guid.NewGuid().ToString("D"),
             FirstName = "Manager",
             LastName = "Manager",
+            Role = Entities.Enums.Roles.Manager
         };
         manager1.PasswordHash = passwordHasher.HashPassword(manager1, "Petar123$");
 
@@ -92,6 +94,7 @@ public class AppDbContext : IdentityDbContext<User>
             SecurityStamp = Guid.NewGuid().ToString("D"),
             FirstName = "Manager2",
             LastName = "Manager2",
+            Role = Entities.Enums.Roles.Manager
         };
         manager2.PasswordHash = passwordHasher.HashPassword(manager2, "Petar123$");
 
@@ -106,6 +109,7 @@ public class AppDbContext : IdentityDbContext<User>
             SecurityStamp = Guid.NewGuid().ToString("D"),
             FirstName = "User",
             LastName = "User",
+            Role = Entities.Enums.Roles.User
         };
         user1.PasswordHash = passwordHasher.HashPassword(user1, "Petar123$");
 
@@ -120,6 +124,7 @@ public class AppDbContext : IdentityDbContext<User>
             SecurityStamp = Guid.NewGuid().ToString("D"),
             FirstName = "User2",
             LastName = "User2",
+            Role = Entities.Enums.Roles.User
         };
         user2.PasswordHash = passwordHasher.HashPassword(user2, "Petar123$");
 
@@ -134,6 +139,7 @@ public class AppDbContext : IdentityDbContext<User>
             SecurityStamp = Guid.NewGuid().ToString("D"),
             FirstName = "User3",
             LastName = "User3",
+            Role = Entities.Enums.Roles.User
         };
         user3.PasswordHash = passwordHasher.HashPassword(user3, "Petar123$");
 
@@ -148,6 +154,7 @@ public class AppDbContext : IdentityDbContext<User>
             SecurityStamp = Guid.NewGuid().ToString("D"),
             FirstName = "User4",
             LastName = "User4",
+            Role = Entities.Enums.Roles.User
         };
         
         user4.PasswordHash = passwordHasher.HashPassword(user4, "Petar123$");

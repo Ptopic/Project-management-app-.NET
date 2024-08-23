@@ -21,6 +21,12 @@ public class UserService : IUserService
         _userManager = userManager;
     }
     
+    public List<string> GetFieldNames()
+    { 
+        User Patient = new User();
+        return Patient.GetType().GetProperties().Where(x => x.Name == "FirstName" || x.Name == "LastName" || x.Name == "Email" || x.Name == "Role").Select(x => x.Name).ToList();
+    }
+    
     public async Task<IEnumerable<UserView>> GetAllAsync()
     {
         var data = _userRepository.GetAll().ToList();
@@ -82,5 +88,30 @@ public class UserService : IUserService
     public async Task<IEnumerable<User>> GetUsersWithoutTeam(Guid teamId)
     {
         return await _userRepository.GetAllUsersWithoutTeam(teamId);
+    }
+
+    public IEnumerable<UserView> Sort(IEnumerable<UserView> users, string sortOrder)
+    {
+        switch (sortOrder)
+        {
+            case "FirstName":
+                return users.OrderBy(s => s.FirstName);
+            case "FirstNameDesc":
+                return users.OrderByDescending(s => s.FirstName);
+            case "LastName":
+                return users.OrderBy(s => s.LastName);
+            case "LastNameDesc":
+                return users.OrderByDescending(s => s.LastName);
+            case "Email":
+                return users.OrderBy(s => s.Email);
+            case "EmailDesc":
+                return users.OrderByDescending(s => s.Email);
+            case "Role":
+                return users.OrderBy(s => s.Role);
+            case "RoleDesc":
+                return users.OrderByDescending(s => s.Role);
+            default:
+                return users.OrderBy(s => s.FirstName);
+        }
     }
 }

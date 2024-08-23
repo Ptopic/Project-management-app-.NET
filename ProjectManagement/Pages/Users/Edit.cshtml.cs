@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ProjectManagement.Entities;
+using ProjectManagement.Entities.Enums;
 using ProjectManagement.Models.Requests.User;
 
 namespace ProjectManagement.Pages.Users;
@@ -99,6 +100,7 @@ public class Edit : PageModel
         {
             await _userManager.RemoveFromRoleAsync(user, role);
             await _userManager.AddToRoleAsync(user, Input.Role);
+            user.Role = (Roles)Enum.Parse(typeof(Roles), Input.Role);
         }
 
         await _userManager.UpdateAsync(user);

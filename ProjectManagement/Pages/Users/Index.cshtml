@@ -6,6 +6,7 @@
     ViewData["Title"] = "Users";
     var keyword = ViewData["Keyword"] as string;
     var currentFilter = ViewData["CurrentFilter"] as string;
+    var currentSort = ViewData["CurrentSort"] as string;
     var previous = Model.Users.HasPreviousPage ? "" : "disabled";
     var next = Model.Users.HasNextPage ? "" : "disabled";
 }
@@ -34,10 +35,18 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Role</th>
+                @foreach (var property in Model.PropertyNames)
+                {
+                    <th>
+                        @property
+                        <a asp-page="/Users/Index" asp-route-sortOrder=@($"{@property}") class="text-decoration-none">
+                            <span class="bi bi-arrow-up text-secondary"></span>
+                        </a>
+                        <a asp-page="/Users/Index" asp-route-sortOrder=@($"{@property}Desc") class="text-decoration-none">
+                            <span class="bi bi-arrow-down text-secondary"></span>
+                        </a>
+                    </th>
+                }
                 <th scope="col">Actions</th>
             </tr>
             </thead>
@@ -49,8 +58,8 @@
             <tr>
                 <td class="align-middle">@user.FirstName</td>
                 <td class="align-middle">@user.LastName</td>
-                <td class="align-middle">@user.Email</td>
                 <td class="align-middle">@user.Role</td>
+                <td class="align-middle">@user.Email</td>
                 <td class="align-middle">
                     <a asp-page="/Users/Details" asp-route-id="@user.Id" class="btn btn-primary">
                         <i class="bi bi-eye"></i>

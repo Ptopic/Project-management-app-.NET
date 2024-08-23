@@ -7,6 +7,7 @@ namespace ProjectManagement.Services;
 
 public interface IUserService
 {
+    List<string> GetFieldNames();
     Task<IEnumerable<UserView>> GetAllAsync();
     
     Task<User> GetByIdAsync(string id);
@@ -16,4 +17,6 @@ public interface IUserService
     IEnumerable<UserView> Filter(IEnumerable<UserView> users, string currentFilter);
     
     Task<IEnumerable<User>> GetUsersWithoutTeam(Guid teamId);
+    
+    IEnumerable<UserView> Sort(IEnumerable<UserView> users, string sortOrder);
 }
