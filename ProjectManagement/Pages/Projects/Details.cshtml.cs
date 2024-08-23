@@ -193,6 +193,11 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
         }
 
         var project = await _projectService.GetByIdAsync(projectId);
+        
+        if (project == null)
+        {
+            return RedirectToPage("Details", new { id = projectId });
+        }
 
         var user = await _userManager.FindByIdAsync(userId);
         
