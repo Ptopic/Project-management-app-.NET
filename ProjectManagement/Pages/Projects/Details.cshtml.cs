@@ -193,39 +193,53 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
         }
 
         var project = await _projectService.GetByIdAsync(projectId);
-        
-        var taskCurrentAssignee = await _userService.GetByIdAsync(task.Assignee.Id);
-        
+
         var user = await _userManager.FindByIdAsync(userId);
         
-        if (user == null)
+        if (user != null)
         {
+            if (task.Assignee != null)
+            {
+                var taskCurrentAssignee = await _userService.GetByIdAsync(task.Assignee.Id);
+        
+                if (!string.IsNullOrEmpty(taskCurrentAssignee.Email))
+                {
+                    var emailMessage =
+                        EmailMessage.Create(taskCurrentAssignee.Email, $"You were unassigned from task <b>{task.Name}</b> in project <b>{project.Name}</b>", "ProjectManagement - Unassigned from task");
+                    await _emailService.SendEmailAsync(emailMessage);
+                }   
+            }
+        
+            task.Assignee = user;
+            task.UpdatedDate = DateTime.UtcNow;
+        
+            if (!string.IsNullOrEmpty(user.Email))
+            {
+                var emailMessage =
+                    EmailMessage.Create(user.Email, $"You were assigned to task <b>{task.Name}</b> in project <b>{project.Name}</b>", "ProjectManagement - Assigned to task");
+                await _emailService.SendEmailAsync(emailMessage);
+            }
+        
+            await _taskService.UpdateAsync(task);
+        }
+        else
+        {
+            if (task.Assignee != null)
+            {
+                var taskCurrentAssignee = await _userService.GetByIdAsync(task.Assignee.Id);
+        
+                if (!string.IsNullOrEmpty(taskCurrentAssignee.Email))
+                {
+                    var emailMessage =
+                        EmailMessage.Create(taskCurrentAssignee.Email, $"You were unassigned from task <b>{task.Name}</b> in project <b>{project.Name}</b>", "ProjectManagement - Unassigned from task");
+                    await _emailService.SendEmailAsync(emailMessage);
+                }   
+            }
+            
             task.Assignee = null;
             
             await _taskService.UpdateAsync(task);
-            
-            return RedirectToPage("Details", new { id = projectId });
         }
-        
-        if (!string.IsNullOrEmpty(taskCurrentAssignee.Email))
-        {
-            var emailMessage =
-                EmailMessage.Create(taskCurrentAssignee.Email, $"You were unassigned from task <b>{task.Name}</b> in project <b>{project.Name}</b>", "ProjectManagement - Unassigned from task");
-            await _emailService.SendEmailAsync(emailMessage);
-        }
-        
-        task.Assignee = user;
-        task.UpdatedDate = DateTime.UtcNow;
-        
-        if (!string.IsNullOrEmpty(user.Email))
-        {
-            var emailMessage =
-                EmailMessage.Create(user.Email, $"You were assigned to task <b>{task.Name}</b> in project <b>{project.Name}</b>", "ProjectManagement - Assigned to task");
-            await _emailService.SendEmailAsync(emailMessage);
-        }
-        
-        await _taskService.UpdateAsync(task);
-
         return RedirectToPage("Details", new { id = projectId });
     }
 }

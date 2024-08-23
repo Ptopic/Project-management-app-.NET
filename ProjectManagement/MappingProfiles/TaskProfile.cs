@@ -10,6 +10,7 @@ public class TaskProfile : Profile
     public TaskProfile()
     {
         CreateMap<TaskDefinition, TaskView>();
+        
         CreateMap<TaskView, TaskDefinition>();
         CreateMap<CreateTaskRequest, TaskDefinition>();
     }
