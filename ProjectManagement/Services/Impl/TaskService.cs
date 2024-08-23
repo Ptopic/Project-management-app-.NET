@@ -100,4 +100,14 @@ public class TaskService : ITaskService
 
         return Results.Ok();
     }
+
+    public async Task<IEnumerable<TaskDefinition>> GetTasksByAssigneeIdAsync(string userId)
+    {
+        var tasks = await _taskRepository.GetAll()
+            .Include(x => x.Assignee)
+            .Where(x => x.Assignee.Id == userId)
+            .ToListAsync();
+
+        return tasks;
+    }
 }

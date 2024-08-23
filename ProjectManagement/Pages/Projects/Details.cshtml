@@ -76,6 +76,8 @@
                                     <form asp-page-handler="AssignUserToTask" method="post" id="assigneeForm-@task.Id">
                                         <input type="hidden" name="taskId" value="@task.Id"/>
                                         <input type="hidden" name="projectId" value="@Model.Project.Id"/>
+                                        <input type="hidden" name="searchStringValue" value="@keyword"/>
+                                        <input type="hidden" name="currentFilterValue" value="@currentFilter"/>
                                         <select class="form-select" name="userId" style="width: fit-content" onchange="document.getElementById('assigneeForm-@task.Id').submit()">
                                             <option value="null">Unassigned</option>
                                             @foreach (var user in @Model.UserOptions)
@@ -143,6 +145,8 @@
                                     <form asp-page-handler="AssignUserToTask" method="post" id="assigneeForm-@task.Id">
                                         <input type="hidden" name="taskId" value="@task.Id"/>
                                         <input type="hidden" name="projectId" value="@Model.Project.Id"/>
+                                        <input type="hidden" name="searchStringValue" value="@keyword"/>
+                                        <input type="hidden" name="currentFilterValue" value="@currentFilter"/>
                                         <select class="form-select" name="userId" style="width: fit-content" onchange="document.getElementById('assigneeForm-@task.Id').submit()">
                                             <option value="null">Unassigned</option>
                                             @foreach (var user in @Model.UserOptions)
@@ -210,6 +214,8 @@
                                     <form asp-page-handler="AssignUserToTask" method="post" id="assigneeForm-@task.Id">
                                         <input type="hidden" name="taskId" value="@task.Id"/>
                                         <input type="hidden" name="projectId" value="@Model.Project.Id"/>
+                                        <input type="hidden" name="searchStringValue" value="@keyword"/>
+                                        <input type="hidden" name="currentFilterValue" value="@currentFilter"/>
                                         <select class="form-select" name="userId" style="width: fit-content" onchange="document.getElementById('assigneeForm-@task.Id').submit()">
                                             <option value="null">Unassigned</option>
                                             @foreach (var user in @Model.UserOptions)
@@ -277,6 +283,8 @@
                                     <form asp-page-handler="AssignUserToTask" method="post" id="assigneeForm-@task.Id">
                                         <input type="hidden" name="taskId" value="@task.Id"/>
                                         <input type="hidden" name="projectId" value="@Model.Project.Id"/>
+                                        <input type="hidden" name="searchStringValue" value="@keyword"/>
+                                        <input type="hidden" name="currentFilterValue" value="@currentFilter"/>
                                         <select class="form-select" name="userId" style="width: fit-content" onchange="document.getElementById('assigneeForm-@task.Id').submit()">
                                             <option value="null">Unassigned</option>
                                             @foreach (var user in @Model.UserOptions)

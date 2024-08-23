@@ -18,9 +18,8 @@ public class Edit : PageModel
     {
         _userManager = userManager;
     }
-    
-    [TempData]
-    public string StatusMessage { get; set; }
+
+    [TempData] public string StatusMessage { get; set; } = "";
     
     [BindProperty]
     public CreateUserRequest Input { get; set; }

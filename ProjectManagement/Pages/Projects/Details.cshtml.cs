@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ProjectManagement.Common.Email;
 using ProjectManagement.Entities;
 using ProjectManagement.Entities.Enums;
@@ -183,20 +184,20 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
         return RedirectToPage("Details", new { id = projectId });
     }
     
-    public async Task<IActionResult> OnPostAssignUserToTaskAsync(string taskId, string userId, string projectId)
+    public async Task<IActionResult> OnPostAssignUserToTaskAsync(string taskId, string userId, string projectId, string searchStringValue, string currentFilterValue)
     {
         var task = await _taskService.GetByIdAsync(taskId);
         
         if (task == null)
         {
-            return RedirectToPage("Details", new { id = projectId });
+            return RedirectToPage("Details", new { id = projectId, searchString = searchStringValue, currentFilter = currentFilterValue });
         }
 
         var project = await _projectService.GetByIdAsync(projectId);
         
         if (project == null)
         {
-            return RedirectToPage("Details", new { id = projectId });
+            return RedirectToPage("Details", new { id = projectId, searchString = searchStringValue, currentFilter = currentFilterValue });
         }
 
         var user = await _userManager.FindByIdAsync(userId);
@@ -245,6 +246,7 @@ public class Details(IProjectService _projectService, UserManager<User> _userMan
             
             await _taskService.UpdateAsync(task);
         }
-        return RedirectToPage("Details", new { id = projectId });
+        
+        return RedirectToPage("Details", new { id = projectId, searchString = searchStringValue, currentFilter = currentFilterValue });
     }
 }

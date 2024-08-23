@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ProjectManagement.Entities;
+using ProjectManagement.Services;
 
 namespace ProjectManagement.Pages.Users;
 
 [Authorize(Roles = "Admin")]
-public class Delete(UserManager<User> _userManager) : PageModel
+public class Delete(UserManager<User> _userManager, ITaskService _taskService) : PageModel
 {
     public string Username { get; set; }
     
@@ -32,6 +33,13 @@ public class Delete(UserManager<User> _userManager) : PageModel
         if (user == null)
         {
             throw new NotFoundException("User not found");
+        }
+        
+        var tasks = await _taskService.GetTasksByAssigneeIdAsync(user.Id);
+        foreach (var task in tasks)
+        {
+            task.Assignee = null;
+            await _taskService.UpdateAsync(task);
         }
 
         var result = await _userManager.DeleteAsync(user);

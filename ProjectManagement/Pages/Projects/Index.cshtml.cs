@@ -57,7 +57,6 @@ public class Index(IProjectService _projectService, UserManager<User> _userManag
         }
         
         ViewData["Keyword"] = searchString;
-        
         projects = _projectService.Search(projects, searchString);
         
         ViewData["CurrentSort"] = sortOrder;

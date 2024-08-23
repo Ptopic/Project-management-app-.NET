@@ -20,4 +20,6 @@ public interface ITaskService
     IEnumerable<TaskView> Filter(IEnumerable<TaskView> tasks, string currentFilter);
     
     Task<IResult> DeleteAsync(TaskDefinition task);
+    
+    Task<IEnumerable<TaskDefinition>> GetTasksByAssigneeIdAsync(string userId);
 }
