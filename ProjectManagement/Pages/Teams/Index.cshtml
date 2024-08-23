@@ -36,9 +36,19 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Members</th>
-                <th scope="col">Owner</th>
+                @foreach (var property in Model.PropertyNames)
+                {
+                <th>
+                    @property
+                    <a asp-page="/Teams/Index" asp-route-sortOrder=@($"{@property}") class="text-decoration-none">
+                        <span class="bi bi-arrow-up text-secondary"></span>
+                    </a>
+                    <a asp-page="/Teams/Index" asp-route-sortOrder=@($"{@property}Desc") class="text-decoration-none">
+                        <span class="bi bi-arrow-down text-secondary"></span>
+                    </a>
+                </th>
+                }
+                <th scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -46,6 +56,9 @@
             {
             <tr>
                 <td class="align-middle">@team.Name</td>
+                <td class="align-middle">
+                    <p class="align-middle mb-0">@team.Owner.Email</p>
+                </td>
                 @if(team.Members.Count > 0)
                 {
                 <td class="align-middle">
@@ -55,9 +68,6 @@
                 else {
                 <td class="align-middle">No members</td>
                 }
-                <td class="align-middle">
-                    <p class="align-middle mb-0">@team.Owner.Email</p>
-                </td>
                 @if (User.IsInRole(Roles.Admin.ToString()) || User.IsInRole(Roles.Manager.ToString()))
                 {
                 <td class="align-middle">

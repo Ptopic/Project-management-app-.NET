@@ -21,7 +21,13 @@ public class TeamService : ITeamService
         _teamRepository = teamRepository;
         _userRepository = userRepository;
     }
-    
+
+    public List<string> GetFieldNames()
+    {
+        Team team = new Team();
+        return team.GetType().GetProperties().Where(x => x.Name != "Id" && x.Name != "OwnerId").Select(x => x.Name).ToList();
+    }
+
     public async Task<IEnumerable<TeamView>> GetAllAsync()
     {
         var teams = await _teamRepository.GetAll().Include(x => x.Members).Include(x => x.Owner).ToListAsync();
@@ -40,6 +46,27 @@ public class TeamService : ITeamService
         }
 
         return searchedTeams;
+    }
+
+    public IEnumerable<TeamView> Sort(IEnumerable<TeamView> teams, string sortOrder)
+    {
+        switch (sortOrder)
+        {
+            case "Name":
+                return teams.OrderBy(s => s.Name);
+            case "NameDesc":
+                return teams.OrderByDescending(s => s.Name);
+            case "Members":
+                return teams.OrderBy(s => s.Members.Count);
+            case "MembersDesc":
+                return teams.OrderByDescending(s => s.Members.Count);
+            case "Owner":
+                return teams.OrderBy(s => s.Owner);
+            case "OwnerDesc":
+                return teams.OrderByDescending(s => s.Owner);
+            default:
+                return teams.OrderBy(s => s.Name);
+        }
     }
 
     public IEnumerable<User> SearchMembers(IEnumerable<User> members, string searchString)

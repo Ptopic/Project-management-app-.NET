@@ -17,8 +17,12 @@ public class Index(ITeamService _teamService, IUserService _userService, UserMan
     
     public User CurrentUser { get; set; }
     
-    public async Task<IActionResult> OnGetAsync(string searchString, int? pageIndex)
+    public List<string> PropertyNames;
+    
+    public async Task<IActionResult> OnGetAsync(string searchString, string sortOrder, int? pageIndex)
     {
+        PropertyNames = _teamService.GetFieldNames();
+        
         var user = await _userManager.GetUserAsync(User);
         if (user == null)
         {
@@ -52,6 +56,9 @@ public class Index(ITeamService _teamService, IUserService _userService, UserMan
         ViewData["Keyword"] = searchString;
         
         teams = _teamService.Search(teams, searchString);
+        
+        ViewData["CurrentSort"] = sortOrder;
+        teams = _teamService.Sort(teams, sortOrder);
 
         Teams = PaginatedList<TeamView>.Create(teams, pageIndex ?? 1, 5);
         

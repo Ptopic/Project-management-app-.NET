@@ -23,8 +23,8 @@ public class UserService : IUserService
     
     public List<string> GetFieldNames()
     { 
-        User Patient = new User();
-        return Patient.GetType().GetProperties().Where(x => x.Name == "FirstName" || x.Name == "LastName" || x.Name == "Email" || x.Name == "Role").Select(x => x.Name).ToList();
+        User user = new User();
+        return user.GetType().GetProperties().Where(x => x.Name == "FirstName" || x.Name == "LastName" || x.Name == "Email" || x.Name == "Role").Select(x => x.Name).ToList();
     }
     
     public async Task<IEnumerable<UserView>> GetAllAsync()

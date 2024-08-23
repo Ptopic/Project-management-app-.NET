@@ -7,9 +7,13 @@ namespace ProjectManagement.Services;
 
 public interface ITeamService
 {
+    List<string> GetFieldNames();
+    
     Task<IEnumerable<TeamView>> GetAllAsync();
 
     IEnumerable<TeamView> Search(IEnumerable<TeamView> teams, string searchString);
+    
+    IEnumerable<TeamView> Sort(IEnumerable<TeamView> teams, string sortOrder);
     
     IEnumerable<User> SearchMembers(IEnumerable<User> teams, string searchString);
     
