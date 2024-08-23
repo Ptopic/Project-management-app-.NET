@@ -137,58 +137,58 @@ public class Details(ITaskService _taskService, IProjectService _projectService,
         {
             task.Description = Input.Description;
         }
-
-        var user = await _userManager.FindByIdAsync(Input.AssigneeId);
         
-        if (user != null)
+        var assigneeId = task.Assignee?.Id;
+        if (Input.AssigneeId != assigneeId)
         {
-            if (task.Assignee != null)
-            {
-                var taskCurrentAssignee = await _userService.GetByIdAsync(task.Assignee.Id);
+            var user = await _userManager.FindByIdAsync(Input.AssigneeId);
         
-                if (!string.IsNullOrEmpty(taskCurrentAssignee.Email))
+            if (user != null)
+            {
+                if (task.Assignee != null)
+                {
+                    var taskCurrentAssignee = await _userService.GetByIdAsync(task.Assignee.Id);
+        
+                    if (!string.IsNullOrEmpty(taskCurrentAssignee.Email))
+                    {
+                        var emailMessage =
+                            EmailMessage.Create(taskCurrentAssignee.Email, $"You were unassigned from task <b>{task.Name}</b> in project <b>{project.Name}</b>", "ProjectManagement - Unassigned from task");
+                        await _emailService.SendEmailAsync(emailMessage);
+                    }   
+                }
+        
+                task.Assignee = user;
+                task.UpdatedDate = DateTime.UtcNow;
+        
+                if (!string.IsNullOrEmpty(user.Email))
                 {
                     var emailMessage =
-                        EmailMessage.Create(taskCurrentAssignee.Email, $"You were unassigned from task <b>{task.Name}</b> in project <b>{project.Name}</b>", "ProjectManagement - Unassigned from task");
+                        EmailMessage.Create(user.Email, $"You were assigned to task <b>{task.Name}</b> in project <b>{project.Name}</b>", "ProjectManagement - Assigned to task");
                     await _emailService.SendEmailAsync(emailMessage);
-                }   
+                }
             }
-        
-            task.Assignee = user;
-            task.UpdatedDate = DateTime.UtcNow;
-        
-            if (!string.IsNullOrEmpty(user.Email))
+            else
             {
-                var emailMessage =
-                    EmailMessage.Create(user.Email, $"You were assigned to task <b>{task.Name}</b> in project <b>{project.Name}</b>", "ProjectManagement - Assigned to task");
-                await _emailService.SendEmailAsync(emailMessage);
-            }
-        }
-        else
-        {
-            if (task.Assignee != null)
-            {
-                var taskCurrentAssignee = await _userService.GetByIdAsync(task.Assignee.Id);
-        
-                if (!string.IsNullOrEmpty(taskCurrentAssignee.Email))
+                if (task.Assignee != null)
                 {
-                    var emailMessage =
-                        EmailMessage.Create(taskCurrentAssignee.Email, $"You were unassigned from task <b>{task.Name}</b> in project <b>{project.Name}</b>", "ProjectManagement - Unassigned from task");
-                    await _emailService.SendEmailAsync(emailMessage);
-                }   
-            }
+                    var taskCurrentAssignee = await _userService.GetByIdAsync(task.Assignee.Id);
+        
+                    if (!string.IsNullOrEmpty(taskCurrentAssignee.Email))
+                    {
+                        var emailMessage =
+                            EmailMessage.Create(taskCurrentAssignee.Email, $"You were unassigned from task <b>{task.Name}</b> in project <b>{project.Name}</b>", "ProjectManagement - Unassigned from task");
+                        await _emailService.SendEmailAsync(emailMessage);
+                    }   
+                }
             
-            task.Assignee = null;
+                task.Assignee = null;
+            }   
         }
         
         var status = task.Status;
-        if (Input.Status != null && Input.Status != status)
+        if (Input.Status != status)
         {
             task.Status = Input.Status.Value;
-        }
-        else
-        {
-            task.Status = TaskStatus.TODO;
         }
 
         await _taskService.UpdateAsync(task);

@@ -20,7 +20,7 @@
 
                     <select class="form-select w-25" name="currentFilter">
                         <option value="">All</option>
-                        <option value="unassigned">Unassigned</option>
+                        <option value="unassigned" selected="@(currentFilter == "unassigned")">Unassigned</option>
                         @foreach (var user in @Model.UserOptions)
                         {
                             <option value="@user.Id" selected="@(user.Id == currentFilter)">@user.FirstName @user.LastName (@user.Email)</option>
