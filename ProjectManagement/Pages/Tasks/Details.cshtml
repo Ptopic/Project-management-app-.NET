@@ -29,6 +29,11 @@
                         <option value="@status" selected="@(status == @Model.Input.Status.ToString())">@status</option>
                     }
                 </select>
+                
+                <div class="d-flex flex-column mt-2">
+                    <p>Created: <b>@Model.ConvertToTimeZone(Model.Task.CreatedDate, "Central European Standard Time")</b></p>
+                    <p>Updated: <b>@Model.ConvertToTimeZone(Model.Task.UpdatedDate, "Central European Standard Time")</b></p>
+                </div>
             </div>
         </div>
         <button id="update-team-button" type="submit" class="w-auto btn btn-lg btn-warning mt-3">Update</button>

@@ -20,6 +20,8 @@ public class Details(ITaskService _taskService, IProjectService _projectService,
     
     public List<User> UserOptions { get; set; }
     
+    public TaskDefinition Task { get; set; }
+    
     private async Task LoadAsync(TaskDefinition task)
     {
         Input = new UpdateTaskRequest
@@ -39,6 +41,8 @@ public class Details(ITaskService _taskService, IProjectService _projectService,
         {
             throw new NotFoundException("Task not found");
         }
+
+        Task = task;
         
         var project = await _projectService.GetByIdAsync(projectId);
         
@@ -190,5 +194,11 @@ public class Details(ITaskService _taskService, IProjectService _projectService,
         await _taskService.UpdateAsync(task);
         
         return RedirectToPage("/Projects/Details", new { id = projectId });
+    }
+    
+    public DateTime ConvertToTimeZone(DateTime dateTime, string timeZoneId)
+    {
+        var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
+        return TimeZoneInfo.ConvertTimeFromUtc(dateTime, timeZoneInfo);
     }
 }
