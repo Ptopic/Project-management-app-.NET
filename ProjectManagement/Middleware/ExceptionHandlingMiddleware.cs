@@ -56,6 +56,5 @@ public class ExceptionHandlingMiddleware
         context.Response.StatusCode = code;
 
         return context.Response.WriteAsync(result);
-        }
     }
 }
