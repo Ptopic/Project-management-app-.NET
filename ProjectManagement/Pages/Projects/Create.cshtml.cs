@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DSMS.Application.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -74,7 +75,7 @@ public class Create(IProjectService _projectService, UserManager<User> _userMana
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            throw new BadRequestException(ex.Message);
         }
 
         return Redirect("~/Projects/Index");

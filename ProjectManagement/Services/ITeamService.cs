@@ -29,5 +29,7 @@ public interface ITeamService
     
     Task<IEnumerable<TeamView>> GetAllWhereUserIsMember(string userId);
     
+    Task<ICollection<User>?> GetMembersOfTeamAsync(string teamId);
+    
     bool IsUserMemberOfTeam(string teamId, User user);
 }

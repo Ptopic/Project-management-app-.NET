@@ -5,12 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ProjectManagement.Entities;
 using ProjectManagement.Entities.Enums;
+using ProjectManagement.Repositories;
 using ProjectManagement.Services;
 
 namespace ProjectManagement.Pages.Teams;
 
 [Authorize(Roles = "Admin,Manager")]
-public class Delete(ITeamService _teamService, UserManager<User> _userManager) : PageModel
+public class Delete(ITeamService _teamService, UserManager<User> _userManager, IUserRepository _userRepository) : PageModel
 {
     public string Name { get; set; }
     
@@ -50,7 +51,24 @@ public class Delete(ITeamService _teamService, UserManager<User> _userManager) :
         {
             throw new NotFoundException("Team not found");
         }
+        
+        var membersOfTeam = await _teamService.GetMembersOfTeamAsync(team.Id.ToString());
 
+        if (membersOfTeam != null)
+        {
+            var membersToUpdate = new List<User>();
+            foreach (var member in membersOfTeam)
+            {
+                member.Teams.Remove(team);
+                membersToUpdate.Add(member);
+            }
+
+            foreach (var member in membersToUpdate)
+            {
+                await _userRepository.UpdateAsync(member);
+            }
+        }
+        
         await _teamService.DeleteAsync(team);
 
         return Redirect("~/Teams/Index");

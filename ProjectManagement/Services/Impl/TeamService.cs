@@ -146,6 +146,13 @@ public class TeamService : ITeamService
         return _mapper.Map<IEnumerable<TeamView>>(teams);
     }
 
+    public Task<ICollection<User>?> GetMembersOfTeamAsync(string teamId)
+    {
+        var team = _teamRepository.GetAll().Include(x => x.Members).FirstOrDefault(x => x.Id.ToString() == teamId);
+        
+        return Task.FromResult(team?.Members);
+    }
+
     public bool IsUserMemberOfTeam(string teamId, User user)
     {
         var team = _teamRepository.GetAll().Include(x => x.Members).FirstOrDefault(x => x.Id.ToString() == teamId);

@@ -28,12 +28,12 @@ public class AppDbContext : IdentityDbContext<User>
                     .HasOne<Team>()
                     .WithMany()
                     .HasForeignKey("TeamId")
-                    .OnDelete(DeleteBehavior.Cascade),
+                    .OnDelete(DeleteBehavior.SetNull),
                 j => j
                     .HasOne<User>()
                     .WithMany()
                     .HasForeignKey("UserId")
-                    .OnDelete(DeleteBehavior.Cascade));
+                    .OnDelete(DeleteBehavior.SetNull));
         
         builder.Entity<Team>()
             .HasOne(t => t.Owner)

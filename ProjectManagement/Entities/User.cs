@@ -10,5 +10,5 @@ public class User : IdentityUser
     
     public Roles? Role { get; set; }
     
-    public ICollection<Team> Teams { get; set; } = new HashSet<Team>(); // Many-to-many relationship
+    public ICollection<Team> Teams { get; set; } = new HashSet<Team>();
 }
