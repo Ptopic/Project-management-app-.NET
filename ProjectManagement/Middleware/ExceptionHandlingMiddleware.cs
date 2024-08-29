@@ -49,14 +49,13 @@ public class ExceptionHandlingMiddleware
             context.Response.Redirect($"/NotFound?error={errorMessage}");
             return Task.CompletedTask;
         }
-        else
-        {
-            var result = JsonConvert.SerializeObject(ApiResult<string>.Failure(errors));
+        
+        var result = JsonConvert.SerializeObject(ApiResult<string>.Failure(errors));
 
-            context.Response.ContentType = "application/json";
-            context.Response.StatusCode = code;
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = code;
 
-            return context.Response.WriteAsync(result);
+        return context.Response.WriteAsync(result);
         }
     }
 }
